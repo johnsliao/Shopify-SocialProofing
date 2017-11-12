@@ -56,7 +56,7 @@ class App extends Component {
             </SettingToggle>
             <SettingToggle>
               <ChoiceList
-                title="Dimensions"
+                title="Dimensions in pixels"
                 choices={[
                   {
                     label: '100x300',
