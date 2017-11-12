@@ -40560,27 +40560,27 @@ var App = function (_Component) {
       last: '',
       email: '',
       checkboxes: [],
-      connected: false
+      connected: false,
+      colorSelected: ''
     };
+    _this.handleColor = _this.handleColor.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
+    key: 'handleColor',
+    value: function handleColor(color) {
+      this.setState({ colorSelected: color });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var breadcrumbs = [{ content: 'Example apps' }, { content: 'Browserify' }];
-      var primaryAction = { content: 'New product' };
-      var secondaryActions = [{ content: 'Import', icon: 'import' }];
-
       var choiceListItems = [{ label: 'I accept the Terms of Service', value: 'false' }, { label: 'I consent to receiving emails', value: 'false2' }];
 
       return _react2.default.createElement(
         _polaris.Page,
         {
-          title: 'Polaris',
-          breadcrumbs: breadcrumbs,
-          primaryAction: primaryAction,
-          secondaryActions: secondaryActions
+          title: 'Setup'
         },
         _react2.default.createElement(
           _polaris.Layout,
@@ -40589,16 +40589,38 @@ var App = function (_Component) {
             _polaris.Layout.AnnotatedSection,
             {
               title: 'Style',
-              description: 'Customize the style of your checkout'
+              description: 'Customize the size and appearance of the modal'
             },
             _react2.default.createElement(
               _polaris.SettingToggle,
-              {
-                action: {
-                  content: 'Customize Checkout'
-                }
-              },
-              'Upload your store\u2019s logo, change colors and fonts, and more.'
+              null,
+              _react2.default.createElement(_polaris.ColorPicker, {
+                color: {
+                  hue: 120,
+                  brightness: 1,
+                  saturation: 1
+                },
+                allowAlpha: true,
+                onChange: this.handleColor
+              })
+            ),
+            _react2.default.createElement(
+              _polaris.SettingToggle,
+              null,
+              _react2.default.createElement(_polaris.ChoiceList, {
+                title: 'Size',
+                choices: [{
+                  label: '100x300',
+                  value: '100,300'
+                }, {
+                  label: '150x300',
+                  value: '150,300'
+                }, {
+                  label: '300x100',
+                  value: '300,100'
+                }],
+                selected: ['100,300']
+              })
             )
           ),
           this.renderAccount(),
