@@ -1,1 +1,8 @@
 ERROR 2017-11-09 22:07:50,747 views 95380 123145398304768 "'hmac'"
+ERROR 2017-11-10 01:37:20,835 views 16560 123145337757696 "'hmac'"
+ERROR 2017-11-10 21:51:00,166 views 18884 123145563537408 "'hmac'"
+ERROR 2017-11-10 21:51:48,608 views 18909 140736463795136 Invalid HMAC: Possibly malicious login
+ERROR 2017-11-10 21:51:48,616 views 18909 140736463795136 Missing staticfiles manifest entry for 'app/bundle.js'
+ERROR 2017-11-12 20:24:57,751 views 19693 140736463795136 Invalid HMAC: Possibly malicious login
+ERROR 2017-11-12 20:24:57,760 views 19693 140736463795136 Missing staticfiles manifest entry for 'app/bundle.js'
+ERROR 2017-11-12 20:25:36,581 views 19726 140736463795136 Invalid HMAC: Possibly malicious login
