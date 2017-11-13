@@ -1,17 +1,16 @@
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
-from django.shortcuts import redirect
-from urllib.parse import urlparse, parse_qs
-from django.template import loader
-from django.views.decorators.clickjacking import xframe_options_exempt
-from django.conf import settings
-from django.contrib.staticfiles.templatetags import staticfiles
-from django.core.urlresolvers import reverse
-from utils import authenticate
-
-from .models import Store, StoreSettings
+import logging
+from urllib.parse import urlparse
 
 import shopify
-import logging
+from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.shortcuts import redirect
+from django.template import loader
+from django.views.decorators.clickjacking import xframe_options_exempt
+
+from app.utils import authenticate, parse_params
+from .models import Store, StoreSettings
 
 logger = logging.getLogger(__name__)
 
@@ -23,17 +22,21 @@ def index(request):
     Redirect store owner to correct view based on account status.
     """
 
-    session = authenticate(request)
-
     try:
-        store_name = request.GET['shop']
+        session = authenticate(request)
+        params = parse_params(request)
+
+        store_name = params['shop']
 
         exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
         exists_in_store_table = Store.objects.filter(store_name=store_name).exists()
+        print('shopname {}'.format(store_name))
+        print('exists_in_store_settings_table {}'.format(exists_in_store_settings_table))
+        print('exists_in_store_table {}'.format(exists_in_store_table))
 
         # Registered app but did not setup store settings yet
         if exists_in_store_table and not exists_in_store_settings_table:
-            return HttpResponseRedirect(reverse('setup_wizard'))
+            return HttpResponseRedirect(reverse('wizard'))
 
         # Registered app and set up store
         elif exists_in_store_table and exists_in_store_settings_table:
@@ -46,62 +49,6 @@ def index(request):
     except Exception as e:
         logger.error(e)
         return HttpResponseBadRequest(e)
-
-
-def update_data(request):
-    """
-    Update social proof data in the backend. This will probably call calculate-data route
-    """
-    return HttpResponse('update_data.')
-
-
-def calculate_data(request):
-    """
-    Calculate social proof data in the backend.
-    """
-    return HttpResponse('calculate_data.')
-
-
-def setup_wizard(request):
-    """
-    Calculate social proof data when new store signs up or settings change - new customers. This will probably call calculate-data and update-data routes upon saving their permanent oauth token.
-    """
-    return HttpResponse('setup wizard.')
-
-
-def load_logic(request):
-    """
-    Gets called every time on every page load, has logic to make sure that it doesn’t render on checkout or register.
-    """
-    return HttpResponse('load_logic.')
-
-
-def update_settings(request):
-    """
-    Settings update - anytime a setting is changed for a store (customer) send the data to back
-    """
-    return HttpResponse('update_settings.')
-
-
-def dashboard(request):
-    """
-    Settings update - anytime a setting is changed for a store (customer) send the data to back
-    """
-    session = authenticate(request)
-
-    template = loader.get_template('app/index.html')
-    try:
-        shop = request.GET['shop']
-
-        context = {
-            'api_key': settings.API_KEY,
-            'shop': shop,
-        }
-
-        return HttpResponse(template.render(context, request))
-    except Exception as e:
-        logger.error(e)
-        return HttpResponseBadRequest('Invalid request parameters')
 
 
 def install(request):
@@ -119,7 +66,7 @@ def install(request):
 
     except Exception as e:
         logger.error(e)
-        return HttpResponseBadRequest('<h1>Something bad happened.</h1>')
+        return HttpResponseBadRequest(e)
 
 
 def auth_callback(request):
@@ -127,17 +74,11 @@ def auth_callback(request):
     After the user has approved our app, they are redirected from Shopify to us with a temporary code.
     We use this temporary code in exchange for a permanent one with offline access and store it in our db.
     """
-    shopify.Session.setup(api_key=settings.API_KEY, secret=settings.API_SECRET)
-
     try:
-        params = {
-            'code': request.GET['code'],
-            'timestamp': request.GET['timestamp'],
-            'hmac': request.GET['hmac'],
-            'shop': request.GET['shop']
-        }
 
-        session = shopify.Session(params['shop'])
+        session = authenticate(request)
+        params = parse_params(request)
+
         token = session.request_token(params)
         print('Received permanent token: {}'.format(token))
 
@@ -148,4 +89,43 @@ def auth_callback(request):
         return redirect('https://' + params['shop'])
     except Exception as e:
         logger.error(e)
-        return HttpResponseBadRequest('<h1>Something bad happened.</h1>')
+        return HttpResponseBadRequest(e)
+
+
+def wizard(request):
+    """
+    Setup wizard.
+    """
+    session = authenticate(request)
+    return HttpResponse('setup wizard.')
+
+
+def store_settings(request):
+    """
+    App settings.
+    """
+
+    session = authenticate(request)
+    return HttpResponse('Settings page.')
+
+
+def dashboard(request):
+    """
+    Analytics dashboard.
+    """
+    session = authenticate(request)
+    params = parse_params(request)
+
+    template = loader.get_template('app/index.html')
+    try:
+        shop = params['shop']
+
+        context = {
+            'api_key': settings.API_KEY,
+            'shop': shop,
+        }
+
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        logger.error(e)
+        return HttpResponseBadRequest(e)
