@@ -18,32 +18,26 @@ logger = logging.getLogger(__name__)
 @xframe_options_exempt
 def index(request):
     """
-    This view is the embedded app shown in their store.
-    Redirect store owner to correct view based on account status.
+    This view is the entry point for our app in the store owner admin page.
+    Redirects store owner to correct view based on account status.
     """
 
     try:
         session = authenticate(request)
         params = parse_params(request)
-        print('PARAMS ARE {}'.format(params))
         store_name = params['shop']
 
         exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
         exists_in_store_table = Store.objects.filter(store_name=store_name).exists()
-        print('shopname {}'.format(store_name))
-        print('exists_in_store_settings_table {}'.format(exists_in_store_settings_table))
-        print('exists_in_store_table {}'.format(exists_in_store_table))
 
-        # Registered app but did not setup store settings yet
         if exists_in_store_table and not exists_in_store_settings_table:
+            # Registered app but did not setup store settings yet
             return HttpResponseRedirect(reverse('wizard'))
-
-        # Registered app and set up store
         elif exists_in_store_table and exists_in_store_settings_table:
+            # Registered app and set up store
             return HttpResponseRedirect(reverse('dashboard'))
-
-        # Redirect to install page
         else:
+            # Redirect to install page
             return HttpResponseRedirect(reverse('install'))
 
     except Exception as e:
@@ -78,7 +72,6 @@ def auth_callback(request):
 
         session = authenticate(request)
         params = parse_params(request)
-
         token = session.request_token(params)
         print('Received permanent token: {}'.format(token))
 
@@ -91,35 +84,31 @@ def auth_callback(request):
         logger.error(e)
         return HttpResponseBadRequest(e)
 
+
 @xframe_options_exempt
 def wizard(request):
     """
     Setup wizard.
     """
-    session = authenticate(request)
     params = parse_params(request)
-    print('PARAMS ARE {}'.format(params))
     return HttpResponse('setup wizard.')
+
 
 @xframe_options_exempt
 def store_settings(request):
     """
     App settings.
     """
-    session = authenticate(request)
     params = parse_params(request)
-    print('PARAMS ARE {}'.format(params))
     return HttpResponse('Settings page.')
+
 
 @xframe_options_exempt
 def dashboard(request):
     """
     Analytics dashboard.
     """
-    session = authenticate(request)
     params = parse_params(request)
-    print('PARAMS ARE {}'.format(params))
-
     template = loader.get_template('app/index.html')
     try:
         shop = params['shop']
