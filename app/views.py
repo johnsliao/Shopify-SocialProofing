@@ -25,7 +25,7 @@ def index(request):
     try:
         session = authenticate(request)
         params = parse_params(request)
-
+        print('PARAMS ARE {}'.format(params))
         store_name = params['shop']
 
         exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
@@ -97,6 +97,8 @@ def wizard(request):
     Setup wizard.
     """
     session = authenticate(request)
+    params = parse_params(request)
+    print('PARAMS ARE {}'.format(params))
     return HttpResponse('setup wizard.')
 
 @xframe_options_exempt
@@ -104,8 +106,9 @@ def store_settings(request):
     """
     App settings.
     """
-
     session = authenticate(request)
+    params = parse_params(request)
+    print('PARAMS ARE {}'.format(params))
     return HttpResponse('Settings page.')
 
 @xframe_options_exempt
@@ -115,6 +118,7 @@ def dashboard(request):
     """
     session = authenticate(request)
     params = parse_params(request)
+    print('PARAMS ARE {}'.format(params))
 
     template = loader.get_template('app/index.html')
     try:

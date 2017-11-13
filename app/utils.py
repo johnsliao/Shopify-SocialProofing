@@ -19,7 +19,6 @@ def authenticate(request):
         params = parse_params(request)
         session = shopify.Session(params['shop'])
         if settings.DEVELOPMENT_MODE == 'PRODUCTION':
-            print(settings.DEVELOPMENT_MODE)
             if not session.validate_params(params=params):
                 raise Exception('Invalid HMAC: Possibly malicious login')
 
