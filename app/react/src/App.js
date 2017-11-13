@@ -23,13 +23,26 @@ class App extends Component {
       email: '',
       checkboxes: [],
       connected: false,
-      colorSelected: ''
+      color: {    
+        hue: 83.28358208955224,
+        brightness: 0.48750000000000004,
+        saturation: 0.30625,
+        alpha: 1
+      },
+      size: '100,300',
+      socialSetting: 'latest',
+      socialTime: '1d'
     };
     this.handleColor = this.handleColor.bind(this);
   }
   
   handleColor (color) {
-    this.setState({colorSelected: color})
+    this.setState({color})
+  }
+  
+  
+  valueUpdater(field) {
+    return (value) => this.setState({[field]: value});
   }
 
   render() {
@@ -45,14 +58,15 @@ class App extends Component {
             <SettingToggle>
               <ColorPicker
                 color={{
-                  hue: 120,
-                  brightness: 1,
-                  saturation: 1,
+                  hue: this.state.color.hue,
+                  brightness: this.state.color.brightness,
+                  saturation: this.state.color.saturation,
+                  alpha: this.state.color.alpha
                 }}
                 allowAlpha
                 onChange={this.handleColor}
               />
-            Color: {this.state.selectedColor}
+            Current Color: {JSON.stringify(this.state.color)}
             </SettingToggle>
             <SettingToggle>
               <ChoiceList
@@ -71,117 +85,75 @@ class App extends Component {
                     value: '300,100'
                   },
                 ]}
-                selected={['100,300']}
+                selected={this.state.size}
               />
             </SettingToggle>
           </Layout.AnnotatedSection>
 
           <Layout.AnnotatedSection
-            title="Form"
-            description="A sample form using Polaris components."
+            title="Social Proof Settings"
+            description="Display data as # of customers who have added this product, viewed the product,
+            or display the last customer who purchased it."
           >
             <Card sectioned>
               <FormLayout>
                 <FormLayout.Group>
-                  <TextField
-                    value={this.state.first}
-                    label="First Name"
-                    placeholder="Tom"
-                    onChange={this.valueUpdater('first')}
+                  <ChoiceList
+                    title="Social Proof Settings (Default: # of )"
+                    choices={[
+                      {
+                        label: '# of customers who have purchased this product',
+                        value: 'purchase'
+                      },
+                      {
+                        label: '# of customers who have viewed this product',
+                        value: 'view'
+                      },
+                      {
+                        label: 'Display latest customer who purchased this product',
+                        value: 'latest'
+                      }
+                    ]}
+                    selected={this.state.socialSetting}
                   />
-                  <TextField
-                    value={this.state.last}
-                    label="Last Name"
-                    placeholder="Ford"
-                    onChange={this.valueUpdater('last')}
+                  <ChoiceList
+                    title="Look Back Duration (Default 1 day)"
+                    choices={[
+                      {
+                        label: 'Last 6 hours',
+                        value: '6h'
+                      },
+                      {
+                        label: 'Last 12 hours',
+                        value: '12h'
+                      },
+                      {
+                        label: 'Last Day',
+                        value: '1d'
+                      },
+                      {
+                        label: 'Last 3 Days',
+                        value: '3d'
+                      },
+                      {
+                        label: 'Last 7 Days',
+                        value: '7d'
+                      },
+                    ]}
+                    selected={this.state.socialTime}
                   />
                 </FormLayout.Group>
-
-                <TextField
-                  value={this.state.email}
-                  label="Email"
-                  placeholder="example@email.com"
-                  onChange={this.valueUpdater('email')}
-                />
-
-                <TextField
-                  multiline
-                  label="How did you hear about us?"
-                  placeholder="Website, ads, email, etc."
-                  value={this.state.autoGrow}
-                  onChange={this.valueUpdater('autoGrow')}
-                />
-
-                <ChoiceList
-                  allowMultiple
-                  choices={choiceListItems}
-                  selected={this.state.checkboxes}
-                  onChange={this.valueUpdater('checkboxes')}
-                />
-
-                <Button primary>Submit</Button>
+                <Button primary>Submit & Save</Button>
               </FormLayout>
             </Card>
           </Layout.AnnotatedSection>
 
           <Layout.Section>
-            <FooterHelp>For more details on Polaris, visit our <Link url="https://polaris.shopify.com">styleguide</Link>.</FooterHelp>
+            <FooterHelp>For help visit <Link url="https://www.google.com/search?ei=jLUIWvK0JojimAHg-KY4&q=help&oq=help&gs_l=psy-ab.3..0i67k1l2j0j0i67k1j0j0i67k1j0l4.1185.1507.0.1749.4.4.0.0.0.0.194.194.0j1.1.0....0...1.1.64.psy-ab..3.1.194....0.HDVDjU-AKiQ">styleguide</Link>.</FooterHelp>
           </Layout.Section>
-
         </Layout>
       </Page>
     );
-  }
-
-  valueUpdater(field) {
-    return (value) => this.setState({[field]: value});
-  }
-  toggleConnection() {
-    this.setState(({connected}) => ({connected: !connected}));
-  }
-
-  connectAccountMarkup() {
-    return (
-      <Layout.AnnotatedSection
-        title="Account"
-        description="Connect your account to your Shopify store."
-      >
-        <AccountConnection
-          action={{
-            content: 'Connect',
-            onAction: this.toggleConnection.bind(this, this.state),
-          }}
-          details="No account connected"
-          termsOfService={<p>By clicking Connect, you are accepting Sample’s <Link url="https://polaris.shopify.com">Terms and Conditions</Link>, including a commission rate of 15% on sales.</p>}
-        />
-      </Layout.AnnotatedSection>
-    );
-  }
-
-  disconnectAccountMarkup() {
-    return (
-      <Layout.AnnotatedSection
-          title="Account"
-          description="Disconnect your account from your Shopify store."
-        >
-        <AccountConnection
-          connected
-          action={{
-            content: 'Disconnect',
-            onAction: this.toggleConnection.bind(this, this.state),
-          }}
-          accountName="Tom Ford"
-          title={<Link url="http://google.com">Tom Ford</Link>}
-          details="Account id: d587647ae4"
-        />
-      </Layout.AnnotatedSection>
-    );
-  }
-
-  renderAccount() {
-    return this.state.connected
-      ? this.disconnectAccountMarkup()
-      : this.connectAccountMarkup();
   }
 }
 

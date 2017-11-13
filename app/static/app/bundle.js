@@ -40561,7 +40561,15 @@ var App = function (_Component) {
       email: '',
       checkboxes: [],
       connected: false,
-      colorSelected: ''
+      color: {
+        hue: 83.28358208955224,
+        brightness: 0.48750000000000004,
+        saturation: 0.30625,
+        alpha: 1
+      },
+      size: '100,300',
+      socialSetting: 'latest',
+      socialTime: '1d'
     };
     _this.handleColor = _this.handleColor.bind(_this);
     return _this;
@@ -40570,13 +40578,20 @@ var App = function (_Component) {
   _createClass(App, [{
     key: 'handleColor',
     value: function handleColor(color) {
-      this.setState({ colorSelected: color });
+      this.setState({ color: color });
+    }
+  }, {
+    key: 'valueUpdater',
+    value: function valueUpdater(field) {
+      var _this2 = this;
+
+      return function (value) {
+        return _this2.setState(_defineProperty({}, field, value));
+      };
     }
   }, {
     key: 'render',
     value: function render() {
-      var choiceListItems = [{ label: 'I accept the Terms of Service', value: 'false' }, { label: 'I consent to receiving emails', value: 'false2' }];
-
       return _react2.default.createElement(
         _polaris.Page,
         {
@@ -40596,19 +40611,22 @@ var App = function (_Component) {
               null,
               _react2.default.createElement(_polaris.ColorPicker, {
                 color: {
-                  hue: 120,
-                  brightness: 1,
-                  saturation: 1
+                  hue: this.state.color.hue,
+                  brightness: this.state.color.brightness,
+                  saturation: this.state.color.saturation,
+                  alpha: this.state.color.alpha
                 },
                 allowAlpha: true,
                 onChange: this.handleColor
-              })
+              }),
+              'Current Color: ',
+              JSON.stringify(this.state.color)
             ),
             _react2.default.createElement(
               _polaris.SettingToggle,
               null,
               _react2.default.createElement(_polaris.ChoiceList, {
-                title: 'Size',
+                title: 'Dimensions in pixels',
                 choices: [{
                   label: '100x300',
                   value: '100,300'
@@ -40619,16 +40637,15 @@ var App = function (_Component) {
                   label: '300x100',
                   value: '300,100'
                 }],
-                selected: ['100,300']
+                selected: this.state.size
               })
             )
           ),
-          this.renderAccount(),
           _react2.default.createElement(
             _polaris.Layout.AnnotatedSection,
             {
-              title: 'Form',
-              description: 'A sample form using Polaris components.'
+              title: 'Social Proof Settings',
+              description: 'Display data as # of customers who have added this product, viewed the product, or display the last customer who purchased it.'
             },
             _react2.default.createElement(
               _polaris.Card,
@@ -40639,42 +40656,45 @@ var App = function (_Component) {
                 _react2.default.createElement(
                   _polaris.FormLayout.Group,
                   null,
-                  _react2.default.createElement(_polaris.TextField, {
-                    value: this.state.first,
-                    label: 'First Name',
-                    placeholder: 'Tom',
-                    onChange: this.valueUpdater('first')
+                  _react2.default.createElement(_polaris.ChoiceList, {
+                    title: 'Social Proof Settings (Default: # of )',
+                    choices: [{
+                      label: '# of customers who have purchased this product',
+                      value: 'purchase'
+                    }, {
+                      label: '# of customers who have viewed this product',
+                      value: 'view'
+                    }, {
+                      label: 'Display latest customer who purchased this product',
+                      value: 'latest'
+                    }],
+                    selected: this.state.socialSetting
                   }),
-                  _react2.default.createElement(_polaris.TextField, {
-                    value: this.state.last,
-                    label: 'Last Name',
-                    placeholder: 'Ford',
-                    onChange: this.valueUpdater('last')
+                  _react2.default.createElement(_polaris.ChoiceList, {
+                    title: 'Look Back Duration (Default 1 day)',
+                    choices: [{
+                      label: 'Last 6 hours',
+                      value: '6h'
+                    }, {
+                      label: 'Last 12 hours',
+                      value: '12h'
+                    }, {
+                      label: 'Last Day',
+                      value: '1d'
+                    }, {
+                      label: 'Last 3 Days',
+                      value: '3d'
+                    }, {
+                      label: 'Last 7 Days',
+                      value: '7d'
+                    }],
+                    selected: this.state.socialTime
                   })
                 ),
-                _react2.default.createElement(_polaris.TextField, {
-                  value: this.state.email,
-                  label: 'Email',
-                  placeholder: 'example@email.com',
-                  onChange: this.valueUpdater('email')
-                }),
-                _react2.default.createElement(_polaris.TextField, {
-                  multiline: true,
-                  label: 'How did you hear about us?',
-                  placeholder: 'Website, ads, email, etc.',
-                  value: this.state.autoGrow,
-                  onChange: this.valueUpdater('autoGrow')
-                }),
-                _react2.default.createElement(_polaris.ChoiceList, {
-                  allowMultiple: true,
-                  choices: choiceListItems,
-                  selected: this.state.checkboxes,
-                  onChange: this.valueUpdater('checkboxes')
-                }),
                 _react2.default.createElement(
                   _polaris.Button,
                   { primary: true },
-                  'Submit'
+                  'Submit & Save'
                 )
               )
             )
@@ -40685,10 +40705,10 @@ var App = function (_Component) {
             _react2.default.createElement(
               _polaris.FooterHelp,
               null,
-              'For more details on Polaris, visit our ',
+              'For help visit ',
               _react2.default.createElement(
                 _polaris.Link,
-                { url: 'https://polaris.shopify.com' },
+                { url: 'https://www.google.com/search?ei=jLUIWvK0JojimAHg-KY4&q=help&oq=help&gs_l=psy-ab.3..0i67k1l2j0j0i67k1j0j0i67k1j0l4.1185.1507.0.1749.4.4.0.0.0.0.194.194.0j1.1.0....0...1.1.64.psy-ab..3.1.194....0.HDVDjU-AKiQ' },
                 'styleguide'
               ),
               '.'
@@ -40696,82 +40716,6 @@ var App = function (_Component) {
           )
         )
       );
-    }
-  }, {
-    key: 'valueUpdater',
-    value: function valueUpdater(field) {
-      var _this2 = this;
-
-      return function (value) {
-        return _this2.setState(_defineProperty({}, field, value));
-      };
-    }
-  }, {
-    key: 'toggleConnection',
-    value: function toggleConnection() {
-      this.setState(function (_ref) {
-        var connected = _ref.connected;
-        return { connected: !connected };
-      });
-    }
-  }, {
-    key: 'connectAccountMarkup',
-    value: function connectAccountMarkup() {
-      return _react2.default.createElement(
-        _polaris.Layout.AnnotatedSection,
-        {
-          title: 'Account',
-          description: 'Connect your account to your Shopify store.'
-        },
-        _react2.default.createElement(_polaris.AccountConnection, {
-          action: {
-            content: 'Connect',
-            onAction: this.toggleConnection.bind(this, this.state)
-          },
-          details: 'No account connected',
-          termsOfService: _react2.default.createElement(
-            'p',
-            null,
-            'By clicking Connect, you are accepting Sample\u2019s ',
-            _react2.default.createElement(
-              _polaris.Link,
-              { url: 'https://polaris.shopify.com' },
-              'Terms and Conditions'
-            ),
-            ', including a commission rate of 15% on sales.'
-          )
-        })
-      );
-    }
-  }, {
-    key: 'disconnectAccountMarkup',
-    value: function disconnectAccountMarkup() {
-      return _react2.default.createElement(
-        _polaris.Layout.AnnotatedSection,
-        {
-          title: 'Account',
-          description: 'Disconnect your account from your Shopify store.'
-        },
-        _react2.default.createElement(_polaris.AccountConnection, {
-          connected: true,
-          action: {
-            content: 'Disconnect',
-            onAction: this.toggleConnection.bind(this, this.state)
-          },
-          accountName: 'Tom Ford',
-          title: _react2.default.createElement(
-            _polaris.Link,
-            { url: 'http://google.com' },
-            'Tom Ford'
-          ),
-          details: 'Account id: d587647ae4'
-        })
-      );
-    }
-  }, {
-    key: 'renderAccount',
-    value: function renderAccount() {
-      return this.state.connected ? this.disconnectAccountMarkup() : this.connectAccountMarkup();
     }
   }]);
 
