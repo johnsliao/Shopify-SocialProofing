@@ -91,7 +91,7 @@ def auth_callback(request):
         logger.error(e)
         return HttpResponseBadRequest(e)
 
-
+@xframe_options_exempt
 def wizard(request):
     """
     Setup wizard.
@@ -99,7 +99,7 @@ def wizard(request):
     session = authenticate(request)
     return HttpResponse('setup wizard.')
 
-
+@xframe_options_exempt
 def store_settings(request):
     """
     App settings.
@@ -108,7 +108,7 @@ def store_settings(request):
     session = authenticate(request)
     return HttpResponse('Settings page.')
 
-
+@xframe_options_exempt
 def dashboard(request):
     """
     Analytics dashboard.
