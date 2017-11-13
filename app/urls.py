@@ -21,5 +21,11 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^install/?$', views.install, name='install'),
+    url(r'^update_data/?$', views.update_data, name='update_data'),
+    url(r'^calculate_data/?$', views.calculate_data, name='calculate_data'),
+    url(r'^setup_wizard/?$', views.setup_wizard, name='setup_wizard'),
+    url(r'^load_logic/?$', views.load_logic, name='load_logic'),
+    url(r'^update_settings/?$', views.update_settings, name='update_settings'),
+    url(r'^dashboard/?$', views.dashboard, name='dashboard'),
     url(r'^auth/callback/?$', views.auth_callback, name='auth_callback'),
 ]
