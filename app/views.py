@@ -47,8 +47,7 @@ def auth_callback(request):
         logger.info('Received permanent token: {} from {}'.format(token, params['shop']))
 
         request.session['shopify'] = {
-            "shop_url": params['shop'],
-            "access_token": token,
+            "shop_url": params['shop']
         }
 
         # Store permanent token or update if exists in db
@@ -62,7 +61,6 @@ def auth_callback(request):
 
 
 @xframe_options_exempt
-@shop_login_required
 def index(request):
     """
     This view is the entry point for our app in the store owner admin page.
@@ -72,6 +70,11 @@ def index(request):
     try:
         session = authenticate(request)
         params = parse_params(request)
+
+        request.session['shopify'] = {
+            "shop_url": params['shop']
+        }
+
         store_name = params['shop']
 
         exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
