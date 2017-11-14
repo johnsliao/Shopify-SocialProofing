@@ -135,11 +135,3 @@ def dashboard(request):
     except Exception as e:
         logger.error(e)
         return HttpResponseBadRequest(e)
-
-
-@xframe_options_exempt
-@shop_login_required
-def logout(request):
-    request.session.pop('shopify', None)
-    logger.info('Successfully logged out.')
-    return HttpResponseRedirect(reverse('install'))
