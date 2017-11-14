@@ -24,6 +24,5 @@ urlpatterns = [
     url(r'^wizard/?$', views.wizard, name='wizard'),
     url(r'^store_settings/?$', views.store_settings, name='store_settings'),
     url(r'^dashboard/?$', views.dashboard, name='dashboard'),
-    url(r'^logout/?$', views.logout, name='logout'),
     url(r'^auth/callback/?$', views.auth_callback, name='auth_callback'),
 ]
