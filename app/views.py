@@ -37,6 +37,7 @@ def index(request):
         context = {
             'api_key': settings.API_KEY,
             'shop': params['shop'],
+            #settings yay
         }
 
         return HttpResponse(template.render(context, request))
