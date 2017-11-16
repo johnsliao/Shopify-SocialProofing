@@ -83,7 +83,7 @@ def index(request):
 
         # User not set up yet, i.e. just registered
         if exists_in_store_table and not exists_in_store_settings_table:
-            populate_default_settings(request)
+            populate_default_settings(store_name)
             return HttpResponseRedirect(reverse('store_settings'))
 
         # Store has been set up
