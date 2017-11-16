@@ -16,8 +16,8 @@ class Store(models.Model):
 class StoreSettings(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
 
-    # Look back in minutes. 24 hours by default
-    look_back = models.PositiveIntegerField(default=1440, validators=[MaxValueValidator(100), ])
+    # Look back in minutes. 24 hours by default. Max 31 Days
+    look_back = models.PositiveIntegerField(default=1440, validators=[MaxValueValidator(44640), ])
 
 
 class Product(models.Model):

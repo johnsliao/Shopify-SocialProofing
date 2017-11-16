@@ -57,3 +57,9 @@ def parse_params(request):
     except Exception as e:
         logger.error(e)
         raise Exception('Failed to parse URI parameters')
+
+def populate_default_settings(request):
+    """
+    Populate db with default settings
+    """
+    pass

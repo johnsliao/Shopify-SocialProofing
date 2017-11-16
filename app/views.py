@@ -9,9 +9,10 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.clickjacking import xframe_options_exempt
 
-from app.utils import authenticate, parse_params
-from app.decorators import shop_login_required
+from .utils import authenticate, parse_params, populate_default_settings
+from .decorators import shop_login_required
 from .models import Store, StoreSettings
+from .serializers import StoreSerializer, StoreSettingsSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -80,29 +81,20 @@ def index(request):
         exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
         exists_in_store_table = Store.objects.filter(store_name=store_name).exists()
 
+        # User not set up yet, i.e. just registered
         if exists_in_store_table and not exists_in_store_settings_table:
-            # Registered app but did not setup store settings yet
-            return HttpResponseRedirect(reverse('wizard'))
-        elif exists_in_store_table and exists_in_store_settings_table:
-            # Registered app and set up store
+            populate_default_settings(request)
+            return HttpResponseRedirect(reverse('store_settings'))
+
+        # Store has been set up
+        if exists_in_store_table and exists_in_store_settings_table:
             return HttpResponseRedirect(reverse('dashboard'))
-        else:
-            # Redirect to install page
-            return HttpResponseRedirect(reverse('install'))
+
+        return HttpResponseRedirect(reverse('install'))
 
     except Exception as e:
         logger.error(e)
         return HttpResponseBadRequest(e)
-
-
-@xframe_options_exempt
-@shop_login_required
-def wizard(request):
-    """
-    Setup wizard.
-    """
-    params = parse_params(request)
-    return HttpResponse('setup wizard.')
 
 
 @xframe_options_exempt
@@ -135,3 +127,24 @@ def dashboard(request):
     except Exception as e:
         logger.error(e)
         return HttpResponseBadRequest(e)
+
+
+@xframe_options_exempt
+@shop_login_required
+def store_settings_api(request, store_name):
+    """
+    Retrieve, update or delete store settings.
+    """
+
+    # Session shop_url must match provided store_name in url
+    if store_name != request.session['shopify']['shop_url']:
+        return HttpResponse(status=403)
+
+    if request.method == 'GET':
+        return
+
+    elif request.method == 'PUT':
+        return HttpResponse(status=400)
+
+    elif request.method == 'DELETE':
+        return HttpResponse(status=204)
