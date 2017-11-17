@@ -11,7 +11,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .utils import authenticate, parse_params, populate_default_settings
 from .decorators import shop_login_required, api_authentication
-from .models import Store, StoreSettings
+from .models import Store, StoreSettings, Modal
 from django.core import serializers
 from itertools import chain
 
@@ -141,13 +141,27 @@ def store_settings_api(request, store_name):
     if request.method == 'GET':
         qs1 = Store.objects.filter(store_name=store_name)
         qs2 = StoreSettings.objects.filter(store__store_name=store_name)
+        qs3 = Modal.objects.filter(store__store_name=store_name)
 
-        merge = chain(qs1, qs2)
+        merge = chain(qs1, qs2, qs3)
 
         qs_json = serializers.serialize('json', merge)
         return HttpResponse(qs_json, content_type='application/json')
 
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
+        try:
+            store = Store.objects.get(store_name=store_name)
+        except Store.DoesNotExists as e:
+            logger.error(e)
+            return HttpResponseBadRequest(e)
+
+
+
+        obj, created = Person.objects.update_or_create(
+            first_name='John', last_name='Lennon', defaults=updated_values)
+
+
+
         return HttpResponse(status=400)
 
     elif request.method == 'DELETE':

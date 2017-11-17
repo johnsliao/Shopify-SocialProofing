@@ -6,7 +6,6 @@ from rest_framework.renderers import JSONRenderer
 from django.core import serializers
 
 from .models import Store
-from .serializers import StoreSerializer
 import fnmatch
 
 
@@ -39,34 +38,6 @@ class DevelopmentToProductionDeploymentTest(TestCase):
             response = self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
             self.assertEqual(response.status_code, 400)
 
-
-class StoreSerializerTests(TestCase):
-    """
-    These tests ensure that the django rest api serializers are working as expected.
-    """
-
-    def test_create(self):
-        pass
-        # one = Store(store_name='http://interestingstore.com', active=True)
-        # one.save()
-        #
-        # two = Store(store_name='my-awesome-shopify_store.com', active=False)
-        # two.save()
-        #
-        # expected_json_one = {'id': 1, 'store_name': 'http://interestingstore.com', 'active': True}
-        # expected_json_two = {'id': 2, 'store_name': 'my-awesome-shopify_store.com', 'active': False}
-        #
-        # serializer_one = StoreSerializer(one)
-        # actual_json_one = serializer_one.data
-        #
-        # serializer_two = StoreSerializer(two)
-        # actual_json_two = serializer_two.data
-        #
-        # self.assertEqual(actual_json_one, expected_json_one)
-        # self.assertEqual(actual_json_two, expected_json_two)
-        #
-        # data = serializers.serialize("json", Store.objects.all())
-
     def test_update(self):
         pass
 
@@ -92,7 +63,8 @@ class EntryPointTests(TestCase):
         shop = 'not-setup-store.myshopify.com'
         response = self.client.get(
             reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
-        self.assertRedirects(response, expected_url=reverse('store_settings'), status_code=302, fetch_redirect_response=False)
+        self.assertRedirects(response, expected_url=reverse('store_settings'), status_code=302,
+                             fetch_redirect_response=False)
 
     def test_registered_and_setup(self):
         # Store registered app but not set up settings.
