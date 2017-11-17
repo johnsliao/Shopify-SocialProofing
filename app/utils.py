@@ -65,8 +65,12 @@ def populate_default_settings(store_name):
     Populate db with default settings
     """
 
-    default_look_back = 1440
-    default_modal_text_id = 1
+    default_look_back = 1440        # Look back in seconds
+    default_modal_text_id = 1       # Modal text id in database
+    default_duration = 5            # Modal popup duration
+    default_location = 'top-right'  # Default modal location
+    default_color = '#4286f4'       # Default modal color
+
     default_modal_text_settings = ModalTextSettings.objects.get(modal_text_id=default_modal_text_id)
 
     try:
@@ -78,7 +82,7 @@ def populate_default_settings(store_name):
 
     Modal.objects.create(store=store,
                          modal_text_settings=default_modal_text_settings,
-                         location='top-right',
-                         color='#4286f4',
-                         duration=5,
+                         location=default_location,
+                         color=default_color,
+                         duration=default_duration,
                          )

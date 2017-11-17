@@ -4,15 +4,15 @@ from urllib.parse import urlparse
 import shopify
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .utils import authenticate, parse_params, populate_default_settings
-from .decorators import shop_login_required
+from .decorators import shop_login_required, api_authentication
 from .models import Store, StoreSettings
-from .serializers import StoreSerializer, StoreSettingsSerializer
+from django.core import serializers
 
 logger = logging.getLogger(__name__)
 
@@ -136,15 +136,18 @@ def store_settings_api(request, store_name):
     Retrieve, update or delete store settings.
     """
 
-    # Session shop_url must match provided store_name in url
-    if store_name != request.session['shopify']['shop_url']:
-        return HttpResponse(status=403)
+    try:
+        store = Store.objects.get(store_name=store_name)
+    except Store.DoesNotExist:
+        return HttpResponse(status=404)
+
+    data = serializers.serialize("xml", store)
 
     if request.method == 'GET':
-        return
 
-    elif request.method == 'PUT':
-        return HttpResponse(status=400)
+        response = {
+            'store': data,
+            'check': str(StoreSettings.objects.filter(store__store_name=store_name).values()),
+        }
 
-    elif request.method == 'DELETE':
-        return HttpResponse(status=204)
+        return JsonResponse(response)

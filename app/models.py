@@ -22,6 +22,7 @@ class StoreSettings(models.Model):
 
 class Product(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
+
     product_id = models.CharField(max_length=200)
     product_name = models.TextField()
 
@@ -32,6 +33,7 @@ class Product(models.Model):
 class Orders(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
     order_id = models.CharField(max_length=200)
     qty = models.IntegerField(validators=[MaxValueValidator(250), ])
 
