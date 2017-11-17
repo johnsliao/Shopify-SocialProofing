@@ -27,7 +27,7 @@ def api_authentication(func):
         if settings.DEVELOPMENT_MODE == 'PRODUCTION':
             if store_name != request.session['shopify']['shop_url']:
                 return HttpResponse(status=403)
-        return func(request, *args, **kwargs)
+        return func(request, store_name, *args, **kwargs)
 
     wrapper.__name__ = func.__name__
     return wrapper

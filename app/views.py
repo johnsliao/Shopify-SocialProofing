@@ -13,6 +13,7 @@ from .utils import authenticate, parse_params, populate_default_settings
 from .decorators import shop_login_required, api_authentication
 from .models import Store, StoreSettings
 from django.core import serializers
+from itertools import chain
 
 logger = logging.getLogger(__name__)
 
@@ -131,23 +132,23 @@ def dashboard(request):
 
 @xframe_options_exempt
 @shop_login_required
+@api_authentication
 def store_settings_api(request, store_name):
     """
     Retrieve, update or delete store settings.
     """
 
-    try:
-        store = Store.objects.get(store_name=store_name)
-    except Store.DoesNotExist:
-        return HttpResponse(status=404)
-
-    data = serializers.serialize("xml", store)
-
     if request.method == 'GET':
+        qs1 = Store.objects.filter(store_name=store_name)
+        qs2 = StoreSettings.objects.filter(store__store_name=store_name)
 
-        response = {
-            'store': data,
-            'check': str(StoreSettings.objects.filter(store__store_name=store_name).values()),
-        }
+        merge = chain(qs1, qs2)
 
-        return JsonResponse(response)
+        qs_json = serializers.serialize('json', merge)
+        return HttpResponse(qs_json, content_type='application/json')
+
+    elif request.method == 'PUT':
+        return HttpResponse(status=400)
+
+    elif request.method == 'DELETE':
+        return HttpResponse(status=204)
