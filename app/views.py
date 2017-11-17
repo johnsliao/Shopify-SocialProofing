@@ -181,3 +181,5 @@ def store_settings_api(request, store_name):
         obj.save()
 
         return HttpResponse('Success', status=200)
+
+    return HttpResponseBadRequest(status=400)

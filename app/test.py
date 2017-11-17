@@ -138,3 +138,32 @@ class SessionTests(TestCase):
 
             # Reset self.client
             self.client = Client()
+
+
+class TestStoreSettingsAPI(TestCase):
+    """
+    Test Store Settings API View.
+    """
+
+    fixtures = ['entrypoint_fixture.json']
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_get_valid_request(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.get(
+                reverse('store_settings_api', kwargs={'store_name': 'not-setup-store.myshopify.com'}))
+            self.assertEqual(response.status_code, 200)
+
+    def test_post_valid_request(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.post(
+                reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
+                {'look_back': '300',
+                 'modal_text_settings': '1',
+                 'location': 'top-left',
+                 'color': '#FFFFF',
+                 'duration': '5'},
+            )
+            self.assertEqual(response.status_code, 200)
