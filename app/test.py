@@ -1,9 +1,6 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from rest_framework import serializers
-from rest_framework.renderers import JSONRenderer
-from django.core import serializers
 
 from .models import Store
 import fnmatch
@@ -54,15 +51,19 @@ class EntryPointTests(TestCase):
     def test_unregistered_store(self):
         # Store not registered app and not set up settings.
         shop = 'foobarbaz'
-        response = self.client.get(
-            reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
+
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.get(
+                reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
         self.assertRedirects(response, expected_url=reverse('install'), status_code=302, fetch_redirect_response=False)
 
     def test_registered_store_and_not_setup(self):
         # Store registered app but not set up settings.
         shop = 'not-setup-store.myshopify.com'
-        response = self.client.get(
-            reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
+
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.get(
+                reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
         self.assertRedirects(response, expected_url=reverse('store_settings'), status_code=302,
                              fetch_redirect_response=False)
 

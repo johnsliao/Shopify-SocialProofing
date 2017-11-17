@@ -11,9 +11,10 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .utils import authenticate, parse_params, populate_default_settings
 from .decorators import shop_login_required, api_authentication
-from .models import Store, StoreSettings, Modal
+from .models import Store, StoreSettings, Modal, ModalTextSettings
 from django.core import serializers
 from itertools import chain
+from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +79,7 @@ def index(request):
         }
 
         store_name = params['shop']
+        print(store_name)
 
         exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
         exists_in_store_table = Store.objects.filter(store_name=store_name).exists()
@@ -95,6 +97,7 @@ def index(request):
 
     except Exception as e:
         logger.error(e)
+        print('EXCEPTION11', e)
         return HttpResponseBadRequest(e)
 
 
@@ -149,20 +152,32 @@ def store_settings_api(request, store_name):
         return HttpResponse(qs_json, content_type='application/json')
 
     elif request.method == 'POST':
-        try:
-            store = Store.objects.get(store_name=store_name)
-        except Store.DoesNotExists as e:
-            logger.error(e)
-            return HttpResponseBadRequest(e)
+        params = {
+            'look_back': request.POST.get('look_back', ''),
+            'modal_text_settings': request.POST.get('modal_text_settings', ''),
+            'location': request.POST.get('location', ''),
+            'color': request.POST.get('color', ''),
+            'duration': request.POST.get('duration', ''),
+        }
 
+        if any(y == '' for _, y in params.items()):  # All parameters must be provided
+            logger.error('Bad request. Not all settings parameters provided.')
+            return HttpResponseBadRequest('Bad request. Not all settings parameters provided.')
 
+        # Update StoreSettings model
+        obj = StoreSettings.objects.get(store__store_name=store_name)
 
-        obj, created = Person.objects.update_or_create(
-            first_name='John', last_name='Lennon', defaults=updated_values)
+        obj.look_back = params['look_back']
+        obj.save()
 
+        # Update Modal model
+        obj = Modal.objects.get(store__store_name=store_name)
+        modal_text_settings = ModalTextSettings.objects.get(modal_text_id=params['modal_text_settings'])
 
+        obj.modal_text_settings = modal_text_settings  # Needs to be ModalTextSettings instance
+        obj.location = params['location']
+        obj.color = params['color']
+        obj.duration = params['duration']
+        obj.save()
 
-        return HttpResponse(status=400)
-
-    elif request.method == 'DELETE':
-        return HttpResponse(status=204)
+        return HttpResponse('Success', status=200)
