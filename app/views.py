@@ -97,7 +97,6 @@ def index(request):
 
     except Exception as e:
         logger.error(e)
-        print('EXCEPTION11', e)
         return HttpResponseBadRequest(e)
 
 

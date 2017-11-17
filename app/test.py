@@ -1,8 +1,8 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from http.cookies import SimpleCookie
 
-from .models import Store
 import fnmatch
 
 
@@ -156,6 +156,14 @@ class TestStoreSettingsAPI(TestCase):
                 reverse('store_settings_api', kwargs={'store_name': 'not-setup-store.myshopify.com'}))
             self.assertEqual(response.status_code, 200)
 
+        with self.settings(DEVELOPMENT_MODE='PRODUCTION'):
+            # No cookies
+            response = self.client.get(
+                reverse('store_settings_api', kwargs={'store_name': 'not-setup-store.myshopify.com'}))
+            self.assertEqual(response.status_code, 302)
+
+            # TODO: Add unit test with cookies
+
     def test_post_valid_request(self):
         with self.settings(DEVELOPMENT_MODE='TEST'):
             response = self.client.post(
@@ -167,3 +175,27 @@ class TestStoreSettingsAPI(TestCase):
                  'duration': '5'},
             )
             self.assertEqual(response.status_code, 200)
+
+    def test_post_invalid_request_missing_parameter(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.post(
+                reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
+                {'look_back': '300',
+                 'modal_text_settings': '1',
+                 'TYPO_location': 'top-left',
+                 'color': '#FFFFF',
+                 'duration': '5'},
+            )
+            self.assertEqual(response.status_code, 400)
+
+    def test_post_invalid_request_nonexistent_modal_text_settings(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.post(
+                reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
+                {'look_back': '300',
+                 'modal_text_settings': '999',
+                 'TYPO_location': 'top-left',
+                 'color': '#FFFFF',
+                 'duration': '5'},
+            )
+            self.assertEqual(response.status_code, 400)
