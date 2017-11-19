@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from http.cookies import SimpleCookie
 
 import fnmatch
 
@@ -22,15 +23,6 @@ class AuthenticationTests(TestCase):
                                         'https://mystore.myshopify.com/admin/oauth/authorize'
                                         '?client_id=*&scope=*&redirect_uri=*'))
 
-    def test_check_security_validation_based_on_env(self):
-        with self.settings(DEVELOPMENT_MODE='PRODUCTION'):
-            response = self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
-            self.assertEqual(response.status_code, 400)
-
-        with self.settings(DEVELOPMENT_MODE='TEST'):
-            response = self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
-            self.assertEqual(response.status_code, 200)
-
 
 class DevelopmentToProductionDeploymentTest(TestCase):
     """
@@ -41,4 +33,169 @@ class DevelopmentToProductionDeploymentTest(TestCase):
         # If environment variable is PRODUCTION, we should get bad response for bad requests
         if settings.DEVELOPMENT_MODE == 'PRODUCTION':
             response = self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
+            self.assertEqual(response.status_code, 400)
+
+    def test_update(self):
+        pass
+
+
+class EntryPointTests(TestCase):
+    """
+    Tests app entry point redirects.
+    """
+    fixtures = ['entrypoint_fixture.json']
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_unregistered_store(self):
+        # Store not registered app and not set up settings.
+        shop = 'foobarbaz'
+
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.get(
+                reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
+        self.assertRedirects(response, expected_url=reverse('install'), status_code=302, fetch_redirect_response=False)
+
+    def test_registered_store_and_not_setup(self):
+        # Store registered app but not set up settings.
+        shop = 'not-setup-store.myshopify.com'
+
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.get(
+                reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
+        self.assertRedirects(response, expected_url=reverse('store_settings'), status_code=302,
+                             fetch_redirect_response=False)
+
+    def test_registered_and_setup(self):
+        # Store registered app but not set up settings.
+        shop = 'setup-store.myshopify.com'
+        response = self.client.get(
+            reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
+        self.assertRedirects(response, expected_url=reverse('dashboard'), status_code=302,
+                             fetch_redirect_response=False)
+
+    def test_check_security_validation_based_on_env(self):
+        with self.settings(DEVELOPMENT_MODE='PRODUCTION'):
+            response = self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
+            self.assertEqual(response.status_code, 400)
+
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
+            self.assertIn(response.status_code, [200, 302])
+
+
+class SessionTests(TestCase):
+    """
+    Test views security based on session.
+    """
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_session_is_saved_based_on_env(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
+            session = self.client.session
+            self.assertEqual(session['shopify'], {'shop_url': '123'})
+
+            # Reset self.client
+            self.client = Client()
+
+        with self.settings(DEVELOPMENT_MODE='PRODUCTION'):
+            self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
+            session = self.client.session
+            self.assertEqual(session.get('shopify', None), None)
+
+            # Reset self.client
+            self.client = Client()
+
+    def test_views_based_on_session(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
+            session = self.client.session
+
+            response = self.client.get(reverse('store_settings'))
+            self.assertEqual(response.status_code, 200)
+
+            response = self.client.get(reverse('dashboard'))
+            self.assertEqual(response.status_code, 200)
+
+            # Reset self.client
+            self.client = Client()
+
+        with self.settings(DEVELOPMENT_MODE='PRODUCTION'):
+            self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
+            session = self.client.session
+
+            response = self.client.get(reverse('store_settings'))
+            self.assertRedirects(response, expected_url=reverse('install'), status_code=302,
+                                 fetch_redirect_response=False)
+
+            response = self.client.get(reverse('dashboard'))
+            self.assertRedirects(response, expected_url=reverse('install'), status_code=302,
+                                 fetch_redirect_response=False)
+
+            # Reset self.client
+            self.client = Client()
+
+
+class TestStoreSettingsAPI(TestCase):
+    """
+    Test Store Settings API View.
+    """
+
+    fixtures = ['entrypoint_fixture.json']
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_get_valid_request(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.get(
+                reverse('store_settings_api', kwargs={'store_name': 'not-setup-store.myshopify.com'}))
+            self.assertEqual(response.status_code, 200)
+
+        with self.settings(DEVELOPMENT_MODE='PRODUCTION'):
+            # No cookies
+            response = self.client.get(
+                reverse('store_settings_api', kwargs={'store_name': 'not-setup-store.myshopify.com'}))
+            self.assertEqual(response.status_code, 302)
+
+            # TODO: Add unit test with cookies
+
+    def test_post_valid_request(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.post(
+                reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
+                {'look_back': '300',
+                 'modal_text_settings': '1',
+                 'location': 'top-left',
+                 'color': '#FFFFF',
+                 'duration': '5'},
+            )
+            self.assertEqual(response.status_code, 200)
+
+    def test_post_invalid_request_missing_parameter(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.post(
+                reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
+                {'look_back': '300',
+                 'modal_text_settings': '1',
+                 'TYPO_location': 'top-left',
+                 'color': '#FFFFF',
+                 'duration': '5'},
+            )
+            self.assertEqual(response.status_code, 400)
+
+    def test_post_invalid_request_nonexistent_modal_text_settings(self):
+        with self.settings(DEVELOPMENT_MODE='TEST'):
+            response = self.client.post(
+                reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
+                {'look_back': '300',
+                 'modal_text_settings': '999',
+                 'TYPO_location': 'top-left',
+                 'color': '#FFFFF',
+                 'duration': '5'},
+            )
             self.assertEqual(response.status_code, 400)

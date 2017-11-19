@@ -1,50 +1,24 @@
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect
-from urllib.parse import urlparse, parse_qs
-from django.template import loader
-from django.views.decorators.clickjacking import xframe_options_exempt
-from django.conf import settings
-from django.contrib.staticfiles.templatetags import staticfiles
-
-from .models import Stores
+import logging
+from urllib.parse import urlparse
 
 import shopify
-import logging
+from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect
+from django.template import loader
+from django.views.decorators.clickjacking import xframe_options_exempt
+
+from .utils import authenticate, parse_params, populate_default_settings
+from .decorators import shop_login_required, api_authentication
+from .models import Store, StoreSettings, Modal, ModalTextSettings
+from django.core import serializers
+from itertools import chain
+from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger(__name__)
 
-@xframe_options_exempt
-def index(request):
-    """
-    This view is the embedded app shown in their store.
-    """
-    shopify.Session.setup(api_key=settings.API_KEY, secret=settings.API_SECRET)
-    template = loader.get_template('app/index.html')
-    try:
-        params = {
-            'hmac': request.GET['hmac'],
-            'locale': request.GET['locale'],
-            'protocol': request.GET['protocol'],
-            'shop': request.GET['shop'],
-            'timestamp': request.GET['timestamp'],
-        }
 
-        session = shopify.Session(params['shop'])
-        if settings.DEVELOPMENT_MODE == 'PRODUCTION':
-            if not session.validate_params(params=params):
-                raise Exception('Invalid HMAC: Possibly malicious login')
-
-        context = {
-            'api_key': settings.API_KEY,
-            'shop': params['shop'],
-            #settings yay
-        }
-
-        return HttpResponse(template.render(context, request))
-    except Exception as e:
-        logger.error(e)
-        return HttpResponseBadRequest('<h1>Something bad happened.</h1>')
-    
 def install(request):
     """
     Redirect user to the shopify page to authenticate our app.
@@ -60,7 +34,7 @@ def install(request):
 
     except Exception as e:
         logger.error(e)
-        return HttpResponseBadRequest('<h1>Something bad happened.</h1>')
+        return HttpResponseBadRequest(e)
 
 
 def auth_callback(request):
@@ -68,25 +42,143 @@ def auth_callback(request):
     After the user has approved our app, they are redirected from Shopify to us with a temporary code.
     We use this temporary code in exchange for a permanent one with offline access and store it in our db.
     """
-    shopify.Session.setup(api_key=settings.API_KEY, secret=settings.API_SECRET)
-
     try:
-        params = {
-            'code': request.GET['code'],
-            'timestamp': request.GET['timestamp'],
-            'hmac': request.GET['hmac'],
-            'shop': request.GET['shop']
+
+        session = authenticate(request)
+        params = parse_params(request)
+        token = session.request_token(params)
+        logger.info('Received permanent token: {} from {}'.format(token, params['shop']))
+
+        request.session['shopify'] = {
+            "shop_url": params['shop']
         }
 
-        session = shopify.Session(params['shop'])
-        token = session.request_token(params)
-        print('Received permanent token: {}'.format(token))
-
         # Store permanent token or update if exists in db
-        store, created = Stores.objects.update_or_create(store_name=params['shop'], defaults={'permanent_token': token})
+        store, created = Store.objects.update_or_create(store_name=params['shop'], defaults={'permanent_token': token})
 
         # Return the user back to their shop
         return redirect('https://' + params['shop'])
     except Exception as e:
         logger.error(e)
-        return HttpResponseBadRequest('<h1>Something bad happened.</h1>')
+        return HttpResponseBadRequest(e)
+
+
+@xframe_options_exempt
+def index(request):
+    """
+    This view is the entry point for our app in the store owner admin page.
+    Redirects store owner to correct view based on account status.
+    """
+
+    try:
+        session = authenticate(request)
+        params = parse_params(request)
+
+        request.session['shopify'] = {
+            "shop_url": params['shop']
+        }
+
+        store_name = params['shop']
+        print(store_name)
+
+        exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
+        exists_in_store_table = Store.objects.filter(store_name=store_name).exists()
+
+        # User not set up yet, i.e. just registered
+        if exists_in_store_table and not exists_in_store_settings_table:
+            populate_default_settings(store_name)
+            return HttpResponseRedirect(reverse('store_settings'))
+
+        # Store has been set up
+        if exists_in_store_table and exists_in_store_settings_table:
+            return HttpResponseRedirect(reverse('dashboard'))
+
+        return HttpResponseRedirect(reverse('install'))
+
+    except Exception as e:
+        logger.error(e)
+        return HttpResponseBadRequest(e)
+
+
+@xframe_options_exempt
+@shop_login_required
+def store_settings(request):
+    """
+    App settings.
+    """
+    params = parse_params(request)
+    return HttpResponse('Settings page.')
+
+
+@xframe_options_exempt
+@shop_login_required
+def dashboard(request):
+    """
+    Analytics dashboard.
+    """
+    params = parse_params(request)
+    template = loader.get_template('app/index.html')
+    try:
+        shop = params['shop']
+
+        context = {
+            'api_key': settings.API_KEY,
+            'shop': shop,
+        }
+
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        logger.error(e)
+        return HttpResponseBadRequest(e)
+
+
+@xframe_options_exempt
+@shop_login_required
+@api_authentication
+def store_settings_api(request, store_name):
+    """
+    Retrieve, update or delete store settings.
+    """
+
+    if request.method == 'GET':
+        qs1 = Store.objects.filter(store_name=store_name)
+        qs2 = StoreSettings.objects.filter(store__store_name=store_name)
+        qs3 = Modal.objects.filter(store__store_name=store_name)
+
+        merge = chain(qs1, qs2, qs3)
+
+        qs_json = serializers.serialize('json', merge)
+        return HttpResponse(qs_json, content_type='application/json')
+
+    elif request.method == 'POST':
+        params = {
+            'look_back': request.POST.get('look_back', ''),
+            'modal_text_settings': request.POST.get('modal_text_settings', ''),
+            'location': request.POST.get('location', ''),
+            'color': request.POST.get('color', ''),
+            'duration': request.POST.get('duration', ''),
+        }
+
+        if any(y == '' for _, y in params.items()):  # All parameters must be provided
+            logger.error('Bad request. Not all settings parameters provided.')
+            return HttpResponseBadRequest('Bad request. Not all settings parameters provided.')
+
+        # Update StoreSettings model
+        obj = StoreSettings.objects.get(store__store_name=store_name)
+
+        obj.look_back = params['look_back']
+        obj.save()
+
+        # Update Modal model
+        obj = Modal.objects.get(store__store_name=store_name)
+        modal_text_settings = ModalTextSettings.objects.get(modal_text_id=params['modal_text_settings'])
+
+        obj.modal_text_settings = modal_text_settings  # Needs to be ModalTextSettings instance
+        obj.location = params['location']
+        obj.color = params['color']
+        obj.duration = params['duration']
+        obj.save()
+
+        return HttpResponse('Success', status=200)
+
+    return HttpResponseBadRequest(status=400)
