@@ -23,7 +23,7 @@ def get_stores():
 
 def ingest_orders(stores_obj):
     """
-    Query each store in database if active and save products to Products table.
+    Query each store in database and save orders to Orders table.
     """
 
     session = shopify.Session(stores_obj['store_name'], stores_obj['permanent_token'])
@@ -47,6 +47,9 @@ def ingest_orders(stores_obj):
 
 
 def ingest_products(stores_obj):
+    """
+    Query each store in database and save products to Product table.
+    """
     session = shopify.Session(stores_obj['store_name'], stores_obj['permanent_token'])
     shopify.ShopifyResource.activate_session(session)
     store = Store.objects.get(store_name=stores_obj['store_name'])
