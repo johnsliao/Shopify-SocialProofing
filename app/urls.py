@@ -25,4 +25,7 @@ urlpatterns = [
     url(r'^dashboard/?$', views.dashboard, name='dashboard'),
     url(r'^auth/callback/?$', views.auth_callback, name='auth_callback'),
     url(r'^api/store_settings/(?P<store_name>[a-zA-Z0-9_.-]*)/?$', views.store_settings_api, name='store_settings_api'),
+    url(r'^api/orders/(?P<store_name>[a-zA-Z0-9_.-]*)/?$', views.orders_api, name='orders_api'),
+    url(r'^api/products/(?P<store_name>[a-zA-Z0-9_.-]*)/?$', views.products_api, name='products_api'),
+    url(r'^api/views/(?P<store_name>[a-zA-Z0-9_.-]*)/?$', views.views_api, name='views_api'),
 ]

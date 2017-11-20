@@ -178,3 +178,24 @@ def store_settings_api(request, store_name):
         return HttpResponse('Success', status=200)
 
     return HttpResponseBadRequest(status=400)
+
+
+@xframe_options_exempt
+@shop_login_required
+@api_authentication
+def orders_api(request, store_name):
+    pass
+
+
+@xframe_options_exempt
+@shop_login_required
+@api_authentication
+def products_api(request, store_name):
+    pass
+
+
+@xframe_options_exempt
+@shop_login_required
+@api_authentication
+def views_api(request, store_name):
+    pass
