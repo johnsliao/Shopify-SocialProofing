@@ -8,7 +8,7 @@ sys.path.append("..")  # here store is root folder(means parent).
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 django.setup()
 
-from app.models import Store
+from app.models import Store, Product
 
 # Overrides the default function for context creation with the function to create an unverified context.
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -18,45 +18,43 @@ def get_stores():
     """
     Return all store names and permanent tokens as dictionary.
     """
-    pass
+    return Store.objects.all().values('store_name', 'permanent_token', 'active')
 
 
-def ingest_orders(store_name):
+def ingest_orders(stores_obj):
     """
     Query each store in database if active and save products to Products table.
     """
-    # Authentication
-    token = 'fb40ed51a032685beebb71c597502449'
-    print(Store.objects.get(store_name=store_name).permanent_token)
 
-    session = shopify.Session(store_name, token)
+    session = shopify.Session(stores_obj['store_name'], stores_obj['permanent_token'])
     shopify.ShopifyResource.activate_session(session)
 
-    # Get orders as a list
     orders = shopify.Order.find()
-    print(orders)  # Order list, for example [order(168793374751)]
 
-    # Loop through each order and print out attributes of each order
     for order in orders:
-        print(order.__dict__)  # Print all attributes of an order
+        print(order.__dict__)
 
 
-def ingest_products(store_name):
-    # Authentication
-    token = 'fb40ed51a032685beebb71c597502449'
-    session = shopify.Session(store_name, token)
+def ingest_products(stores_obj):
+    session = shopify.Session(stores_obj['store_name'], stores_obj['permanent_token'])
     shopify.ShopifyResource.activate_session(session)
 
-    # Fetch all product listings
     product_listings = shopify.Product.find()
 
-    # Loop through and print out attributes of each product
     for product_listing in product_listings:
-        print(product_listing.__dict__)
+        product_id = product_listing.id
+        product_name = product_listing.title
+
+        store = Store.objects.get(store_name=stores_obj['store_name'])
+        Product.objects.update_or_create(product_id=product_id, store__store_name=stores_obj['store_name'],
+                                         defaults={'product_name': product_name, 'store': store})
 
 
 if __name__ == '__main__':
-    stores = get_stores()
+    stores_objs = get_stores()
+    for stores_obj in stores_objs:
+        if stores_obj['active']:
+            ingest_orders(stores_obj)
+            ingest_products(stores_obj)
 
-    ingest_orders('michael-john-devs.myshopify.com')
-    ingest_products('michael-john-devs.myshopify.com')
+        exit(1)
