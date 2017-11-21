@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import MaxValueValidator
+from datetime import datetime
 
 
 class Store(models.Model):
@@ -36,6 +37,7 @@ class Orders(models.Model):
 
     order_id = models.CharField(max_length=200)
     qty = models.IntegerField(validators=[MaxValueValidator(250), ])
+    processed_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         unique_together = (('store', 'product', 'order_id'),)

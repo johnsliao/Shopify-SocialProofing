@@ -11,7 +11,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .utils import authenticate, parse_params, populate_default_settings
 from .decorators import shop_login_required, api_authentication
-from .models import Store, StoreSettings, Modal, ModalTextSettings
+from .models import Store, StoreSettings, Modal, ModalTextSettings, Orders, Product
 from django.core import serializers
 from itertools import chain
 from django.views.decorators.csrf import csrf_exempt
@@ -184,18 +184,42 @@ def store_settings_api(request, store_name):
 @shop_login_required
 @api_authentication
 def orders_api(request, store_name):
-    pass
+    """
+    Return all orders for a given store name, e.g. mystore.myshopify.com.
+    """
+    if request.method == 'GET':
+        qs1 = Orders.objects.filter(store__store_name=store_name)
+        qs_json = serializers.serialize('json', qs1)
+        return HttpResponse(qs_json, content_type='application/json')
 
+    return HttpResponseBadRequest('Invalid request')
 
 @xframe_options_exempt
 @shop_login_required
 @api_authentication
 def products_api(request, store_name):
-    pass
+    """
+    Return all orders for a given store name, e.g. mystore.myshopify.com.
+    """
+    if request.method == 'GET':
+        qs1 = Product.objects.filter(store__store_name=store_name)
+        qs_json = serializers.serialize('json', qs1)
+        return HttpResponse(qs_json, content_type='application/json')
+
+    return HttpResponseBadRequest('Invalid request')
 
 
 @xframe_options_exempt
 @shop_login_required
 @api_authentication
-def views_api(request, store_name):
-    pass
+def modal_transformer_api(request, store_name, product_id):
+    """
+    Return metric set by user (page view, sold count) for given product and store name.
+    """
+    if request.method == 'GET':
+        look_back = StoreSettings.objects.get(store__store_name=store_name).values('look_back')
+        qs1 = Orders.objects.filter(store__store_name=store_name).filter(product_id=product_id)
+        qs_json = serializers.serialize('json', qs1)
+        return HttpResponse(qs_json, content_type='application/json')
+
+    return HttpResponseBadRequest('Invalid request')
