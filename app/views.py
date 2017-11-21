@@ -14,7 +14,8 @@ from .decorators import shop_login_required, api_authentication
 from .models import Store, StoreSettings, Modal, ModalTextSettings, Orders, Product
 from django.core import serializers
 from itertools import chain
-from datetime import datetime, timedelta
+from django.utils import timezone
+from datetime import timedelta
 from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger(__name__)
@@ -221,7 +222,7 @@ def modal_transformer_api(request, store_name, product_id):
     if request.method == 'GET':
         # Returned products should be within store's look_back parameter
         look_back = StoreSettings.objects.filter(store__store_name=store_name).values('look_back')[0]['look_back']
-        time_threshold = datetime.now() - timedelta(seconds=look_back * 60)
+        time_threshold = timezone.now() - timedelta(seconds=look_back * 60)
 
         qs1 = Orders.objects \
             .filter(store__store_name=store_name) \
