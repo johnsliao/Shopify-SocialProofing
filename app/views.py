@@ -14,6 +14,7 @@ from .decorators import shop_login_required, api_authentication
 from .models import Store, StoreSettings, Modal, ModalTextSettings, Orders, Product
 from django.core import serializers
 from itertools import chain
+from datetime import datetime, timedelta
 from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger(__name__)
@@ -194,6 +195,7 @@ def orders_api(request, store_name):
 
     return HttpResponseBadRequest('Invalid request')
 
+
 @xframe_options_exempt
 @shop_login_required
 @api_authentication
@@ -217,8 +219,15 @@ def modal_transformer_api(request, store_name, product_id):
     Return metric set by user (page view, sold count) for given product and store name.
     """
     if request.method == 'GET':
-        look_back = StoreSettings.objects.get(store__store_name=store_name).values('look_back')
-        qs1 = Orders.objects.filter(store__store_name=store_name).filter(product_id=product_id)
+        # Returned products should be within store's look_back parameter
+        look_back = StoreSettings.objects.filter(store__store_name=store_name).values('look_back')[0]['look_back']
+        time_threshold = datetime.now() - timedelta(seconds=look_back * 60)
+
+        qs1 = Orders.objects \
+            .filter(store__store_name=store_name) \
+            .filter(product__product_id=product_id) \
+            .filter(processed_at__lt=time_threshold)
+
         qs_json = serializers.serialize('json', qs1)
         return HttpResponse(qs_json, content_type='application/json')
 
