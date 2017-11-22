@@ -19,13 +19,14 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: {    
+      color: {
         hue: 83.28358208955224,
         saturation: 0.30625,
-        brightness: 0.48750000000000004,
-        alpha: 1
+        brightness: 0.48750000000000004
       },
       size: '100,300',
+      width: 100,
+      height: 300,
       socialSetting: 'latest',
       socialTime: '1d'
     };
@@ -34,35 +35,37 @@ class Settings extends Component {
     this.handleSocial = this.handleSocial.bind(this);
     this.handleTime = this.handleTime.bind(this);
   }
-  
+
   handleColor (color) {
-    this.setState({color})
+    this.setState({color});
   }
-  
+
   handleSize (size) {
     this.setState({size})
+    console.log("size is ", size);
+    let sizeArr = size[0].split(',');
+    this.setState({width: sizeArr[0], height: sizeArr[1]});
   }
-  
+
   handleSocial (social) {
     this.setState({socialSetting: social})
   }
-  
+
   handleTime (time) {
     this.setState({socialTime: time})
   }
 
   render() {
     const { hue, saturation, brightness } = this.state.color;
-    const rgbColor = convert.hsl.rgb(hue, saturation, brightness); 
     const colorBoxStyle = {
-      width: '80px',
-      height: '80px',
+      width: `${this.state.width}px`,
+      height: `${this.state.height}px`,
       margin: '5px',
       float: 'right',
       border: '1px solid',
-      backgroundColor: `rgb(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]})`
+      backgroundColor: `hsl(${hue}, ${saturation * 100}%, ${brightness * 100}%)`
     }
-    
+
     return (
       <Page
         title="Setup"
@@ -77,39 +80,44 @@ class Settings extends Component {
                 color={{
                   hue: this.state.color.hue,
                   brightness: this.state.color.brightness,
-                  saturation: this.state.color.saturation,
-                  alpha: this.state.color.alpha
+                  saturation: this.state.color.saturation
                 }}
-                allowAlpha
                 onChange={this.handleColor}
               />
-              <div style={colorBoxStyle}>
-                This is the color box.
-              </div>
             </SettingToggle>
             <SettingToggle>
               <ChoiceList
                 title="Dimensions in pixels"
                 choices={[
                   {
-                    label: '100x300',
-                    value: '100,300'
+                    label: '250x100',
+                    value: '250,100'
                   },
                   {
-                    label: '150x300',
-                    value: '150,300'
+                    label: '250x150',
+                    value: '250,150'
                   },
                   {
                     label: '300x100',
                     value: '300,100'
-                  },
+                  }
                 ]}
                 selected={this.state.size}
                 onChange={this.handleSize}
               />
             </SettingToggle>
           </Layout.AnnotatedSection>
-
+          <Layout.AnnotatedSection
+            title="Modal Preview"
+            description="This is how your modal will display."
+          >
+          <Card sectioned>
+          Preview of how your modal will look.
+          <div style={colorBoxStyle}>
+            This is the preview box.
+          </div>
+          </Card>
+          </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Social Proof Settings"
             description="Display data as # of customers who have added this product, viewed the product,
