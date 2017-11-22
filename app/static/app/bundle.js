@@ -41800,52 +41800,24 @@ var Settings = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
 
     _this.state = {
-<<<<<<< HEAD
       color: {
         hue: 83.28358208955224,
         saturation: 0.30625,
-        brightness: 0.48750000000000004,
-        alpha: 1
+        brightness: 0.48750000000000004
       },
       size: '100,300',
+      width: 100,
+      height: 300,
       socialSetting: 'latest',
       socialTime: '1d'
-||||||| merged common ancestors
-      first: '',
-      last: '',
-      email: '',
-      checkboxes: [],
-      connected: false
-=======
-      first: '',
-      last: '',
-      email: '',
-      checkboxes: [],
-      connected: false,
-      color: {
-        hue: 83.28358208955224,
-        brightness: 0.48750000000000004,
-        saturation: 0.30625,
-        alpha: 1
-      },
-      size: '100,300',
-      socialSetting: 'latest',
-      socialTime: '1d'
->>>>>>> development
     };
-<<<<<<< HEAD
     _this.handleColor = _this.handleColor.bind(_this);
     _this.handleSize = _this.handleSize.bind(_this);
     _this.handleSocial = _this.handleSocial.bind(_this);
     _this.handleTime = _this.handleTime.bind(_this);
-||||||| merged common ancestors
-=======
-    _this.handleColor = _this.handleColor.bind(_this);
->>>>>>> development
     return _this;
   }
 
-<<<<<<< HEAD
   _createClass(Settings, [{
     key: 'handleColor',
     value: function handleColor(color) {
@@ -41855,6 +41827,9 @@ var Settings = function (_Component) {
     key: 'handleSize',
     value: function handleSize(size) {
       this.setState({ size: size });
+      console.log("size is ", size);
+      var sizeArr = size[0].split(',');
+      this.setState({ width: sizeArr[0], height: sizeArr[1] });
     }
   }, {
     key: 'handleSocial',
@@ -41867,53 +41842,22 @@ var Settings = function (_Component) {
       this.setState({ socialTime: time });
     }
   }, {
-||||||| merged common ancestors
-  _createClass(App, [{
-=======
-  _createClass(App, [{
-    key: 'handleColor',
-    value: function handleColor(color) {
-      this.setState({ color: color });
-    }
-  }, {
-    key: 'valueUpdater',
-    value: function valueUpdater(field) {
-      var _this2 = this;
-
-      return function (value) {
-        return _this2.setState(_defineProperty({}, field, value));
-      };
-    }
-  }, {
->>>>>>> development
     key: 'render',
     value: function render() {
-<<<<<<< HEAD
       var _state$color = this.state.color,
           hue = _state$color.hue,
           saturation = _state$color.saturation,
           brightness = _state$color.brightness;
 
-      var rgbColor = _colorConvert2.default.hsl.rgb(hue, saturation, brightness);
-      console.log("rgbColor", rgbColor);
       var colorBoxStyle = {
-        width: '80px',
-        height: '80px',
+        width: this.state.width + 'px',
+        height: this.state.height + 'px',
         margin: '5px',
         float: 'right',
         border: '1px solid',
-        backgroundColor: 'rgb(' + rgbColor[0] + ', ' + rgbColor[1] + ', ' + rgbColor[2] + ')'
+        backgroundColor: 'hsl(' + hue + ', ' + saturation * 100 + '%, ' + brightness * 100 + '%)'
       };
 
-||||||| merged common ancestors
-      var breadcrumbs = [{ content: 'Example apps' }, { content: 'Browserify' }];
-      var primaryAction = { content: 'New product' };
-      var secondaryActions = [{ content: 'Import', icon: 'import' }];
-
-      var choiceListItems = [{ label: 'I accept the Terms of Service', value: 'false' }, { label: 'I consent to receiving emails', value: 'false2' }];
-
-=======
->>>>>>> development
       return _react2.default.createElement(
         _polaris.Page,
         {
@@ -41930,23 +41874,15 @@ var Settings = function (_Component) {
             },
             _react2.default.createElement(
               _polaris.SettingToggle,
-<<<<<<< HEAD
               null,
               _react2.default.createElement(_polaris.ColorPicker, {
                 color: {
                   hue: this.state.color.hue,
                   brightness: this.state.color.brightness,
-                  saturation: this.state.color.saturation,
-                  alpha: this.state.color.alpha
+                  saturation: this.state.color.saturation
                 },
-                allowAlpha: true,
                 onChange: this.handleColor
-              }),
-              _react2.default.createElement(
-                'div',
-                { style: colorBoxStyle },
-                'This is the color box.'
-              )
+              })
             ),
             _react2.default.createElement(
               _polaris.SettingToggle,
@@ -41954,11 +41890,11 @@ var Settings = function (_Component) {
               _react2.default.createElement(_polaris.ChoiceList, {
                 title: 'Dimensions in pixels',
                 choices: [{
-                  label: '100x300',
-                  value: '100,300'
+                  label: '250x100',
+                  value: '250,100'
                 }, {
-                  label: '150x300',
-                  value: '150,300'
+                  label: '250x150',
+                  value: '250,150'
                 }, {
                   label: '300x100',
                   value: '300,100'
@@ -41966,46 +41902,23 @@ var Settings = function (_Component) {
                 selected: this.state.size,
                 onChange: this.handleSize
               })
-||||||| merged common ancestors
-              {
-                action: {
-                  content: 'Customize Checkout'
-                }
-              },
-              'Upload your store\u2019s logo, change colors and fonts, and more.'
-=======
-              null,
-              _react2.default.createElement(_polaris.ColorPicker, {
-                color: {
-                  hue: this.state.color.hue,
-                  brightness: this.state.color.brightness,
-                  saturation: this.state.color.saturation,
-                  alpha: this.state.color.alpha
-                },
-                allowAlpha: true,
-                onChange: this.handleColor
-              }),
-              'Current Color: ',
-              JSON.stringify(this.state.color)
-            ),
+            )
+          ),
+          _react2.default.createElement(
+            _polaris.Layout.AnnotatedSection,
+            {
+              title: 'Modal Preview',
+              description: 'This is how your modal will display.'
+            },
             _react2.default.createElement(
-              _polaris.SettingToggle,
-              null,
-              _react2.default.createElement(_polaris.ChoiceList, {
-                title: 'Dimensions in pixels',
-                choices: [{
-                  label: '100x300',
-                  value: '100,300'
-                }, {
-                  label: '150x300',
-                  value: '150,300'
-                }, {
-                  label: '300x100',
-                  value: '300,100'
-                }],
-                selected: this.state.size
-              })
->>>>>>> development
+              _polaris.Card,
+              { sectioned: true },
+              'Preview of how your modal will look.',
+              _react2.default.createElement(
+                'div',
+                { style: colorBoxStyle },
+                'This is the preview box.'
+              )
             )
           ),
           _react2.default.createElement(
@@ -42023,7 +41936,6 @@ var Settings = function (_Component) {
                 _react2.default.createElement(
                   _polaris.FormLayout.Group,
                   null,
-<<<<<<< HEAD
                   _react2.default.createElement(_polaris.ChoiceList, {
                     title: 'Social Proof Settings (Default: display latest customer)',
                     choices: [{
@@ -42038,29 +41950,7 @@ var Settings = function (_Component) {
                     }],
                     selected: this.state.socialSetting,
                     onChange: this.handleSocial
-||||||| merged common ancestors
-                  _react2.default.createElement(_polaris.TextField, {
-                    value: this.state.first,
-                    label: 'First Name',
-                    placeholder: 'Tom',
-                    onChange: this.valueUpdater('first')
-=======
-                  _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Social Proof Settings (Default: # of )',
-                    choices: [{
-                      label: '# of customers who have purchased this product',
-                      value: 'purchase'
-                    }, {
-                      label: '# of customers who have viewed this product',
-                      value: 'view'
-                    }, {
-                      label: 'Display latest customer who purchased this product',
-                      value: 'latest'
-                    }],
-                    selected: this.state.socialSetting
->>>>>>> development
                   }),
-<<<<<<< HEAD
                   _react2.default.createElement(_polaris.ChoiceList, {
                     title: 'Look Back Duration (Default 1 day)',
                     choices: [{
@@ -42081,33 +41971,6 @@ var Settings = function (_Component) {
                     }],
                     selected: this.state.socialTime,
                     onChange: this.handleTime
-||||||| merged common ancestors
-                  _react2.default.createElement(_polaris.TextField, {
-                    value: this.state.last,
-                    label: 'Last Name',
-                    placeholder: 'Ford',
-                    onChange: this.valueUpdater('last')
-=======
-                  _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Look Back Duration (Default 1 day)',
-                    choices: [{
-                      label: 'Last 6 hours',
-                      value: '6h'
-                    }, {
-                      label: 'Last 12 hours',
-                      value: '12h'
-                    }, {
-                      label: 'Last Day',
-                      value: '1d'
-                    }, {
-                      label: 'Last 3 Days',
-                      value: '3d'
-                    }, {
-                      label: 'Last 7 Days',
-                      value: '7d'
-                    }],
-                    selected: this.state.socialTime
->>>>>>> development
                   })
                 ),
                 _react2.default.createElement(
