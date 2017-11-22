@@ -11,9 +11,11 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .utils import authenticate, parse_params, populate_default_settings
 from .decorators import shop_login_required, api_authentication
-from .models import Store, StoreSettings, Modal, ModalTextSettings
+from .models import Store, StoreSettings, Modal, ModalTextSettings, Orders, Product
 from django.core import serializers
 from itertools import chain
+from django.utils import timezone
+from datetime import timedelta
 from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger(__name__)
@@ -54,7 +56,8 @@ def auth_callback(request):
         }
 
         # Store permanent token or update if exists in db
-        store, created = Store.objects.update_or_create(store_name=params['shop'], defaults={'permanent_token': token})
+        store, created = Store.objects.update_or_create(store_name=params['shop'],
+                                                        defaults={'permanent_token': token, 'active': True})
 
         # Return the user back to their shop
         return redirect('https://' + params['shop'])
@@ -79,21 +82,17 @@ def index(request):
         }
 
         store_name = params['shop']
-        print(store_name)
 
         exists_in_store_settings_table = StoreSettings.objects.filter(store__store_name=store_name).exists()
         exists_in_store_table = Store.objects.filter(store_name=store_name).exists()
 
-        # User not set up yet, i.e. just registered
+        if not exists_in_store_table and not exists_in_store_settings_table:
+            return HttpResponseRedirect(reverse('install'))
+
         if exists_in_store_table and not exists_in_store_settings_table:
-            populate_default_settings(store_name)
-            return HttpResponseRedirect(reverse('store_settings'))
+            populate_default_settings(store_name)  # Populate store settings with defaults in db
 
-        # Store has been set up
-        if exists_in_store_table and exists_in_store_settings_table:
-            return HttpResponseRedirect(reverse('dashboard'))
-
-        return HttpResponseRedirect(reverse('install'))
+        return HttpResponseRedirect(reverse('store_settings'))
 
     except Exception as e:
         logger.error(e)
@@ -182,3 +181,56 @@ def store_settings_api(request, store_name):
         return HttpResponse('Success', status=200)
 
     return HttpResponseBadRequest(status=400)
+
+
+@xframe_options_exempt
+@shop_login_required
+@api_authentication
+def orders_api(request, store_name):
+    """
+    Return all orders for a given store name, e.g. mystore.myshopify.com.
+    """
+    if request.method == 'GET':
+        qs1 = Orders.objects.filter(store__store_name=store_name)
+        qs_json = serializers.serialize('json', qs1)
+        return HttpResponse(qs_json, content_type='application/json')
+
+    return HttpResponseBadRequest('Invalid request')
+
+
+@xframe_options_exempt
+@shop_login_required
+@api_authentication
+def products_api(request, store_name):
+    """
+    Return all orders for a given store name, e.g. mystore.myshopify.com.
+    """
+    if request.method == 'GET':
+        qs1 = Product.objects.filter(store__store_name=store_name)
+        qs_json = serializers.serialize('json', qs1)
+        return HttpResponse(qs_json, content_type='application/json')
+
+    return HttpResponseBadRequest('Invalid request')
+
+
+@xframe_options_exempt
+@shop_login_required
+@api_authentication
+def modal_transformer_api(request, store_name, product_id):
+    """
+    Return metric set by user (page view, sold count) for given product and store name.
+    """
+    if request.method == 'GET':
+        # Returned products should be within store's look_back parameter
+        look_back = StoreSettings.objects.filter(store__store_name=store_name).values('look_back')[0]['look_back']
+        time_threshold = timezone.now() - timedelta(seconds=look_back * 60)
+
+        qs1 = Orders.objects \
+            .filter(store__store_name=store_name) \
+            .filter(product__product_id=product_id) \
+            .filter(processed_at__lt=time_threshold)
+
+        qs_json = serializers.serialize('json', qs1)
+        return HttpResponse(qs_json, content_type='application/json')
+
+    return HttpResponseBadRequest('Invalid request')

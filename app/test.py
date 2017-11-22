@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from http.cookies import SimpleCookie
+from .models import StoreSettings
 
 import fnmatch
 
@@ -35,8 +35,9 @@ class DevelopmentToProductionDeploymentTest(TestCase):
             response = self.client.get(reverse('index') + '?hmac=123&locale=123&protocol=123&shop=123&timestamp=123')
             self.assertEqual(response.status_code, 400)
 
-    def test_update(self):
-        pass
+    def test_debug_is_off(self):
+        if settings.DEVELOPMENT_MODE == 'PRODUCTION':
+            self.assertTrue(settings.DEBUG, False)
 
 
 class EntryPointTests(TestCase):
@@ -64,15 +65,19 @@ class EntryPointTests(TestCase):
         with self.settings(DEVELOPMENT_MODE='TEST'):
             response = self.client.get(
                 reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
+
         self.assertRedirects(response, expected_url=reverse('store_settings'), status_code=302,
                              fetch_redirect_response=False)
+
+        # Default settings should be populated in STORE_SETTINGS table
+        self.assertTrue(StoreSettings.objects.filter(store__store_name=shop).exists())
 
     def test_registered_and_setup(self):
         # Store registered app but not set up settings.
         shop = 'setup-store.myshopify.com'
         response = self.client.get(
             reverse('index') + '?hmac=123&locale=123&protocol=123&shop={}&timestamp=123'.format(shop))
-        self.assertRedirects(response, expected_url=reverse('dashboard'), status_code=302,
+        self.assertRedirects(response, expected_url=reverse('store_settings'), status_code=302,
                              fetch_redirect_response=False)
 
     def test_check_security_validation_based_on_env(self):
