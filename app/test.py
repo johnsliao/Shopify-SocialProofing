@@ -173,7 +173,7 @@ class TestStoreSettingsAPI(TestCase):
         with self.settings(DEVELOPMENT_MODE='TEST'):
             response = self.client.post(
                 reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
-                {'look_back': '300',
+                {'look_back': '24',
                  'location': 'top-left',
                  'color': '#FFFFF',
                  'duration': '5'},
@@ -184,7 +184,7 @@ class TestStoreSettingsAPI(TestCase):
         with self.settings(DEVELOPMENT_MODE='TEST'):
             response = self.client.post(
                 reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
-                {'look_back': '300',
+                {'look_back': '24',
                  'TYPO_location': 'top-left',
                  'color': '#FFFFF',
                  'duration': '5'},

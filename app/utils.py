@@ -65,7 +65,7 @@ def populate_default_settings(store_name):
     Populate db with default settings
     """
 
-    default_look_back = 1440  # Look back in seconds
+    default_look_back = 24  # Look back in hours
     default_duration = 5  # Modal popup duration
     default_location = 'bottom-right'  # Default modal location
     default_color = '#4286f4'  # Default modal color

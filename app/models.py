@@ -17,8 +17,8 @@ class Store(models.Model):
 class StoreSettings(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
 
-    # Look back in minutes. 24 hours by default. Max 31 Days
-    look_back = models.PositiveIntegerField(default=1440, validators=[MaxValueValidator(44640), ])
+    # Look back in hours. 24 hours by default. Max 31 Days
+    look_back = models.PositiveIntegerField(default=24, validators=[MaxValueValidator(744), ])
 
 
 class Product(models.Model):
@@ -40,7 +40,6 @@ class Orders(models.Model):
     processed_at = models.DateTimeField(null=True, blank=True)
     first_name = models.TextField(default='')
     last_name = models.TextField(default='')
-
     province_code = models.TextField(default='')
     country_code = models.TextField(default='')
 
@@ -50,6 +49,10 @@ class Orders(models.Model):
 
 class Modal(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
+
     location = models.CharField(max_length=200)
-    color = models.CharField(max_length=200)
-    duration = models.IntegerField()
+    color_hue = models.FloatField(default=83.28)
+    color_saturation = models.FloatField(default=0.306)
+    color_brightness = models.FloatField(default=0.487)
+    social_setting = models.TextField(default='latest')
+    size = models.TextField(default='250,100')  # Modal size (wxh)
