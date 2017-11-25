@@ -15,6 +15,24 @@ import {
   ColorPicker
 } from '@shopify/polaris';
 
+var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() {
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open( "GET", aUrl, true );
+        anHttpRequest.send( null );
+    }
+}
+
+var client = new HttpClient();
+client.get('https://protected-reef-37693.herokuapp.com/api/modal/michael-john-devs.myshopify.com/297692921887', function(response) {
+    alert(response);
+});
+
 class Settings extends Component {
   constructor(props) {
     super(props);

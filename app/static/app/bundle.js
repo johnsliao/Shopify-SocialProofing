@@ -41791,6 +41791,23 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var HttpClient = function HttpClient() {
+  this.get = function (aUrl, aCallback) {
+    var anHttpRequest = new XMLHttpRequest();
+    anHttpRequest.onreadystatechange = function () {
+      if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200) aCallback(anHttpRequest.responseText);
+    };
+
+    anHttpRequest.open("GET", aUrl, true);
+    anHttpRequest.send(null);
+  };
+};
+
+var client = new HttpClient();
+client.get('https://protected-reef-37693.herokuapp.com/api/modal/michael-john-devs.myshopify.com/297692921887', function (response) {
+  alert(response);
+});
+
 var Settings = function (_Component) {
   _inherits(Settings, _Component);
 
