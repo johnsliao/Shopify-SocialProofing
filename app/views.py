@@ -153,7 +153,6 @@ def store_settings_api(request, store_name):
     elif request.method == 'POST':
         params = {
             'look_back': request.POST.get('look_back', ''),
-            'modal_text_settings': request.POST.get('modal_text_settings', ''),
             'location': request.POST.get('location', ''),
             'color': request.POST.get('color', ''),
             'duration': request.POST.get('duration', ''),
