@@ -11,7 +11,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .utils import authenticate, parse_params, populate_default_settings
 from .decorators import shop_login_required, api_authentication
-from .models import Store, StoreSettings, Modal, ModalTextSettings, Orders, Product
+from .models import Store, StoreSettings, Modal, Orders, Product
 from django.core import serializers
 from itertools import chain
 from django.utils import timezone
@@ -169,11 +169,6 @@ def store_settings_api(request, store_name):
         obj.look_back = params['look_back']
         obj.save()
 
-        # Update Modal model
-        obj = Modal.objects.get(store__store_name=store_name)
-        modal_text_settings = ModalTextSettings.objects.get(modal_text_id=params['modal_text_settings'])
-
-        obj.modal_text_settings = modal_text_settings  # Needs to be ModalTextSettings instance
         obj.location = params['location']
         obj.color = params['color']
         obj.duration = params['duration']

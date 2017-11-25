@@ -48,17 +48,8 @@ class Orders(models.Model):
         unique_together = (('store', 'product', 'order_id'),)
 
 
-class ModalTextSettings(models.Model):
-    modal_text_id = models.CharField(max_length=200, unique=True)
-    modal_text_field = models.TextField()
-
-
 class Modal(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
-    modal_text_settings = models.ForeignKey(ModalTextSettings, on_delete=models.CASCADE)
     location = models.CharField(max_length=200)
     color = models.CharField(max_length=200)
     duration = models.IntegerField()
-
-    class Meta:
-        unique_together = (('store', 'modal_text_settings'),)
