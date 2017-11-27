@@ -30,6 +30,8 @@ class Settings extends Component {
       socialSetting: 'purchase',
       socialTime: '1d'
     };
+    this.appUrl = 'http://127.0.0.1:8000';
+    this.shop = new URLSearchParams(window.location.search).get('shop');
     this.handleColor = this.handleColor.bind(this);
     this.handleSize = this.handleSize.bind(this);
     this.handleSocial = this.handleSocial.bind(this);
@@ -37,21 +39,21 @@ class Settings extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillMount () {
-    const shop = new URLSearchParams(window.location.search).get('shop');
-    const appUrl = 'http://127.0.0.1:8000'
-    console.log(shop);
-    fetch(appUrl + '/api/store_settings/' + shop)
+  componentDidMount () {
+    fetch(this.appUrl + '/api/store_settings/' + this.shop)
     .then((response) => {
         return response.json();
     }).then((data) => {
         console.log(data);
         var f_time = this.convertSocialTimeFromHours(data.look_back);
+        this.setState({socialTime: [f_time]});
 
         this.setState({socialSetting: [data.social_setting]});
         this.setState({size: [data.size]});
+        this.setState({width: [data.size.split(',')[0]]});
+        this.setState({height: [data.size.split(',')[1]]});
+
         this.setState({color: {hue: [data.color_hue], saturation: [data.color_saturation], brightness: [data.color_brightness]}});
-        this.setState({socialTime: [f_time]});
 
         return data;
     }).catch((e) => {
@@ -130,8 +132,7 @@ class Settings extends Component {
   }
 
   handleClick () {
-    const shop = new URLSearchParams(window.location.search).get('shop');
-    const appUrl = 'http://127.0.0.1:8000';
+
     let postBodyStr = '';
     postBodyStr += 'look_back=';
     postBodyStr += this.convertSocialTimeToHours(this.state.socialTime);
@@ -158,7 +159,7 @@ class Settings extends Component {
 
     console.log(postBodyStr);
 
-    fetch(appUrl + '/api/store_settings/' + shop, {
+    fetch(this.appUrl + '/api/store_settings/' + this.shop, {
         method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

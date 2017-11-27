@@ -41811,6 +41811,8 @@ var Settings = function (_Component) {
       socialSetting: 'purchase',
       socialTime: '1d'
     };
+    _this.appUrl = 'http://127.0.0.1:8000';
+    _this.shop = new URLSearchParams(window.location.search).get('shop');
     _this.handleColor = _this.handleColor.bind(_this);
     _this.handleSize = _this.handleSize.bind(_this);
     _this.handleSocial = _this.handleSocial.bind(_this);
@@ -41820,23 +41822,23 @@ var Settings = function (_Component) {
   }
 
   _createClass(Settings, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       var _this2 = this;
 
-      var shop = new URLSearchParams(window.location.search).get('shop');
-      var appUrl = 'http://127.0.0.1:8000';
-      console.log(shop);
-      fetch(appUrl + '/api/store_settings/' + shop).then(function (response) {
+      fetch(this.appUrl + '/api/store_settings/' + this.shop).then(function (response) {
         return response.json();
       }).then(function (data) {
         console.log(data);
         var f_time = _this2.convertSocialTimeFromHours(data.look_back);
+        _this2.setState({ socialTime: [f_time] });
 
         _this2.setState({ socialSetting: [data.social_setting] });
         _this2.setState({ size: [data.size] });
+        _this2.setState({ width: [data.size.split(',')[0]] });
+        _this2.setState({ height: [data.size.split(',')[1]] });
+
         _this2.setState({ color: { hue: [data.color_hue], saturation: [data.color_saturation], brightness: [data.color_brightness] } });
-        _this2.setState({ socialTime: [f_time] });
 
         return data;
       }).catch(function (e) {
@@ -41922,8 +41924,7 @@ var Settings = function (_Component) {
   }, {
     key: 'handleClick',
     value: function handleClick() {
-      var shop = new URLSearchParams(window.location.search).get('shop');
-      var appUrl = 'http://127.0.0.1:8000';
+
       var postBodyStr = '';
       postBodyStr += 'look_back=';
       postBodyStr += this.convertSocialTimeToHours(this.state.socialTime);
@@ -41950,7 +41951,7 @@ var Settings = function (_Component) {
 
       console.log(postBodyStr);
 
-      fetch(appUrl + '/api/store_settings/' + shop, {
+      fetch(this.appUrl + '/api/store_settings/' + this.shop, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
