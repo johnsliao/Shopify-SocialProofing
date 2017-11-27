@@ -41801,15 +41801,15 @@ var Settings = function (_Component) {
 
     _this.state = {
       color: {
-        hue: 83.28358208955224,
-        saturation: 0.30625,
-        brightness: 0.48750000000000004
+        hue: '',
+        saturation: '',
+        brightness: ''
       },
-      size: '250,100',
-      width: 250,
-      height: 100,
-      socialSetting: 'purchase',
-      socialTime: '1d'
+      size: '',
+      width: '',
+      height: '',
+      socialSetting: '',
+      socialTime: ''
     };
     _this.appUrl = 'http://127.0.0.1:8000';
     _this.shop = new URLSearchParams(window.location.search).get('shop');
@@ -41822,8 +41822,8 @@ var Settings = function (_Component) {
   }
 
   _createClass(Settings, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       var _this2 = this;
 
       fetch(this.appUrl + '/api/store_settings/' + this.shop).then(function (response) {

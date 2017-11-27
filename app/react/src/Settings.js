@@ -20,15 +20,15 @@ class Settings extends Component {
     super(props);
     this.state = {
       color: {
-        hue: 83.28358208955224,
-        saturation: 0.30625,
-        brightness: 0.48750000000000004
+        hue: '',
+        saturation: '',
+        brightness: ''
       },
-      size: '250,100',
-      width: 250,
-      height: 100,
-      socialSetting: 'purchase',
-      socialTime: '1d'
+      size: '',
+      width: '',
+      height: '',
+      socialSetting: '',
+      socialTime: ''
     };
     this.appUrl = 'http://127.0.0.1:8000';
     this.shop = new URLSearchParams(window.location.search).get('shop');
@@ -39,7 +39,7 @@ class Settings extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount () {
+  componentWillMount () {
     fetch(this.appUrl + '/api/store_settings/' + this.shop)
     .then((response) => {
         return response.json();
