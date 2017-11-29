@@ -211,7 +211,13 @@ def modal_api(request, store_name, product_id):
     if request.method == 'GET':
         try:
             # Returned products should be within store's look_back parameter
-            look_back = StoreSettings.objects.filter(store__store_name=store_name).values('look_back')[0]['look_back']
+            look_back_qs = StoreSettings.objects.filter(store__store_name=store_name)
+
+            if not look_back_qs:
+                logger.error('Error: Store {} not found.'.format(store_name))
+                return HttpResponse('Error: Store {} not found.'.format(store_name))
+
+            look_back = look_back_qs.values('look_back')[0]['look_back']
             time_threshold = timezone.now() - timedelta(seconds=look_back * 60 * 60)
 
             order_obj = Orders.objects \
