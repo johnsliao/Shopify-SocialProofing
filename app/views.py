@@ -17,7 +17,7 @@ from django.core import serializers
 from datetime import date
 from django.utils import timezone
 from datetime import timedelta
-from django.views.decorators.csrf import csrf_exempt
+from .shopifyutils import ingest_products, ingest_orders
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +94,11 @@ def index(request):
             return HttpResponseRedirect(reverse('install'))
 
         if exists_in_store_table and not exists_in_store_settings_table:
-            populate_default_settings(store_name)  # Populate store settings with defaults in db
+            populate_default_settings(store_name)
+
+            stores_obj = Store.objects.get(store_name=store_name)
+            ingest_products(stores_obj)
+            ingest_orders(stores_obj)
 
         return HttpResponseRedirect(reverse('store_settings'))
 

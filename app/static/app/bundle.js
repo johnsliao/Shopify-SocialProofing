@@ -41800,21 +41800,12 @@ var Settings = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
 
     _this.state = {
-      color: {
-        hue: '',
-        saturation: '',
-        brightness: ''
-      },
-      size: '',
-      width: '',
-      height: '',
+      shape: '',
       socialSetting: '',
       socialTime: ''
     };
     _this.appUrl = 'http://127.0.0.1:8000';
     _this.shop = new URLSearchParams(window.location.search).get('shop');
-    _this.handleColor = _this.handleColor.bind(_this);
-    _this.handleSize = _this.handleSize.bind(_this);
     _this.handleSocial = _this.handleSocial.bind(_this);
     _this.handleTime = _this.handleTime.bind(_this);
     _this.handleClick = _this.handleClick.bind(_this);
@@ -41834,11 +41825,7 @@ var Settings = function (_Component) {
         _this2.setState({ socialTime: [f_time] });
 
         _this2.setState({ socialSetting: [data.social_setting] });
-        _this2.setState({ size: [data.size] });
-        _this2.setState({ width: [data.size.split(',')[0]] });
-        _this2.setState({ height: [data.size.split(',')[1]] });
-
-        _this2.setState({ color: { hue: [data.color_hue], saturation: [data.color_saturation], brightness: [data.color_brightness] } });
+        _this2.setState({ shape: 'rectangular' });
 
         return data;
       }).catch(function (e) {
@@ -41846,16 +41833,9 @@ var Settings = function (_Component) {
       });
     }
   }, {
-    key: 'handleColor',
-    value: function handleColor(color) {
-      this.setState({ color: color });
-    }
-  }, {
-    key: 'handleSize',
-    value: function handleSize(size) {
-      this.setState({ size: size });
-      var sizeArr = size[0].split(',');
-      this.setState({ width: sizeArr[0], height: sizeArr[1] });
+    key: 'handleShape',
+    value: function handleShape(shape) {
+      this.setState({ shapeSetting: shape });
     }
   }, {
     key: 'handleSocial',
@@ -41930,24 +41910,9 @@ var Settings = function (_Component) {
       postBodyStr += this.convertSocialTimeToHours(this.state.socialTime);
       postBodyStr += '&';
 
-      postBodyStr += 'color_hue=';
-      postBodyStr += this.state.color.hue;
-      postBodyStr += '&';
-
-      postBodyStr += 'color_saturation=';
-      postBodyStr += this.state.color.saturation;
-      postBodyStr += '&';
-
-      postBodyStr += 'color_brightness=';
-      postBodyStr += this.state.color.brightness;
-      postBodyStr += '&';
-
       postBodyStr += 'social_setting=';
       postBodyStr += this.state.socialSetting;
       postBodyStr += '&';
-
-      postBodyStr += 'size=';
-      postBodyStr += this.state.size;
 
       console.log(postBodyStr);
 
@@ -41962,18 +41927,10 @@ var Settings = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _state$color = this.state.color,
-          hue = _state$color.hue,
-          saturation = _state$color.saturation,
-          brightness = _state$color.brightness;
-
       var colorBoxStyle = {
-        width: this.state.width + 'px',
-        height: this.state.height + 'px',
         margin: '5px',
         float: 'right',
-        border: '1px solid',
-        backgroundColor: 'hsl(' + hue + ', ' + saturation * 100 + '%, ' + brightness * 100 + '%)'
+        border: '1px solid'
       };
 
       return _react2.default.createElement(
@@ -41993,32 +41950,17 @@ var Settings = function (_Component) {
             _react2.default.createElement(
               _polaris.SettingToggle,
               null,
-              _react2.default.createElement(_polaris.ColorPicker, {
-                color: {
-                  hue: this.state.color.hue,
-                  brightness: this.state.color.brightness,
-                  saturation: this.state.color.saturation
-                },
-                onChange: this.handleColor
-              })
-            ),
-            _react2.default.createElement(
-              _polaris.SettingToggle,
-              null,
               _react2.default.createElement(_polaris.ChoiceList, {
-                title: 'Dimensions in pixels',
+                title: 'Modal Shape',
                 choices: [{
-                  label: '250x100',
-                  value: '250,100'
+                  label: 'Rectangular',
+                  value: 'rectangular'
                 }, {
-                  label: '250x150',
-                  value: '250,150'
-                }, {
-                  label: '300x100',
-                  value: '300,100'
+                  label: 'Bubble',
+                  value: 'bubble'
                 }],
-                selected: this.state.size,
-                onChange: this.handleSize
+                selected: this.state.shape,
+                onChange: this.handleShape
               })
             )
           ),

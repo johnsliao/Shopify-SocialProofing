@@ -19,21 +19,12 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: {
-        hue: '',
-        saturation: '',
-        brightness: ''
-      },
-      size: '',
-      width: '',
-      height: '',
+      shape: '',
       socialSetting: '',
       socialTime: ''
     };
     this.appUrl = 'http://127.0.0.1:8000';
     this.shop = new URLSearchParams(window.location.search).get('shop');
-    this.handleColor = this.handleColor.bind(this);
-    this.handleSize = this.handleSize.bind(this);
     this.handleSocial = this.handleSocial.bind(this);
     this.handleTime = this.handleTime.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -49,11 +40,7 @@ class Settings extends Component {
         this.setState({socialTime: [f_time]});
 
         this.setState({socialSetting: [data.social_setting]});
-        this.setState({size: [data.size]});
-        this.setState({width: [data.size.split(',')[0]]});
-        this.setState({height: [data.size.split(',')[1]]});
-
-        this.setState({color: {hue: [data.color_hue], saturation: [data.color_saturation], brightness: [data.color_brightness]}});
+        this.setState({shape: 'rectangular'});
 
         return data;
     }).catch((e) => {
@@ -61,14 +48,8 @@ class Settings extends Component {
     });
   }
 
-  handleColor (color) {
-    this.setState({color});
-  }
-
-  handleSize (size) {
-    this.setState({size})
-    let sizeArr = size[0].split(',');
-    this.setState({width: sizeArr[0], height: sizeArr[1]});
+  handleShape (shape) {
+    this.setState({shapeSetting: shape})
   }
 
   handleSocial (social) {
@@ -138,24 +119,9 @@ class Settings extends Component {
     postBodyStr += this.convertSocialTimeToHours(this.state.socialTime);
     postBodyStr += '&';
 
-    postBodyStr += 'color_hue=';
-    postBodyStr += this.state.color.hue;
-    postBodyStr += '&';
-
-    postBodyStr += 'color_saturation=';
-    postBodyStr += this.state.color.saturation;
-    postBodyStr += '&';
-
-    postBodyStr += 'color_brightness=';
-    postBodyStr += this.state.color.brightness;
-    postBodyStr += '&';
-
     postBodyStr += 'social_setting=';
     postBodyStr += this.state.socialSetting;
     postBodyStr += '&';
-
-    postBodyStr += 'size=';
-    postBodyStr += this.state.size;
 
     console.log(postBodyStr);
 
@@ -169,14 +135,10 @@ class Settings extends Component {
   }
 
   render() {
-    const { hue, saturation, brightness } = this.state.color;
     const colorBoxStyle = {
-      width: `${this.state.width}px`,
-      height: `${this.state.height}px`,
       margin: '5px',
       float: 'right',
       border: '1px solid',
-      backgroundColor: `hsl(${hue}, ${saturation * 100}%, ${brightness * 100}%)`
     }
 
     return (
@@ -189,34 +151,20 @@ class Settings extends Component {
             description="Customize the size and appearance of the modal"
           >
             <SettingToggle>
-              <ColorPicker
-                color={{
-                  hue: this.state.color.hue,
-                  brightness: this.state.color.brightness,
-                  saturation: this.state.color.saturation
-                }}
-                onChange={this.handleColor}
-              />
-            </SettingToggle>
-            <SettingToggle>
               <ChoiceList
-                title="Dimensions in pixels"
+                title="Modal Shape"
                 choices={[
                   {
-                    label: '250x100',
-                    value: '250,100'
+                    label: 'Rectangular',
+                    value: 'rectangular'
                   },
                   {
-                    label: '250x150',
-                    value: '250,150'
-                  },
-                  {
-                    label: '300x100',
-                    value: '300,100'
+                    label: 'Bubble',
+                    value: 'bubble'
                   }
                 ]}
-                selected={this.state.size}
-                onChange={this.handleSize}
+                selected={this.state.shape}
+                onChange={this.handleShape}
               />
             </SettingToggle>
           </Layout.AnnotatedSection>
