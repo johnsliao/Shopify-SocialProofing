@@ -271,17 +271,22 @@ def related_products_api(request, store_name, product_id, search_type):
     """
     if request.method == 'GET':
         try:
-            products = Product.objects.filter(store__store_name=store_name).values()
-            target_product = Product.objects.filter(store__store_name=store_name, product_id=product_id).first()
-
-            target_collection = Collection.objects.filter(product__product_id=product_id).first()
-            collections = Collection.objects.filter(product__store__store_name=store_name)
             related_product_ids = set()
-
             response_dict = dict()
+
+            products = Product.objects.filter(store__store_name=store_name).values()
+            collections = Collection.objects.filter(product__store__store_name=store_name)
+
+            target_product = Product.objects.filter(store__store_name=store_name, product_id=product_id).first()
+            target_collection = Collection.objects.filter(product__product_id=product_id).first()
+
             response_dict['store_name'] = store_name
             response_dict['product_id'] = product_id
             response_dict['search_type'] = search_type
+            response_dict['related_product_ids'] = ''
+
+            if not target_product or not target_collection:
+                return JsonResponse(response_dict, safe=False)
 
             for product in products:
                 if product['product_id'] == target_product.product_id:
@@ -298,10 +303,6 @@ def related_products_api(request, store_name, product_id, search_type):
                 # Any word in target tag matches in product tag
                 if 'tags' in search_type and len(
                                 set(target_product.tags.split(', ')) & set(product['tags'].split(', '))) > 0:
-                    print('target', set(target_product.tags.split(', ')))
-                    print('given', set(product['tags'].split(', ')))
-                    print(set(target_product.tags.split(', ')) & set(product['tags'].split(', ')))
-                    print('')
                     related_product_ids.add(product['product_id'])
                     continue
 
