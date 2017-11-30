@@ -340,15 +340,14 @@ def modal_metrics_api(request):
     if request.method == 'POST':
         try:
             post_params = dict(request.POST.lists())
-
             snapshot_date = date.today()
-            store_name = post_params['store_name']
-            product_id_from = post_params['product_id_from']
-            product_id_to = post_params['product_id_to']
+            store_name = post_params['store_name'][0]
+            product_id_from = post_params['product_id_from'][0]
+            product_id_to = post_params['product_id_to'][0]
 
             try:
-                product_id_from_obj = Product.objects.get(product_id=product_id_from)
-                product_id_to_obj = Product.objects.get(product_id=product_id_to)
+                product_id_from_obj = Product.objects.get(product_id=product_id_from, store__store_name=store_name)
+                product_id_to_obj = Product.objects.get(product_id=product_id_to, store__store_name=store_name)
                 store_obj = Store.objects.get(store_name=store_name)
             except (Store.DoesNotExist, Product.DoesNotExist):
                 logger.error(
@@ -358,12 +357,14 @@ def modal_metrics_api(request):
 
             try:
                 api_metrics_obj = ModalMetrics.objects.get(snapshot_date=snapshot_date, product_id_to=product_id_to_obj,
-                                                           product_id_from=product_id_from_obj)
+                                                           product_id_from=product_id_from_obj, store=store_obj)
                 api_metrics_obj.click_count += 1
                 api_metrics_obj.save()
             except Exception as e:
                 ModalMetrics.objects.create(snapshot_date=snapshot_date, product_id_to=product_id_to_obj,
-                                            product_id_from=product_id_from_obj, click_count=1)
+                                            product_id_from=product_id_from_obj, store=store_obj, click_count=1)
+
+            return HttpResponse('Success', status=200)
         except Exception:
             return HttpResponseBadRequest('Invalid post parameters provided', status=400)
 
