@@ -225,4 +225,22 @@ class TestModalAPI(TestCase):
         response = self.client.get(
             reverse('modal_api', kwargs={'store_name': 'this-store-does-not-exist.com',
                                          'product_id': '293835145247', }))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
+
+
+class TestModalMetricsAPI(TestCase):
+    """
+    Test Modal Metrics API
+    """
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_get_invalid_post_request(self):
+        response = self.client.post(reverse('modal_metrics_api'),
+                                    {'look_back': '24',
+                                     'location': 'top-left',
+                                     'color': '#FFFFF',
+                                     'duration': '5'}),
+
+        self.assertEqual(response.status_code, 400)
