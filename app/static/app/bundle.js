@@ -41802,13 +41802,15 @@ var Settings = function (_Component) {
     _this.state = {
       shape: '',
       socialSetting: '',
-      socialTime: ''
+      socialTime: '',
+      socialScope: ''
     };
     _this.appUrl = 'http://127.0.0.1:8000';
     _this.shop = new URLSearchParams(window.location.search).get('shop');
-    _this.handleSocial = _this.handleSocial.bind(_this);
+    _this.handleSocialSetting = _this.handleSocialSetting.bind(_this);
     _this.handleTime = _this.handleTime.bind(_this);
     _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleSocialScope = _this.handleSocialScope.bind(_this);
     return _this;
   }
 
@@ -41824,7 +41826,7 @@ var Settings = function (_Component) {
         var f_time = _this2.convertSocialTimeFromHours(data.look_back);
         _this2.setState({ socialTime: [f_time] });
         _this2.setState({ socialSetting: [data.social_setting] });
-        _this2.setState({ shape: 'rectangular' });
+        _this2.setState({ socialScope: [data.social_scope] });
 
         return data;
       }).catch(function (e) {
@@ -41837,14 +41839,19 @@ var Settings = function (_Component) {
       this.setState({ shapeSetting: shape });
     }
   }, {
-    key: 'handleSocial',
-    value: function handleSocial(social) {
-      this.setState({ socialSetting: social });
+    key: 'handleSocialSetting',
+    value: function handleSocialSetting(socialSetting) {
+      this.setState({ socialSetting: socialSetting });
     }
   }, {
     key: 'handleTime',
     value: function handleTime(time) {
       this.setState({ socialTime: time });
+    }
+  }, {
+    key: 'handleSocialScope',
+    value: function handleSocialScope(socialScope) {
+      this.setState({ socialScope: socialScope });
     }
   }, {
     key: 'convertSocialTimeFromHours',
@@ -41905,6 +41912,10 @@ var Settings = function (_Component) {
 
       postBodyStr += 'social_setting=';
       postBodyStr += this.state.socialSetting;
+      postBodyStr += '&';
+
+      postBodyStr += 'social_scope=';
+      postBodyStr += this.state.socialScope;
       postBodyStr += '&';
 
       console.log(postBodyStr);
@@ -41999,7 +42010,7 @@ var Settings = function (_Component) {
                       value: 'purchase'
                     }],
                     selected: this.state.socialSetting,
-                    onChange: this.handleSocial
+                    onChange: this.handleSocialSetting
                   }),
                   _react2.default.createElement(_polaris.ChoiceList, {
                     title: 'Look Back Setting',
@@ -42018,6 +42029,42 @@ var Settings = function (_Component) {
                     }],
                     selected: this.state.socialTime,
                     onChange: this.handleTime
+                  })
+                )
+              )
+            ),
+            _react2.default.createElement(
+              _polaris.Card,
+              { sectioned: true },
+              _react2.default.createElement(
+                _polaris.FormLayout,
+                null,
+                _react2.default.createElement(
+                  _polaris.FormLayout.Group,
+                  null,
+                  _react2.default.createElement(_polaris.ChoiceList, {
+                    title: 'Scope',
+                    choices: [{
+                      label: 'Same Product',
+                      value: 'product'
+                    }, {
+                      label: 'Vendor',
+                      value: 'vendor'
+                    }, {
+                      label: 'Tags',
+                      value: 'tags'
+                    }, {
+                      label: 'Collection',
+                      value: 'collection'
+                    }, {
+                      label: 'Product Type',
+                      value: 'type'
+                    }, {
+                      label: 'Any (randomly selected)',
+                      value: 'any'
+                    }],
+                    selected: this.state.socialScope,
+                    onChange: this.handleSocialScope
                   })
                 )
               )

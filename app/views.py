@@ -146,6 +146,7 @@ def store_settings_api(request, store_name):
             response_dict['color_saturation'] = modal_obj.color_saturation
             response_dict['size'] = modal_obj.size
             response_dict['location'] = modal_obj.location
+            response_dict['social_scope'] = modal_obj.social_scope
 
             return JsonResponse(response_dict, safe=False)
 

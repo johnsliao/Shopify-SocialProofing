@@ -72,7 +72,7 @@ class Modal(models.Model):
     color_brightness = models.FloatField(default=0.487)
     social_setting = models.TextField(default='latest')
     size = models.TextField(default='250,100')  # Modal size (wxh)
-    scope = models.TextField(default='product')
+    social_scope = models.TextField(default='product')
 
 
 class APIMetrics(models.Model):

@@ -21,13 +21,15 @@ class Settings extends Component {
     this.state = {
       shape: '',
       socialSetting: '',
-      socialTime: ''
+      socialTime: '',
+      socialScope: ''
     };
     this.appUrl = 'http://127.0.0.1:8000';
     this.shop = new URLSearchParams(window.location.search).get('shop');
-    this.handleSocial = this.handleSocial.bind(this);
+    this.handleSocialSetting = this.handleSocialSetting.bind(this);
     this.handleTime = this.handleTime.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSocialScope = this.handleSocialScope.bind(this);
   }
 
   componentWillMount () {
@@ -39,7 +41,7 @@ class Settings extends Component {
         var f_time = this.convertSocialTimeFromHours(data.look_back);
         this.setState({socialTime: [f_time]});
         this.setState({socialSetting: [data.social_setting]});
-        this.setState({shape: 'rectangular'});
+        this.setState({socialScope: [data.social_scope]});
 
         return data;
     }).catch((e) => {
@@ -51,12 +53,16 @@ class Settings extends Component {
     this.setState({shapeSetting: shape})
   }
 
-  handleSocial (social) {
-    this.setState({socialSetting: social})
+  handleSocialSetting (socialSetting) {
+    this.setState({socialSetting: socialSetting})
   }
 
   handleTime (time) {
     this.setState({socialTime: time})
+  }
+
+  handleSocialScope (socialScope) {
+    this.setState({socialScope: socialScope})
   }
 
   convertSocialTimeFromHours(time) {
@@ -114,6 +120,10 @@ class Settings extends Component {
 
     postBodyStr += 'social_setting=';
     postBodyStr += this.state.socialSetting;
+    postBodyStr += '&';
+
+    postBodyStr += 'social_scope=';
+    postBodyStr += this.state.socialScope;
     postBodyStr += '&';
 
     console.log(postBodyStr);
@@ -177,53 +187,90 @@ class Settings extends Component {
             description="Display data as number of customers who have added this product, viewed the product,
             or display the last customer who purchased it."
           >
-            <Card sectioned>
-              <FormLayout>
-                <FormLayout.Group>
-                  <ChoiceList
-                    title="Social Proof Setting"
-                    choices={[
-                      {
-                        label: 'Display latest customer who purchased this product',
-                        value: 'latest'
-                      },
-                      {
-                        label: 'Display number of customers who have purchased this product',
-                        value: 'purchase'
-                      }
-                    ]}
-                    selected={this.state.socialSetting}
-                    onChange={this.handleSocial}
-                  />
-                  <ChoiceList
-                    title="Look Back Setting"
-                    choices={[
-                      {
-                        label: 'Last hour',
-                        value: '1h'
-                      },
-                      {
-                        label: 'Last 12 hours',
-                        value: '12h'
-                      },
-                      {
-                        label: 'Last day',
-                        value: '1d'
-                      },
-                      {
-                        label: '7 days (Recently)',
-                        value: '7d'
-                      },
-                    ]}
-                    selected={this.state.socialTime}
-                    onChange={this.handleTime}
-                  />
-                </FormLayout.Group>
+          <Card sectioned>
+            <FormLayout>
+              <FormLayout.Group>
+                <ChoiceList
+                  title="Social Proof Setting"
+                  choices={[
+                    {
+                      label: 'Display latest customer who purchased this product',
+                      value: 'latest'
+                    },
+                    {
+                      label: 'Display number of customers who have purchased this product',
+                      value: 'purchase'
+                    }
+                  ]}
+                  selected={this.state.socialSetting}
+                  onChange={this.handleSocialSetting}
+                />
+                <ChoiceList
+                  title="Look Back Setting"
+                  choices={[
+                    {
+                      label: 'Last hour',
+                      value: '1h'
+                    },
+                    {
+                      label: 'Last 12 hours',
+                      value: '12h'
+                    },
+                    {
+                      label: 'Last day',
+                      value: '1d'
+                    },
+                    {
+                      label: '7 days (Recently)',
+                      value: '7d'
+                    },
+                  ]}
+                  selected={this.state.socialTime}
+                  onChange={this.handleTime}
+                />
+              </FormLayout.Group>
 
-              </FormLayout>
-            </Card>
+            </FormLayout>
+          </Card>
+          <Card sectioned>
+            <FormLayout>
+              <FormLayout.Group>
+                <ChoiceList
+                  title="Scope Setting"
+                  choices={[
+                    {
+                      label: 'Same Product',
+                      value: 'product'
+                    },
+                    {
+                      label: 'Vendor',
+                      value: 'vendor'
+                    },
+                    {
+                      label: 'Tags',
+                      value: 'tags'
+                    },
+                    {
+                      label: 'Collection',
+                      value: 'collection'
+                    },
+                    {
+                      label: 'Product Type',
+                      value: 'type'
+                    },
+                    {
+                      label: 'Any (randomly selected)',
+                      value: 'any'
+                    },
+                  ]}
+                  selected={this.state.socialScope}
+                  onChange={this.handleSocialScope}
+                />
+              </FormLayout.Group>
+
+            </FormLayout>
+          </Card>
           </Layout.AnnotatedSection>
-
 
           <Layout.Section>
           <Button onClick={this.handleClick} primary>Submit & Save</Button>
