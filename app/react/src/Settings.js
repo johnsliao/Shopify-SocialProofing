@@ -211,7 +211,7 @@ class Settings extends Component {
                         value: '1d'
                       },
                       {
-                        label: '7 days',
+                        label: '7 days (Recently)',
                         value: '7d'
                       },
                     ]}

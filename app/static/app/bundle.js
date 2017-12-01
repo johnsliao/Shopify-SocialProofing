@@ -42010,10 +42010,10 @@ var Settings = function (_Component) {
                       label: 'Last 12 hours',
                       value: '12h'
                     }, {
-                      label: 'Last Day',
+                      label: 'Last day',
                       value: '1d'
                     }, {
-                      label: 'Recently',
+                      label: 'Recently (7 days)',
                       value: '7d'
                     }],
                     selected: this.state.socialTime,
