@@ -66,7 +66,7 @@ class Orders(models.Model):
 class Modal(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
 
-    location = models.CharField(max_length=200, default='bottom-right')
+    location = models.CharField(max_length=200, default='lower-left')
     color_hue = models.FloatField(default=83.28)
     color_saturation = models.FloatField(default=0.306)
     color_brightness = models.FloatField(default=0.487)

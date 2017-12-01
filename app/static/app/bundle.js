@@ -41800,10 +41800,10 @@ var Settings = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
 
     _this.state = {
-      shape: '',
       socialSetting: '',
       socialTime: '',
-      socialScope: ''
+      socialScope: '',
+      location: ''
     };
     _this.appUrl = 'http://127.0.0.1:8000';
     _this.shop = new URLSearchParams(window.location.search).get('shop');
@@ -41811,6 +41811,7 @@ var Settings = function (_Component) {
     _this.handleTime = _this.handleTime.bind(_this);
     _this.handleClick = _this.handleClick.bind(_this);
     _this.handleSocialScope = _this.handleSocialScope.bind(_this);
+    _this.handleLocation = _this.handleLocation.bind(_this);
     return _this;
   }
 
@@ -41825,6 +41826,8 @@ var Settings = function (_Component) {
         console.log(data);
         var f_time = _this2.convertSocialTimeFromHours(data.look_back);
         _this2.setState({ socialTime: [f_time] });
+
+        _this2.setState({ location: [data.location] });
         _this2.setState({ socialSetting: [data.social_setting] });
         _this2.setState({ socialScope: [data.social_scope] });
 
@@ -41832,11 +41835,6 @@ var Settings = function (_Component) {
       }).catch(function (e) {
         console.log('error' + e);
       });
-    }
-  }, {
-    key: 'handleShape',
-    value: function handleShape(shape) {
-      this.setState({ shapeSetting: shape });
     }
   }, {
     key: 'handleSocialSetting',
@@ -41852,6 +41850,11 @@ var Settings = function (_Component) {
     key: 'handleSocialScope',
     value: function handleSocialScope(socialScope) {
       this.setState({ socialScope: socialScope });
+    }
+  }, {
+    key: 'handleLocation',
+    value: function handleLocation(location) {
+      this.setState({ location: location });
     }
   }, {
     key: 'convertSocialTimeFromHours',
@@ -41918,6 +41921,10 @@ var Settings = function (_Component) {
       postBodyStr += this.state.socialScope;
       postBodyStr += '&';
 
+      postBodyStr += 'location=';
+      postBodyStr += this.state.location;
+      postBodyStr += '&';
+
       console.log(postBodyStr);
 
       fetch(this.appUrl + '/api/store_settings/' + this.shop, {
@@ -41949,22 +41956,22 @@ var Settings = function (_Component) {
             _polaris.Layout.AnnotatedSection,
             {
               title: 'Style',
-              description: 'Customize the size and appearance of the modal'
+              description: 'Customize the appearance and location of the modal'
             },
             _react2.default.createElement(
               _polaris.SettingToggle,
               null,
               _react2.default.createElement(_polaris.ChoiceList, {
-                title: 'Modal Shape',
+                title: 'Location',
                 choices: [{
-                  label: 'Rectangular',
-                  value: 'rectangular'
+                  label: 'Lower left',
+                  value: 'lower-left'
                 }, {
-                  label: 'Bubble',
-                  value: 'bubble'
+                  label: 'Lower right',
+                  value: 'lower-right'
                 }],
-                selected: this.state.shape,
-                onChange: this.handleShape
+                selected: this.state.location,
+                onChange: this.handleLocation
               })
             )
           ),
@@ -42043,7 +42050,7 @@ var Settings = function (_Component) {
                   _polaris.FormLayout.Group,
                   null,
                   _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Scope',
+                    title: 'Scope Setting',
                     choices: [{
                       label: 'Same Product',
                       value: 'product'

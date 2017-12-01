@@ -19,10 +19,10 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shape: '',
       socialSetting: '',
       socialTime: '',
-      socialScope: ''
+      socialScope: '',
+      location: ''
     };
     this.appUrl = 'http://127.0.0.1:8000';
     this.shop = new URLSearchParams(window.location.search).get('shop');
@@ -30,6 +30,7 @@ class Settings extends Component {
     this.handleTime = this.handleTime.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSocialScope = this.handleSocialScope.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   componentWillMount () {
@@ -40,6 +41,8 @@ class Settings extends Component {
         console.log(data);
         var f_time = this.convertSocialTimeFromHours(data.look_back);
         this.setState({socialTime: [f_time]});
+
+        this.setState({location: [data.location]});
         this.setState({socialSetting: [data.social_setting]});
         this.setState({socialScope: [data.social_scope]});
 
@@ -47,10 +50,6 @@ class Settings extends Component {
     }).catch((e) => {
         console.log('error' + e);
     });
-  }
-
-  handleShape (shape) {
-    this.setState({shapeSetting: shape})
   }
 
   handleSocialSetting (socialSetting) {
@@ -63,6 +62,10 @@ class Settings extends Component {
 
   handleSocialScope (socialScope) {
     this.setState({socialScope: socialScope})
+  }
+
+  handleLocation (location) {
+    this.setState({location: location})
   }
 
   convertSocialTimeFromHours(time) {
@@ -126,6 +129,10 @@ class Settings extends Component {
     postBodyStr += this.state.socialScope;
     postBodyStr += '&';
 
+    postBodyStr += 'location=';
+    postBodyStr += this.state.location;
+    postBodyStr += '&';
+
     console.log(postBodyStr);
 
     fetch(this.appUrl + '/api/store_settings/' + this.shop, {
@@ -151,23 +158,23 @@ class Settings extends Component {
         <Layout>
           <Layout.AnnotatedSection
             title="Style"
-            description="Customize the size and appearance of the modal"
+            description="Customize the appearance and location of the modal"
           >
             <SettingToggle>
               <ChoiceList
-                title="Modal Shape"
+                title="Location"
                 choices={[
                   {
-                    label: 'Rectangular',
-                    value: 'rectangular'
+                    label: 'Lower left',
+                    value: 'lower-left'
                   },
                   {
-                    label: 'Bubble',
-                    value: 'bubble'
+                    label: 'Lower right',
+                    value: 'lower-right'
                   }
                 ]}
-                selected={this.state.shape}
-                onChange={this.handleShape}
+                selected={this.state.location}
+                onChange={this.handleLocation}
               />
             </SettingToggle>
           </Layout.AnnotatedSection>
