@@ -42013,19 +42013,23 @@ var Settings = function (_Component) {
                       label: 'Last day',
                       value: '1d'
                     }, {
-                      label: 'Recently (7 days)',
+                      label: '7 days (Recently)',
                       value: '7d'
                     }],
                     selected: this.state.socialTime,
                     onChange: this.handleTime
                   })
-                ),
-                _react2.default.createElement(
-                  _polaris.Button,
-                  { onClick: this.handleClick, primary: true },
-                  'Submit & Save'
                 )
               )
+            )
+          ),
+          _react2.default.createElement(
+            _polaris.Layout.Section,
+            null,
+            _react2.default.createElement(
+              _polaris.Button,
+              { onClick: this.handleClick, primary: true },
+              'Submit & Save'
             )
           ),
           _react2.default.createElement(

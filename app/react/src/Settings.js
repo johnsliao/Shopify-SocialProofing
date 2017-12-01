@@ -219,10 +219,15 @@ class Settings extends Component {
                     onChange={this.handleTime}
                   />
                 </FormLayout.Group>
-                <Button onClick={this.handleClick} primary>Submit & Save</Button>
+
               </FormLayout>
             </Card>
           </Layout.AnnotatedSection>
+
+
+          <Layout.Section>
+          <Button onClick={this.handleClick} primary>Submit & Save</Button>
+          </Layout.Section>
 
           <Layout.Section>
             <FooterHelp>For help visit <Link url="https://www.google.com/search?ei=jLUIWvK0JojimAHg-KY4&q=help&oq=help&gs_l=psy-ab.3..0i67k1l2j0j0i67k1j0j0i67k1j0l4.1185.1507.0.1749.4.4.0.0.0.0.194.194.0j1.1.0....0...1.1.64.psy-ab..3.1.194....0.HDVDjU-AKiQ">styleguide</Link>.</FooterHelp>
