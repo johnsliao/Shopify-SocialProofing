@@ -271,9 +271,3 @@ class TestModalMetricsAPI(TestCase):
                                     {'store_name': 'michael-john-devs.myshopify.com',
                                      'product_id_to': '487347945514'})
         self.assertEqual(response.status_code, 400)
-
-        # Not all parameters provided
-        response = self.client.post(reverse('modal_metrics_api'),
-                                    {'store_name': 'michael-john-devs.myshopify.com',
-                                     'product_id_to': '487347945514'})
-        self.assertEqual(response.status_code, 400)

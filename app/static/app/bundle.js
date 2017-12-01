@@ -41823,7 +41823,6 @@ var Settings = function (_Component) {
         console.log(data);
         var f_time = _this2.convertSocialTimeFromHours(data.look_back);
         _this2.setState({ socialTime: [f_time] });
-
         _this2.setState({ socialSetting: [data.social_setting] });
         _this2.setState({ shape: 'rectangular' });
 
@@ -41854,17 +41853,14 @@ var Settings = function (_Component) {
 
       var f_time = void 0;
       switch (time) {
-        case 6:
-          f_time = "6h";
+        case 1:
+          f_time = "1h";
           break;
         case 12:
           f_time = "12h";
           break;
         case 24:
           f_time = "1d";
-          break;
-        case 36:
-          f_time = "3d";
           break;
         case 168:
           f_time = "7d";
@@ -41881,17 +41877,14 @@ var Settings = function (_Component) {
 
       var f_time = void 0;
       switch (time[0]) {
-        case "6h":
-          f_time = 6;
+        case "1h":
+          f_time = 1;
           break;
         case "12h":
           f_time = 12;
           break;
         case "1d":
           f_time = 24;
-          break;
-        case "3d":
-          f_time = 36;
           break;
         case "7d":
           f_time = 168;
@@ -41985,7 +41978,7 @@ var Settings = function (_Component) {
             _polaris.Layout.AnnotatedSection,
             {
               title: 'Social Proof Settings',
-              description: 'Display data as # of customers who have added this product, viewed the product, or display the last customer who purchased it.'
+              description: 'Display data as number of customers who have added this product, viewed the product, or display the last customer who purchased it.'
             },
             _react2.default.createElement(
               _polaris.Card,
@@ -41997,25 +41990,22 @@ var Settings = function (_Component) {
                   _polaris.FormLayout.Group,
                   null,
                   _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Social Proof Settings (Default: display latest customer)',
+                    title: 'Social Proof Setting',
                     choices: [{
-                      label: '# of customers who have purchased this product',
-                      value: 'purchase'
-                    }, {
-                      label: '# of customers who have viewed this product',
-                      value: 'view'
-                    }, {
                       label: 'Display latest customer who purchased this product',
                       value: 'latest'
+                    }, {
+                      label: 'Display number of customers who have purchased this product',
+                      value: 'purchase'
                     }],
                     selected: this.state.socialSetting,
                     onChange: this.handleSocial
                   }),
                   _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Look Back Duration (Default 1 day)',
+                    title: 'Look Back Setting',
                     choices: [{
-                      label: 'Last 6 hours',
-                      value: '6h'
+                      label: 'Last hour',
+                      value: '1h'
                     }, {
                       label: 'Last 12 hours',
                       value: '12h'
@@ -42023,10 +42013,7 @@ var Settings = function (_Component) {
                       label: 'Last Day',
                       value: '1d'
                     }, {
-                      label: 'Last 3 Days',
-                      value: '3d'
-                    }, {
-                      label: 'Last 7 Days',
+                      label: 'Recently',
                       value: '7d'
                     }],
                     selected: this.state.socialTime,

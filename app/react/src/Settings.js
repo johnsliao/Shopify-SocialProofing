@@ -38,7 +38,6 @@ class Settings extends Component {
         console.log(data);
         var f_time = this.convertSocialTimeFromHours(data.look_back);
         this.setState({socialTime: [f_time]});
-
         this.setState({socialSetting: [data.social_setting]});
         this.setState({shape: 'rectangular'});
 
@@ -65,17 +64,14 @@ class Settings extends Component {
 
     let f_time;
     switch (time) {
-          case 6:
-            f_time = "6h";
+          case 1:
+            f_time = "1h";
             break;
           case 12:
             f_time = "12h";
             break;
           case 24:
             f_time = "1d";
-            break;
-          case 36:
-            f_time = "3d";
             break;
           case 168:
             f_time = "7d";
@@ -91,17 +87,14 @@ class Settings extends Component {
 
     let f_time;
     switch (time[0]) {
-          case "6h":
-            f_time = 6;
+          case "1h":
+            f_time = 1;
             break;
           case "12h":
             f_time = 12;
             break;
           case "1d":
             f_time = 24;
-            break;
-          case "3d":
-            f_time = 36;
             break;
           case "7d":
             f_time = 168;
@@ -181,52 +174,44 @@ class Settings extends Component {
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Social Proof Settings"
-            description="Display data as # of customers who have added this product, viewed the product,
+            description="Display data as number of customers who have added this product, viewed the product,
             or display the last customer who purchased it."
           >
             <Card sectioned>
               <FormLayout>
                 <FormLayout.Group>
                   <ChoiceList
-                    title="Social Proof Settings (Default: display latest customer)"
+                    title="Social Proof Setting"
                     choices={[
-                      {
-                        label: '# of customers who have purchased this product',
-                        value: 'purchase'
-                      },
-                      {
-                        label: '# of customers who have viewed this product',
-                        value: 'view'
-                      },
                       {
                         label: 'Display latest customer who purchased this product',
                         value: 'latest'
+                      },
+                      {
+                        label: 'Display number of customers who have purchased this product',
+                        value: 'purchase'
                       }
                     ]}
                     selected={this.state.socialSetting}
                     onChange={this.handleSocial}
                   />
                   <ChoiceList
-                    title="Look Back Duration (Default 1 day)"
+                    title="Look Back Setting"
                     choices={[
                       {
-                        label: 'Last 6 hours',
-                        value: '6h'
+                        label: 'Last hour',
+                        value: '1h'
                       },
                       {
                         label: 'Last 12 hours',
                         value: '12h'
                       },
                       {
-                        label: 'Last Day',
+                        label: 'Last day',
                         value: '1d'
                       },
                       {
-                        label: 'Last 3 Days',
-                        value: '3d'
-                      },
-                      {
-                        label: 'Last 7 Days',
+                        label: '7 days',
                         value: '7d'
                       },
                     ]}
