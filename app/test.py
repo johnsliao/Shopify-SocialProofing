@@ -271,3 +271,16 @@ class TestModalMetricsAPI(TestCase):
                                     {'store_name': 'michael-john-devs.myshopify.com',
                                      'product_id_to': '487347945514'})
         self.assertEqual(response.status_code, 400)
+
+class TestUtils(TestCase):
+    """
+    Test utils.py
+    """
+
+    fixtures = ['entrypoint_fixture.json']
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_find_products_from_social_scope(self):
+        pass
