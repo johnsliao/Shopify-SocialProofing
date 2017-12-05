@@ -229,22 +229,23 @@ def modal_api(request, store_name, product_id):
             look_back = look_back_qs.values('look_back')[0]['look_back']
             time_threshold = timezone.now() - timedelta(seconds=look_back * 60 * 60)
 
+            product_id_social = choice(find_products_from_social_scope(store_name, product_id))
+            product_obj = Product.objects.filter(product_id=product_id_social).first()
+
             order_obj = Orders.objects \
                 .filter(store__store_name=store_name) \
-                .filter(product__product_id=product_id) \
+                .filter(product__product_id=product_id_social) \
                 .filter(processed_at__range=[time_threshold, timezone.now()])
             order_obj_first = order_obj.first()
             modal_obj = Modal.objects.filter(store__store_name=store_name).first()
 
-            product_id_social = choice(find_products_from_social_scope(store_name, product_id))
-            product_obj = Product.objects.filter(product_id=product_id_social).first()
 
-            collection_obj = Collection.objects.filter(product__product_id=product_id).values('collection_id')
-            collection_ids = ', '.join([k['collection_id'] for k in list(collection_obj)])
+            collection_obj = Collection.objects.filter(product__product_id=product_id_social).values('collection_id')
+            collection_ids = ','.join([k['collection_id'] for k in list(collection_obj)])
 
             response_dict = dict()
             response_dict['store_name'] = store_name
-            response_dict['product_id'] = product_id
+            response_dict['product_id'] = product_id_social
 
             response_dict['main_image_url'] = product_obj.main_image_url if hasattr(product_obj,
                                                                                     'main_image_url') and product_obj.main_image_url != '' else None
