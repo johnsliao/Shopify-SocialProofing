@@ -165,7 +165,7 @@ def store_settings_api(request, store_name):
             return HttpResponseBadRequest('{} does not exist'.format(store_name), status=400)
 
         for key, value in post_params.items():
-            if key == 'social_scope' and value not in settings.SOCIAL_SCOPES:
+            if key == 'social_scope' and value[0] not in settings.SOCIAL_SCOPES:
                 return HttpResponseBadRequest('{} is not a valid social scope'.format(value), status=400)
 
             if hasattr(store_settings_obj, key):
