@@ -42061,8 +42061,8 @@ var Settings = function (_Component) {
                       label: 'Tags',
                       value: 'tags'
                     }, {
-                      label: 'Collection',
-                      value: 'collection'
+                      label: 'Collections',
+                      value: 'collections'
                     }, {
                       label: 'Product Type',
                       value: 'type'

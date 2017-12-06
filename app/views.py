@@ -239,7 +239,6 @@ def modal_api(request, store_name, product_id):
             order_obj_first = order_obj.first()
             modal_obj = Modal.objects.filter(store__store_name=store_name).first()
 
-
             collection_obj = Collection.objects.filter(product__product_id=product_id_social).values('collection_id')
             collection_ids = ','.join([k['collection_id'] for k in list(collection_obj)])
 

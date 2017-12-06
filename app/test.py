@@ -164,15 +164,16 @@ class TestStoreSettingsAPI(TestCase):
 
     def test_post_valid_request(self):
         with self.settings(DEVELOPMENT_MODE='TEST'):
-            response = self.client.post(
-                reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
-                {'look_back': '24',
-                 'location': 'top-left',
-                 'color': '#FFFFF',
-                 'duration': '5',
-                 'social_scope': 'tags'}
-            )
-            self.assertEqual(response.status_code, 200)
+            for social_scope in settings.SOCIAL_SCOPES:
+                response = self.client.post(
+                    reverse('store_settings_api', kwargs={'store_name': 'setup-store.myshopify.com'}),
+                    {'look_back': '24',
+                     'location': 'top-left',
+                     'color': '#FFFFF',
+                     'duration': '5',
+                     'social_scope': social_scope}
+                )
+                self.assertEqual(response.status_code, 200)
 
     def test_post_invalid_request_bad_social_scope(self):
         with self.settings(DEVELOPMENT_MODE='TEST'):

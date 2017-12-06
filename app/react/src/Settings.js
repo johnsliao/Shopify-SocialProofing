@@ -258,8 +258,8 @@ class Settings extends Component {
                       value: 'tags'
                     },
                     {
-                      label: 'Collection',
-                      value: 'collection'
+                      label: 'Collections',
+                      value: 'collections'
                     },
                     {
                       label: 'Product Type',
