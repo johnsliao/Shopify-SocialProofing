@@ -263,7 +263,7 @@ class Settings extends Component {
                     },
                     {
                       label: 'Product Type',
-                      value: 'type'
+                      value: 'product_type'
                     },
                     {
                       label: 'Any (randomly selected)',

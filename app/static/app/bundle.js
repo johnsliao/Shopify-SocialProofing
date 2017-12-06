@@ -42065,7 +42065,7 @@ var Settings = function (_Component) {
                       value: 'collections'
                     }, {
                       label: 'Product Type',
-                      value: 'type'
+                      value: 'product_type'
                     }, {
                       label: 'Any (randomly selected)',
                       value: 'any'

@@ -121,7 +121,7 @@ def find_products_from_social_scope(store_name, product_id):
                 if collection.get_product_id() == target_product.product_id:
                     continue
 
-                if 'collection' in social_scope and target_collection.collection_id == collection.collection_id:
+                if 'collections' in social_scope and target_collection.collection_id == collection.collection_id:
                     related_product_ids.add(collection.get_product_id())
                     continue
 
