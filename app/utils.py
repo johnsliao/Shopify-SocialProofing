@@ -89,8 +89,11 @@ def find_products_from_social_scope(store_name, product_id):
             return [product_id]
 
         products = Product.objects.filter(store__store_name=store_name).values()
-        collections = Collection.objects.filter(product__store__store_name=store_name)
 
+        if social_scope == 'any':
+            return [x['product_id'] for x in products.values('product_id')]
+
+        collections = Collection.objects.filter(product__store__store_name=store_name)
         target_product = Product.objects.filter(store__store_name=store_name, product_id=product_id).first()
         target_collection = Collection.objects.filter(product__product_id=product_id).first()
 
