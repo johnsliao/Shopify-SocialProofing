@@ -106,4 +106,6 @@ ERROR 2017-11-13 22:26:54,873 views 94929 140736254014400 Failed to authenticate
 ERROR 2017-11-13 22:27:29,076 utils 95430 140736254014400 Invalid HMAC: Possibly malicious login
 ERROR 2017-11-13 22:27:29,077 views 95430 140736254014400 Failed to authenticate request
 ERROR 2017-11-13 22:29:39,673 utils 97606 140736254014400 Invalid HMAC: Possibly malicious login
-ERROR 2017-11-13 22:29:39,673 views 97606 140736254014400 Failed to authenticate request
+ERROR 2017-11-13 22:29:39,673 views 97606 140736254014400 Failed to authenticate requestERROR 2017-11-27 23:40:16,032 views 54978 123145447272448 'NoneType' object has no attribute 'look_back'
+ERROR 2017-11-27 23:40:30,399 views 54978 123145446735872 'NoneType' object has no attribute 'look_back'
+ERROR 2017-11-27 23:40:33,010 views 54978 123145446735872 'NoneType' object has no attribute 'look_back'
