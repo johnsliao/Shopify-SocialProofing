@@ -68,17 +68,21 @@
       var displayData = "";
       var textNode = document.getElementById("modal-text");
       var imageNode = document.getElementById("product-image");
+
       console.log("Data to parse is this ", data)
+
       if (data.social_setting = "latest") {
-        var first_name = data.first_name || "John";
-        var last_name = data.last_name || "Doe";
-        var province = data.province_code || "TX";
-        displayData = first_name + " " + last_name + " from " + province + " just bought this item!"
-      } else if (data.social_setting = "purchase") {
         displayData = data.last_order_qty || "87" + " people have purchased this product in the last " + data.look_back_period || "24" + "hours"
-      } else if (data.social_setting = "view") {
-        displayData = data.qty_from_look_back || "what"
       }
+      else {
+        // Default to "purchase" social_setting
+        let first_name = data.first_name || "John";
+        let last_name = data.last_name || "Doe";
+        let province = data.province_code || "TX";
+
+        displayData = first_name + " " + last_name + " from " + province + " just bought this item!"
+      }
+
       var linkText = document.createTextNode(displayData);
       var productLink = "https://" + data.store_name + "/products/" + data.handle;
       textNode.appendChild(linkText);
