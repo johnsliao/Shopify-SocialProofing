@@ -99,7 +99,7 @@
       var textNode = document.getElementById("modal-text");
       var imageNode = document.getElementById("product-image");
 
-      if (data.social_setting == "latest")
+      if (data.social_setting == "latest") {
           var first_name = data.first_name;
           var last_name = data.last_name;
           var province = data.province_code;
