@@ -20,6 +20,10 @@
       fetch(url)
       .then(function(response) {
         response.json().then(function(data) {
+          if (!data || !api.validateData(data)) {
+            return;
+          }
+
           var settings = data;
           api.renderModal(settings)
         });
@@ -28,6 +32,11 @@
         console.log('Fetch Error :-S', err);
       });
     },
+    validateData: function(data) {
+      // Various checks to ensure a valid modal is rendered
+      console.log("hello");
+      console.log(data);
+    }
     detectMobile: function () {
       // not used for now
       if(window.innerWidth <= 800 && window.innerHeight <= 600) {
