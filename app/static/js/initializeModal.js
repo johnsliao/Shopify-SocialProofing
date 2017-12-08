@@ -33,8 +33,28 @@
     },
     validateData: function(data) {
       // Various checks to ensure a valid modal is rendered
-      console.log("hello");
-      console.log(data);
+      console.log("Data to parse is this ", data)
+
+      if (data.social_setting == "latest") {
+        if (!data.processed_at) {
+          // no one bought the item within the lookback look_back_period
+          console.log('no one bought the item within the lookback look_back_period');
+          return false;
+        }
+        if (!data.first_name || !data.last_name) {
+          // first or last name not provided for order
+          console.log('first or last name not provided for order');
+          return false;
+        }
+      }
+
+      if (data.social_setting == "purchase") {
+        if (!data.qty_from_look_back) {
+          // no items were sold within lookback period
+          console.log('no items were sold within lookback period');
+          return false;
+        }
+      }
 
       return true;
     },
@@ -75,22 +95,20 @@
       img.appendTo('#product-image');
     },
     renderText: function (data) {
-      var displayData = "";
+      var modalSpecialText = "";
       var textNode = document.getElementById("modal-text");
       var imageNode = document.getElementById("product-image");
 
-      console.log("Data to parse is this ", data)
+      if (data.social_setting = "latest")
+          let first_name = data.first_name;
+          let last_name = data.last_name;
+          let province = data.province_code;
 
-      if (data.social_setting = "latest") {
-        displayData = data.last_order_qty || "87" + " people have purchased this product in the last " + data.look_back_period || "24" + "hours"
+          modalSpecialText = first_name + " " + last_name + " purchased a"
       }
       else {
-        // Default to "purchase" social_setting
-        let first_name = data.first_name || "John";
-        let last_name = data.last_name || "Doe";
-        let province = data.province_code || "TX";
-
-        displayData = first_name + " " + last_name + " from " + province + " just bought this item!"
+        // Default to "purchase" social_setting if something goes wrong
+        modalSpecialText = data.last_order_qty + " people have purchased this product in the last " + data.look_back_period || "24" + "hours"
       }
 
       var linkText = document.createTextNode(displayData);
