@@ -100,9 +100,9 @@
       var imageNode = document.getElementById("product-image");
 
       if (data.social_setting = "latest")
-          let first_name = data.first_name;
-          let last_name = data.last_name;
-          let province = data.province_code;
+          var first_name = data.first_name;
+          var last_name = data.last_name;
+          var province = data.province_code;
 
           modalSpecialText = first_name + " " + last_name + " purchased a"
       }
