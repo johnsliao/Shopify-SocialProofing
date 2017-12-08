@@ -104,11 +104,10 @@
           var last_name = data.last_name;
           var province = data.province_code;
 
-          modalSpecialText = first_name + " " + last_name + " purchased a"
-      }
-      else {
+          modalSpecialText = first_name + " " + last_name + " purchased a";
+      } else {
         // Default to "purchase" social_setting if something goes wrong
-        modalSpecialText = data.last_order_qty + " people have purchased this product in the last " + data.look_back_period || "24" + "hours"
+        modalSpecialText = data.last_order_qty + " people have purchased this product in the last " + data.look_back_period || "24" + "hours";
       }
 
       var linkText = document.createTextNode(displayData);
