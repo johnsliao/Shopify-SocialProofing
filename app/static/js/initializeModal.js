@@ -99,6 +99,33 @@
       var textNode = document.getElementById("modal-text");
       var imageNode = document.getElementById("product-image");
 
+      //var processedAtDateTime = new Date(data.processed_at);
+      var processedAtDateTime = new Date("2017-12-08T03:46:13Z");
+      var nowDateTime = new Date();
+
+      var differenceDateTime = (nowDateTime-processedAtDateTime)/1000/60/60/24;
+      var differenceUnits = "";
+      console.log(differenceDateTime);
+
+      if (differenceDateTime * 24 < 1) {
+        differenceDateTime *= (24*60);
+        differenceUnits = "minutes";
+        console.log("Difference less than 1 hour. Convert minutes.");
+        console.log(differenceDateTime);
+      } else if (differenceDateTime < 1) {
+        differenceDateTime *= 24;
+        differenceUnits = "hours";
+        console.log("Difference less than 1 day. Convert hours.");
+        console.log(differenceDateTime);
+      } else {
+        differenceUnits = "days";
+        console.log("Difference greater than 1 day. Keep days.");
+        console.log(differenceDateTime);
+      }
+      differenceDateTime = Math.floor(differenceDateTime);
+      console.log(differenceDateTime);
+      console.log(differenceUnits);
+
       if (data.social_setting == "latest") {
           var first_name = data.first_name;
           var last_name = data.last_name;
