@@ -23,7 +23,6 @@
           if (!data || !api.validateData(data)) {
             return;
           }
-
           var settings = data;
           api.renderModal(settings)
         });
@@ -36,7 +35,7 @@
       // Various checks to ensure a valid modal is rendered
       console.log("hello");
       console.log(data);
-    }
+    },
     detectMobile: function () {
       // not used for now
       if(window.innerWidth <= 800 && window.innerHeight <= 600) {
