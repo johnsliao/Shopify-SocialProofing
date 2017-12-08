@@ -35,6 +35,8 @@
       // Various checks to ensure a valid modal is rendered
       console.log("hello");
       console.log(data);
+
+      return true;
     },
     detectMobile: function () {
       // not used for now
