@@ -223,14 +223,14 @@
       var productNameTextStyles = {
         position: "absolute",
         width: "60%",
-        top: "0",
+        top: "20px",
         right: "20px"
       }
 
       var timestampTextStyles = {
         position: "absolute",
         width: "60%",
-        top: "0",
+        top: "40px",
         right: "20px"
       }
 
