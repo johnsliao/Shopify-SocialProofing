@@ -199,11 +199,11 @@
         height: "100px",
         display: "block",
         position: "fixed",
-        border: "1px solid black",
-        bottom: "5%",
-        left: "5%",
+        border: "0.5px solid black",
+        bottom: "2%",
+        left: "2%",
         backgroundColor: "white",
-        boxShadow: "0px 0px 0.3px 0.3px black",
+        boxShadow: "0px 0px 0.5px 0.5px black",
         opacity: "0"
       }
 
@@ -220,7 +220,8 @@
         left: "30%",
         right: "20px",
         fontFamily: "Tahoma",
-        fontSize: "14px"
+        fontSize: "14px",
+        color: "blue"
       }
 
       var productNameTextStyles = {
@@ -241,7 +242,8 @@
         top: "60px",
         right: "20px",
         fontFamily: "Tahoma",
-        fontSize: "12px"
+        fontSize: "12px",
+        color: "blue"
       }
 
       var closeStyles = {
