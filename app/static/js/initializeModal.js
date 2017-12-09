@@ -109,7 +109,7 @@
       // Returns days to timestamp text and floors it and units
       var units = "";
       var convertedTime = "";
-
+      console.log(days);
       if (days * 24 < 1) {
         convertedTime = days*24*60;
         units = "minutes";
@@ -163,7 +163,7 @@
         // Default to "purchase" social_setting as fallback
         modalSpecialText = data.last_order_qty + " people have bought";
         convertedTimeObj = api.convertDaysToTimestampText(data.look_back/24);
-        timestampText = "Last " + convertedTimeObj.convertedTime + convertedTimeObj.units;
+        timestampText = "Last " + convertedTimeObj.convertedTime + " " + convertedTimeObj.units;
       }
 
       // Only add redirect link if different product
