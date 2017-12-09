@@ -119,6 +119,7 @@
         units = "hours";
         console.log("Difference less than 1 day. Convert hours.");
       } else {
+        convertedTime = days;
         units = "days";
         console.log("Difference greater than 1 day. Keep days.");
       }
