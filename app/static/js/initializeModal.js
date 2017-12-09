@@ -195,7 +195,7 @@
       var close = document.getElementById("close");
 
       var modalStyles = {
-        width: "450px",
+        width: "350px",
         height: "80px",
         display: "block",
         position: "fixed",
