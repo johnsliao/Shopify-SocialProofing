@@ -157,7 +157,7 @@
         var differenceDays = (nowDateTime-processedAtDateTime)/1000/60/60/24; // days
 
         modalSpecialText = first_name + " " + last_name + " purchased a";
-        convertedTimeObj = convertDaysToTimestampText(differenceDays);
+        convertedTimeObj = api.convertDaysToTimestampText(differenceDays);
         timestampText = convertedTimeObj.convertedTime + " " + convertedTimeObj.units + " ago"
       } else {
         // Default to "purchase" social_setting if something goes wrong
