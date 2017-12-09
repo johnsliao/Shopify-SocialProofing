@@ -147,9 +147,7 @@
       }
 
       timestampText = differenceDateTime + " " + differenceUnits + " ago"
-
-      var timestampText = document.createTextNode(timestampText);
-      timestampTextNode.appendChild(timestampText);
+      timestampTextNode.appendChild(document.createTextNode(timestampText));
 
       // --------------- Modal Special Text Logic --------------------------- //
 
