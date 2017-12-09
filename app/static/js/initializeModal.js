@@ -223,7 +223,7 @@
       }
 
       var imageStyles = {
-        height: "75px",
+        height: "30px",
         width: "25%",
         position: "relative",
         //margin: "5px 5px 20px 5px"
