@@ -168,9 +168,10 @@
       if (meta.product.id == data.product_id) {
         console.log("Not same product id, so I add redirect link to modal.");
         var productLink = "https://" + data.store_name + "/products/" + data.handle;
+
         productNameTextNode.href = productLink;
         $("#product-image").wrap($("<a>").attr("href", productLink));
-
+        console.log(productNameText);
         productNameTextNode.appendChild(document.createTextNode(productNameText));
       }
 
