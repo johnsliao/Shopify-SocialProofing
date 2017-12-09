@@ -80,7 +80,7 @@
       var imageNode = document.createElement("div");
       var specialTextNode = document.createElement("a");
       var timestampTextNode = document.createElement("p");
-      var productNameTextNode = document.createElement("a");
+      var productNameTextNode = document.createElement("p");
 
       modal.id = "modal";
       imageNode.id = "product-image";
@@ -163,10 +163,9 @@
       }
 
       // Only add redirect link if different product
-      if (meta.product.id == data.product_id) {
+      if (meta.product.id != data.product_id) {
         console.log("Not same product id, so I add redirect link to modal.");
         var productLink = "https://" + data.store_name + "/products/" + data.handle;
-
         productNameTextNode.href = productLink;
         $("#product-image").wrap($("<a>").attr("href", productLink));
       }
@@ -192,10 +191,11 @@
       var image = document.getElementById("product-image");
       var specialText = document.getElementById("modal-special-text");
       var productNameText = document.getElementById("product-name-text");
+      var timestampText = document.getElementById("timestamp-text");
       var close = document.getElementById("close");
 
       var modalStyles = {
-        width: "270px",
+        width: "450px",
         height: "80px",
         display: "block",
         position: "fixed",
@@ -223,7 +223,14 @@
       var productNameTextStyles = {
         position: "absolute",
         width: "60%",
-        top: "50px",
+        top: "0",
+        right: "20px"
+      }
+
+      var timestampTextStyles = {
+        position: "absolute",
+        width: "60%",
+        top: "0",
         right: "20px"
       }
 
@@ -245,6 +252,9 @@
       }
       for (var key in productNameTextStyles) {
         productNameText.style[key] = productNameTextStyles[key]
+      }
+      for (var key in timestampTextStyles) {
+        timestampText.style[key] = timestampTextStyles[key]
       }
       for (var key in closeStyles) {
         close.style[key] = closeStyles[key]
