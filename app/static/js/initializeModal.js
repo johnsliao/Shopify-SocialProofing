@@ -164,7 +164,13 @@
         // Default to "purchase" social_setting as fallback
         modalSpecialText = data.last_order_qty + " people have bought";
         convertedTimeObj = api.convertDaysToTimestampText(data.look_back/24);
-        timestampText = "Last " + convertedTimeObj.convertedTime + " " + convertedTimeObj.units;
+
+        if (convertedTimeObj.convertedTime != 1) {
+            timestampText = "Past " + convertedTimeObj.convertedTime + " " + convertedTimeObj.units;
+        } else {
+          // "Past hour"
+          timestampText = "Past " + convertedTimeObj.units;
+        }
       }
 
       // Only add redirect link if different product
