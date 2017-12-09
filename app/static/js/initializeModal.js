@@ -159,7 +159,7 @@
 
       } else {
         // Default to "purchase" social_setting if something goes wrong
-        modalSpecialText = data.last_order_qty + " people have purchased this product";
+        modalSpecialText = data.last_order_qty + " people have bought";
 
         timestampText = "Last 4 hours";
       }
@@ -210,7 +210,7 @@
       }
 
       var imageStyles = {
-        width: "25%",
+        height: "95%",
         position: "relative",
         margin: "5px 5px 20px 5px"
       }
