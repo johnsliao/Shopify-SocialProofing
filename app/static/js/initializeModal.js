@@ -80,7 +80,7 @@
       var imageNode = document.createElement("div");
       var specialTextNode = document.createElement("p");
       var timestampTextNode = document.createElement("p");
-      var productNameTextNode = document.createElement("p");
+      var productNameTextNode = document.createElement("a");
 
       modal.id = "modal";
       imageNode.id = "product-image";
@@ -115,40 +115,6 @@
       var imageNode = document.getElementById("product-image");
       var productNameTextNode = document.getElementById("product-name-text");
 
-      var processedAtDateTime = new Date(data.processed_at);
-      var nowDateTime = new Date();
-
-      // ------------- Calculate time since processed --------------------- //
-      var differenceDateTime = (nowDateTime-processedAtDateTime)/1000/60/60/24;
-      var differenceUnits = "";
-      console.log(differenceDateTime);
-
-      if (differenceDateTime * 24 < 1) {
-        differenceDateTime *= (24*60);
-        differenceUnits = "minutes";
-        console.log("Difference less than 1 hour. Convert minutes.");
-        console.log(differenceDateTime);
-      } else if (differenceDateTime < 1) {
-        differenceDateTime *= 24;
-        differenceUnits = "hours";
-        console.log("Difference less than 1 day. Convert hours.");
-        console.log(differenceDateTime);
-      } else {
-        differenceUnits = "days";
-        console.log("Difference greater than 1 day. Keep days.");
-        console.log(differenceDateTime);
-      }
-      differenceDateTime = Math.floor(differenceDateTime);
-      console.log(differenceDateTime);
-      console.log(differenceUnits);
-
-      if (differenceDateTime == 1) {
-        differenceUnits = differenceUnits.replace("s", "");
-      }
-
-      timestampText = differenceDateTime + " " + differenceUnits + " ago"
-      timestampTextNode.appendChild(document.createTextNode(timestampText));
-
       // --------------- Modal Special Text Logic --------------------------- //
 
       if (data.social_setting == "latest") {
@@ -157,9 +123,45 @@
         var province = data.province_code;
 
         modalSpecialText = first_name + " " + last_name + " purchased a";
+
+        var processedAtDateTime = new Date(data.processed_at);
+        var nowDateTime = new Date();
+
+        // ------------- Calculate time since processed --------------------- //
+        var differenceDateTime = (nowDateTime-processedAtDateTime)/1000/60/60/24;
+        var differenceUnits = "";
+        console.log(differenceDateTime);
+
+        if (differenceDateTime * 24 < 1) {
+          differenceDateTime *= (24*60);
+          differenceUnits = "minutes";
+          console.log("Difference less than 1 hour. Convert minutes.");
+          console.log(differenceDateTime);
+        } else if (differenceDateTime < 1) {
+          differenceDateTime *= 24;
+          differenceUnits = "hours";
+          console.log("Difference less than 1 day. Convert hours.");
+          console.log(differenceDateTime);
+        } else {
+          differenceUnits = "days";
+          console.log("Difference greater than 1 day. Keep days.");
+          console.log(differenceDateTime);
+        }
+        differenceDateTime = Math.floor(differenceDateTime);
+        console.log(differenceDateTime);
+        console.log(differenceUnits);
+
+        if (differenceDateTime == 1) {
+          differenceUnits = differenceUnits.replace("s", "");
+        }
+
+        timestampText = differenceDateTime + " " + differenceUnits + " ago"
+
       } else {
         // Default to "purchase" social_setting if something goes wrong
-        modalSpecialText = data.last_order_qty + " people have purchased this product in the last " + data.look_back_period || "24" + "hours";
+        modalSpecialText = data.last_order_qty + " people have purchased this product";
+
+        timestampText = "Last 4 hours";
       }
 
       // Only add redirect link if different product
@@ -170,6 +172,7 @@
         $("#product-image").wrap($("<a>").attr("href", productLink));
       }
 
+      timestampTextNode.appendChild(document.createTextNode(timestampText));
       productNameTextNode.appendChild(document.createTextNode(productNameText));
       specialTextNode.appendChild(document.createTextNode(modalSpecialText));
     },
