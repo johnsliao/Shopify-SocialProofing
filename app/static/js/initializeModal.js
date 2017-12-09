@@ -218,7 +218,7 @@
         width: "60%",
         top: "0",
         right: "20px",
-        font-family: "Arial"
+        fontFamily: "Arial"
       }
 
       var productNameTextStyles = {
@@ -226,8 +226,8 @@
         width: "60%",
         top: "20px",
         right: "20px",
-        font-family: "Arial",
-        font-size: "20px"
+        fontFamily: "Arial",
+        fontSize: "20px"
       }
 
       var timestampTextStyles = {
@@ -235,7 +235,7 @@
         width: "60%",
         top: "40px",
         right: "20px",
-        font-family: "Arial"
+        fontFamily: "Arial"
       }
 
       var closeStyles = {
