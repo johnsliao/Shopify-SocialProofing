@@ -171,10 +171,9 @@
 
         productNameTextNode.href = productLink;
         $("#product-image").wrap($("<a>").attr("href", productLink));
-        console.log(productNameText);
-        productNameTextNode.appendChild(document.createTextNode(productNameText));
       }
 
+      productNameTextNode.appendChild(document.createTextNode(productNameText));
       specialTextNode.appendChild(document.createTextNode(modalSpecialText));
     },
     renderClose: function () {
@@ -193,7 +192,8 @@
     addStyles: function () {
       var modal = document.getElementById("modal");
       var image = document.getElementById("product-image");
-      var text = document.getElementById("modal-special-text");
+      var specialText = document.getElementById("modal-special-text");
+      var productNameText = document.getElementById("product-name-text");
       var close = document.getElementById("close");
 
       var modalStyles = {
@@ -236,7 +236,8 @@
         image.style[key] = imageStyles[key]
       }
       for (var key in textStyles) {
-        text.style[key] = textStyles[key]
+        specialText.style[key] = textStyles[key]
+        productNameText.style[key] = textStyles[key]
       }
       for (var key in closeStyles) {
         close.style[key] = closeStyles[key]
