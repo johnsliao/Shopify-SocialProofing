@@ -218,7 +218,7 @@
         width: "60%",
         top: "0",
         right: "20px",
-        fontFamily: "Arial",
+        fontFamily: "Tahoma",
         fontSize: "14px"
       }
 
@@ -227,17 +227,18 @@
         width: "60%",
         top: "20px",
         right: "20px",
-        fontFamily: "Arial",
+        fontFamily: "Tahoma",
+        fontWeight: "bold",
         fontSize: "18px"
       }
 
       var timestampTextStyles = {
         position: "absolute",
         width: "60%",
-        top: "40px",
+        top: "60px",
         right: "20px",
-        fontFamily: "Arial",
-        fontSize: "16px"
+        fontFamily: "Tahoma",
+        fontSize: "14px"
       }
 
       var closeStyles = {
