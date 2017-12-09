@@ -76,13 +76,18 @@
       var modal = document.createElement("div");
       var imageNode = document.createElement("div");
       var specialTextNode = document.createElement("a");
+      var timestampTextNode = document.createElement("p");
+
       modal.id = "modal";
       imageNode.id = "product-image";
       specialTextNode.id = "modal-special-text";
+      timestampTextNode.id = "timestamp-text";
 
       document.body.appendChild(modal);
       modal.appendChild(imageNode);
       modal.appendChild(specialTextNode);
+      modal.appendChild(timestampTextNode);
+
       api.renderSpecialText(settings); // Description
       api.renderImage(settings.main_image_url); // adding product image
       api.renderClose(); // Make the x close button
@@ -96,13 +101,15 @@
     },
     renderSpecialText: function (data) {
       var modalSpecialText = "";
+      var timestampText = "";
       var specialTextNode = document.getElementById("modal-special-text");
+      var timestampTextNode = document.getElementById("timestamp-text");
       var imageNode = document.getElementById("product-image");
 
       var processedAtDateTime = new Date(data.processed_at);
-      //var processedAtDateTime = new Date("2017-12-08T03:46:13Z");
       var nowDateTime = new Date();
 
+      // ------------- Calculate time since processed --------------------- //
       var differenceDateTime = (nowDateTime-processedAtDateTime)/1000/60/60/24;
       var differenceUnits = "";
       console.log(differenceDateTime);
@@ -125,6 +132,13 @@
       differenceDateTime = Math.floor(differenceDateTime);
       console.log(differenceDateTime);
       console.log(differenceUnits);
+
+      timestampText = differenceDateTime + " " + differenceUnits + " ago."
+
+      var timestampText = document.createTextNode(timestampText);
+      timestampTextNode.appendChild(timestampText);
+
+      // --------------- Modal Special Text Logic --------------------------- //
 
       if (data.social_setting == "latest") {
         var first_name = data.first_name;
