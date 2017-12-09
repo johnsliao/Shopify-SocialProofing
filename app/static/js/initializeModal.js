@@ -215,8 +215,9 @@
 
       var specialTextStyles = {
         position: "absolute",
-        width: "60%",
+        width: "75%",
         top: "0",
+        left: "30%",
         right: "20px",
         fontFamily: "Tahoma",
         fontSize: "14px"
@@ -224,7 +225,7 @@
 
       var productNameTextStyles = {
         position: "absolute",
-        width: "85%",
+        width: "75%",
         top: "20px",
         left: "30%",
         right: "20px",
@@ -235,7 +236,8 @@
 
       var timestampTextStyles = {
         position: "absolute",
-        width: "60%",
+        width: "75%",
+        left: "30%",
         top: "60px",
         right: "20px",
         fontFamily: "Tahoma",
