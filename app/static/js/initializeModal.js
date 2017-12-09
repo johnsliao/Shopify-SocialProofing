@@ -223,10 +223,10 @@
       }
 
       var imageStyles = {
-        height: "45px",
+        height: "75px",
         width: "25%",
         position: "relative",
-        margin: "5px 5px 20px 5px"
+        //margin: "5px 5px 20px 5px"
       }
 
       var specialTextStyles = {
