@@ -231,17 +231,17 @@
         right: "20px",
         fontFamily: "Tahoma",
         fontWeight: "bold",
-        fontSize: "18px"
+        fontSize: "16px"
       }
 
       var timestampTextStyles = {
         position: "absolute",
         width: "75%",
-        left: "30%",
+        left: "75%",
         top: "60px",
         right: "20px",
         fontFamily: "Tahoma",
-        fontSize: "14px"
+        fontSize: "12px"
       }
 
       var closeStyles = {
