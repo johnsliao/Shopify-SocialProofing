@@ -251,7 +251,7 @@
         right: "5px",
         cursor: "pointer",
         fontFamily: "Tahoma",
-        fontSize: "16px"
+        fontSize: "14px"
       }
 
       for (var key in modalStyles) {
