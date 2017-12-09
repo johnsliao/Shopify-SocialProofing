@@ -196,14 +196,13 @@
 
       var modalStyles = {
         width: "350px",
-        height: "100px",
+        height: "80px",
         display: "block",
-        position: "fixed",
-        border: "0.5px solid black",
+        position: "fixed",=
         bottom: "2%",
         left: "2%",
         backgroundColor: "white",
-        boxShadow: "0px 0px 0.5px 0.5px black",
+        boxShadow: "-5px -5px 5px 5px #888",
         opacity: "0"
       }
 
@@ -221,7 +220,7 @@
         right: "20px",
         fontFamily: "Tahoma",
         fontSize: "14px",
-        color: "blue"
+        color: "#1A6BCA"
       }
 
       var productNameTextStyles = {
@@ -243,14 +242,16 @@
         right: "20px",
         fontFamily: "Tahoma",
         fontSize: "12px",
-        color: "blue"
+        color: "#1A6BCA"
       }
 
       var closeStyles = {
         position: "absolute",
-        top: "1px",
-        right: "5px",
-        cursor: "pointer"
+        top: "0",
+        right: "0",
+        cursor: "pointer",
+        fontFamily: "Tahoma",
+        fontSize: "12px"
       }
 
       for (var key in modalStyles) {
