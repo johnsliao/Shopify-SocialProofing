@@ -163,9 +163,9 @@
       } else {
         // Default to "purchase" social_setting as fallback
         if (data.last_order_qty == 1) {
-          modalSpecialText = data.last_order_qty + " person has purchased";
+          modalSpecialText = data.last_order_qty + " person purchased";
         } else {
-          modalSpecialText = data.last_order_qty + " people have purchased";
+          modalSpecialText = data.last_order_qty + " people purchased";
         }
         convertedTimeObj = api.convertDaysToTimestampText(data.look_back/24);
 
@@ -247,7 +247,7 @@
         right: "20px",
         fontFamily: "Tahoma",
         fontWeight: "bold",
-        fontSize: "16px"
+        fontSize: "15px"
       }
 
       var timestampTextStyles = {
