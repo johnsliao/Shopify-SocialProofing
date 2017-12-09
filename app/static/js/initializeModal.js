@@ -209,7 +209,7 @@
       var imageStyles = {
         width: "25%",
         position: "relative",
-        margin: "5px 5px 20px 10px"
+        margin: "5px 5px 20px 5px"
       }
 
       var specialTextStyles = {
@@ -239,7 +239,7 @@
         width: "75%",
         left: "75%",
         top: "60px",
-        right: "20px",
+        right: "10px",
         fontFamily: "Tahoma",
         fontSize: "12px",
         color: "#1A6BCA"
