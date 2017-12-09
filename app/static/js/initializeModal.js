@@ -83,7 +83,7 @@
       document.body.appendChild(modal);
       modal.appendChild(imageNode);
       modal.appendChild(specialTextNode);
-      api.renderText(settings); // Description
+      api.renderSpecialText(settings); // Description
       api.renderImage(settings.main_image_url); // adding product image
       api.renderClose(); // Make the x close button
       api.addStyles(); // Add styles
