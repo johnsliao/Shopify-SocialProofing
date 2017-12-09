@@ -243,7 +243,7 @@
         image.style[key] = imageStyles[key]
       }
       for (var key in specialTextStyles) {
-        specialText.style[key] = textStyles[key]
+        specialText.style[key] = specialTextStyles[key]
       }
       for (var key in productNameTextStyles) {
         productNameText.style[key] = productNameTextStyles[key]
