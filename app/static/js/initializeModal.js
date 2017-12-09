@@ -223,9 +223,9 @@
       }
 
       var imageStyles = {
-        height: "30px",
-        position: "fixed",
-        //margin: "5px 5px 20px 5px"
+        width: "25%",
+        position: "relative",
+        margin: "5px 5px 20px 5px"
       }
 
       var specialTextStyles = {
