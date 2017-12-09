@@ -162,7 +162,7 @@
         timestampText = convertedTimeObj.convertedTime + " " + convertedTimeObj.units + " ago"
       } else {
         // Default to "purchase" social_setting as fallback
-        if (last_order_qty == 1) {
+        if (data.last_order_qty == 1) {
           modalSpecialText = data.last_order_qty + " person has purchased";
         } else {
           modalSpecialText = data.last_order_qty + " people have purchased";
@@ -223,7 +223,7 @@
       }
 
       var imageStyles = {
-        width: "25%",
+        height: "60px",
         position: "relative",
         margin: "5px 5px 20px 5px"
       }
