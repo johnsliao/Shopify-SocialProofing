@@ -198,11 +198,11 @@
         width: "350px",
         height: "80px",
         display: "block",
-        position: "fixed",=
+        position: "fixed",
         bottom: "2%",
         left: "2%",
         backgroundColor: "white",
-        boxShadow: "-5px -5px 5px 5px #888",
+        boxShadow: "0 0 5px #888",
         opacity: "0"
       }
 
