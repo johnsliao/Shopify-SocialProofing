@@ -160,9 +160,10 @@
         convertedTimeObj = api.convertDaysToTimestampText(differenceDays);
         timestampText = convertedTimeObj.convertedTime + " " + convertedTimeObj.units + " ago"
       } else {
-        // Default to "purchase" social_setting if something goes wrong
+        // Default to "purchase" social_setting as fallback
         modalSpecialText = data.last_order_qty + " people have bought";
-        timestampText = "Last 4 hours";
+        convertedTimeObj = api.convertDaysToTimestampText(data.look_back/24);
+        timestampText = "Last " + convertedTimeObj.convertedTime + convertedTimeObj.units;
       }
 
       // Only add redirect link if different product
