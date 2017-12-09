@@ -72,17 +72,17 @@
       });
     },
     renderModal: function(settings) {
-      // Set up 3 main elements
+      // Set up main modal elements
       var modal = document.createElement("div");
       var imageNode = document.createElement("div");
-      var textNode = document.createElement("a");
+      var specialTextNode = document.createElement("a");
       modal.id = "modal";
       imageNode.id = "product-image";
-      textNode.id = "modal-text";
+      specialTextNode.id = "modal-special-text";
 
       document.body.appendChild(modal);
       modal.appendChild(imageNode);
-      modal.appendChild(textNode);
+      modal.appendChild(specialTextNode);
       api.renderText(settings); // Description
       api.renderImage(settings.main_image_url); // adding product image
       api.renderClose(); // Make the x close button
@@ -94,9 +94,9 @@
       img.attr('src', imageUrl);
       img.appendTo('#product-image');
     },
-    renderText: function (data) {
+    renderSpecialText: function (data) {
       var modalSpecialText = "";
-      var textNode = document.getElementById("modal-text");
+      var specialTextNode = document.getElementById("modal-special-text");
       var imageNode = document.getElementById("product-image");
 
       var processedAtDateTime = new Date(data.processed_at);
@@ -138,15 +138,15 @@
       }
 
       // Only add redirect link if different product
-      if (meta.product.id == data.product_id) {
+      if (meta.product.id != data.product_id) {
         console.log("Same product id, so I don't add redirect link to modal.");
         var productLink = "https://" + data.store_name + "/products/" + data.handle;
-        textNode.href = productLink;
+        specialTextNode.href = productLink;
         $("#product-image").wrap($("<a>").attr("href", productLink));
       }
 
       var linkText = document.createTextNode(modalSpecialText);
-      textNode.appendChild(linkText);
+      specialTextNode.appendChild(linkText);
     },
     renderClose: function () {
       var close = document.createElement("span");
@@ -164,7 +164,7 @@
     addStyles: function () {
       var modal = document.getElementById("modal");
       var image = document.getElementById("product-image");
-      var text = document.getElementById("modal-text");
+      var text = document.getElementById("modal-special-text");
       var close = document.getElementById("close");
 
       var modalStyles = {
