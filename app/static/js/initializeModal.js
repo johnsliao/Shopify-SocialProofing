@@ -215,10 +215,17 @@
         margin: "5px 5px 20px 10px"
       }
 
-      var textStyles = {
+      var specialTextStyles = {
         position: "absolute",
         width: "60%",
         top: "0",
+        right: "20px"
+      }
+
+      var productNameTextStyles = {
+        position: "absolute",
+        width: "60%",
+        top: "25",
         right: "20px"
       }
 
@@ -235,9 +242,11 @@
       for (var key in imageStyles) {
         image.style[key] = imageStyles[key]
       }
-      for (var key in textStyles) {
+      for (var key in specialTextStyles) {
         specialText.style[key] = textStyles[key]
-        productNameText.style[key] = textStyles[key]
+      }
+      for (var key in productNameTextStyles) {
+        productNameText.style[key] = productNameTextStyles[key]
       }
       for (var key in closeStyles) {
         close.style[key] = closeStyles[key]
