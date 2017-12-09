@@ -127,21 +127,26 @@
       console.log(differenceUnits);
 
       if (data.social_setting == "latest") {
-          var first_name = data.first_name;
-          var last_name = data.last_name;
-          var province = data.province_code;
+        var first_name = data.first_name;
+        var last_name = data.last_name;
+        var province = data.province_code;
 
-          modalSpecialText = first_name + " " + last_name + " purchased a";
+        modalSpecialText = first_name + " " + last_name + " purchased a";
       } else {
         // Default to "purchase" social_setting if something goes wrong
         modalSpecialText = data.last_order_qty + " people have purchased this product in the last " + data.look_back_period || "24" + "hours";
       }
 
-      var linkText = document.createTextNode(displayData);
-      var productLink = "https://" + data.store_name + "/products/" + data.handle;
+      // Only add redirect link if different product
+      if (meta.product.id == data.product_id) {
+        console.log("Same product id, so I don't add redirect link to modal.");
+        var productLink = "https://" + data.store_name + "/products/" + data.handle;
+        textNode.href = productLink;
+        $("#product-image").wrap($("<a>").attr("href", productLink));
+      }
+
+      var linkText = document.createTextNode(modalSpecialText);
       textNode.appendChild(linkText);
-      textNode.href = productLink;
-      $("#product-image").wrap($("<a>").attr("href", productLink));
     },
     renderClose: function () {
       var close = document.createElement("span");
