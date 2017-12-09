@@ -225,7 +225,7 @@
       var productNameTextStyles = {
         position: "absolute",
         width: "60%",
-        top: "25",
+        top: "50px",
         right: "20px"
       }
 
