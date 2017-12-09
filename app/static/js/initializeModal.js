@@ -165,7 +165,7 @@
       }
 
       // Only add redirect link if different product
-      if (meta.product.id == data.product_id) {
+      if (meta.product.id != data.product_id) {
         console.log("Not same product id, so I add redirect link to modal.");
         var productLink = "https://" + data.store_name + "/products/" + data.handle;
 
