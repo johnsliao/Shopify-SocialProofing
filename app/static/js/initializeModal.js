@@ -224,8 +224,9 @@
 
       var productNameTextStyles = {
         position: "absolute",
-        width: "60%",
+        width: "85%",
         top: "20px",
+        left: "30%",
         right: "20px",
         fontFamily: "Tahoma",
         fontWeight: "bold",
