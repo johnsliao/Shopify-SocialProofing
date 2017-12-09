@@ -105,6 +105,37 @@
       img.attr('src', imageUrl);
       img.appendTo('#product-image');
     },
+    convertDaysToTimestampText: function(days) {
+      // Returns days to timestamp text and floors it and units
+      var units = "";
+      var convertedTime = "";
+
+      if (days * 24 < 1) {
+        convertedTime = days*24*60;
+        units = "minutes";
+        console.log("Difference less than 1 hour. Convert minutes.");
+      } else if (days < 1) {
+        convertedTime = days*24;
+        units = "hours";
+        console.log("Difference less than 1 day. Convert hours.");
+      } else {
+        units = "days";
+        console.log("Difference greater than 1 day. Keep days.");
+      }
+      convertedTime = Math.floor(convertedTime);
+
+      console.log(convertedTime);
+      console.log(units);
+
+      if (convertedTime == 1) {
+        units = units.replace("s", "");
+      }
+
+      return {
+        convertedTime: convertedTime,
+        units: units
+      };
+    },
     renderModalText: function (data) {
       var modalSpecialText = "";
       var timestampText = "";
@@ -121,46 +152,16 @@
         var first_name = data.first_name;
         var last_name = data.last_name;
         var province = data.province_code;
-
-        modalSpecialText = first_name + " " + last_name + " purchased a";
-
         var processedAtDateTime = new Date(data.processed_at);
         var nowDateTime = new Date();
+        var differenceDays = (nowDateTime-processedAtDateTime)/1000/60/60/24; // days
 
-        // ------------- Calculate time since processed --------------------- //
-        var differenceDateTime = (nowDateTime-processedAtDateTime)/1000/60/60/24;
-        var differenceUnits = "";
-        console.log(differenceDateTime);
-
-        if (differenceDateTime * 24 < 1) {
-          differenceDateTime *= (24*60);
-          differenceUnits = "minutes";
-          console.log("Difference less than 1 hour. Convert minutes.");
-          console.log(differenceDateTime);
-        } else if (differenceDateTime < 1) {
-          differenceDateTime *= 24;
-          differenceUnits = "hours";
-          console.log("Difference less than 1 day. Convert hours.");
-          console.log(differenceDateTime);
-        } else {
-          differenceUnits = "days";
-          console.log("Difference greater than 1 day. Keep days.");
-          console.log(differenceDateTime);
-        }
-        differenceDateTime = Math.floor(differenceDateTime);
-        console.log(differenceDateTime);
-        console.log(differenceUnits);
-
-        if (differenceDateTime == 1) {
-          differenceUnits = differenceUnits.replace("s", "");
-        }
-
-        timestampText = differenceDateTime + " " + differenceUnits + " ago"
-
+        modalSpecialText = first_name + " " + last_name + " purchased a";
+        convertedTimeObj = convertDaysToTimestampText(differenceDays);
+        timestampText = convertedTimeObj.convertedTime + " " + convertedTimeObj.units + " ago"
       } else {
         // Default to "purchase" social_setting if something goes wrong
         modalSpecialText = data.last_order_qty + " people have bought";
-
         timestampText = "Last 4 hours";
       }
 
