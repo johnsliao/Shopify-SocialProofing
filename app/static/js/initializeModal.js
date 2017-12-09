@@ -223,7 +223,7 @@
       }
 
       var imageStyles = {
-        height: "30px"
+        height: "30px",
         position: "fixed",
         //margin: "5px 5px 20px 5px"
       }
