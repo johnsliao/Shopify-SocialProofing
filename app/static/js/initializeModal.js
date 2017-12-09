@@ -215,27 +215,29 @@
 
       var specialTextStyles = {
         position: "absolute",
-        width: "60%",
+        width: "85%",
         top: "0",
         right: "20px",
-        fontFamily: "Arial"
+        fontFamily: "Arial",
+        fontSize: "10px"
       }
 
       var productNameTextStyles = {
         position: "absolute",
-        width: "60%",
+        width: "85%",
         top: "20px",
         right: "20px",
         fontFamily: "Arial",
-        fontSize: "20px"
+        fontSize: "16px"
       }
 
       var timestampTextStyles = {
         position: "absolute",
-        width: "60%",
+        width: "85%",
         top: "40px",
         right: "20px",
-        fontFamily: "Arial"
+        fontFamily: "Arial",
+        fontSize: "16px"
       }
 
       var closeStyles = {
