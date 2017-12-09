@@ -33,16 +33,20 @@
     },
     validateData: function(data) {
       // Various checks to ensure a valid modal is rendered
+      // Returning false will make the modal not render
       console.log("Data to parse is this ", data)
+
+      if (!data.product_name) {
+        console.log('No product name');
+        return false;
+      }
 
       if (data.social_setting == "latest") {
         if (!data.processed_at) {
-          // no one bought the item within the lookback look_back_period
           console.log('no one bought the item within the lookback look_back_period');
           return false;
         }
         if (!data.first_name || !data.last_name) {
-          // first or last name not provided for order
           console.log('first or last name not provided for order');
           return false;
         }
@@ -50,7 +54,6 @@
 
       if (data.social_setting == "purchase") {
         if (!data.qty_from_look_back) {
-          // no items were sold within lookback period
           console.log('no items were sold within lookback period');
           return false;
         }
@@ -77,18 +80,21 @@
       var imageNode = document.createElement("div");
       var specialTextNode = document.createElement("a");
       var timestampTextNode = document.createElement("p");
+      var productNameTextNode = document.createElement("a");
 
       modal.id = "modal";
       imageNode.id = "product-image";
       specialTextNode.id = "modal-special-text";
       timestampTextNode.id = "timestamp-text";
+      productNameTextNode.id = "product-name-text";
 
       document.body.appendChild(modal);
       modal.appendChild(imageNode);
       modal.appendChild(specialTextNode);
       modal.appendChild(timestampTextNode);
+      modal.appendChild(productNameTextNode);
 
-      api.renderSpecialText(settings); // Description
+      api.renderModalText(settings); // Description
       api.renderImage(settings.main_image_url); // adding product image
       api.renderClose(); // Make the x close button
       api.addStyles(); // Add styles
@@ -99,12 +105,15 @@
       img.attr('src', imageUrl);
       img.appendTo('#product-image');
     },
-    renderSpecialText: function (data) {
+    renderModalText: function (data) {
       var modalSpecialText = "";
       var timestampText = "";
+      var productNameText = data.product_name;
+
       var specialTextNode = document.getElementById("modal-special-text");
       var timestampTextNode = document.getElementById("timestamp-text");
       var imageNode = document.getElementById("product-image");
+      var productNameTextNode = document.getElementById("product-name-text");
 
       var processedAtDateTime = new Date(data.processed_at);
       var nowDateTime = new Date();
@@ -156,15 +165,16 @@
       }
 
       // Only add redirect link if different product
-      if (meta.product.id != data.product_id) {
-        console.log("Same product id, so I don't add redirect link to modal.");
+      if (meta.product.id == data.product_id) {
+        console.log("Not same product id, so I add redirect link to modal.");
         var productLink = "https://" + data.store_name + "/products/" + data.handle;
-        specialTextNode.href = productLink;
+        productNameTextNode.href = productLink;
         $("#product-image").wrap($("<a>").attr("href", productLink));
+
+        productNameTextNode.appendChild(document.createTextNode(productNameText));
       }
 
-      var linkText = document.createTextNode(modalSpecialText);
-      specialTextNode.appendChild(linkText);
+      specialTextNode.appendChild(document.createTextNode(modalSpecialText));
     },
     renderClose: function () {
       var close = document.createElement("span");
