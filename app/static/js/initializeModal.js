@@ -133,7 +133,11 @@
       console.log(differenceDateTime);
       console.log(differenceUnits);
 
-      timestampText = differenceDateTime + " " + differenceUnits + " ago."
+      if (differenceDateTime == 1) {
+        differenceUnits.replace("s", "");
+      }
+
+      timestampText = differenceDateTime + " " + differenceUnits + " ago"
 
       var timestampText = document.createTextNode(timestampText);
       timestampTextNode.appendChild(timestampText);
