@@ -162,7 +162,11 @@
         timestampText = convertedTimeObj.convertedTime + " " + convertedTimeObj.units + " ago"
       } else {
         // Default to "purchase" social_setting as fallback
-        modalSpecialText = data.last_order_qty + " people have bought";
+        if (last_order_qty == 1) {
+          modalSpecialText = data.last_order_qty + " person has purchased";
+        } else {
+          modalSpecialText = data.last_order_qty + " people have purchased";
+        }
         convertedTimeObj = api.convertDaysToTimestampText(data.look_back/24);
 
         if (convertedTimeObj.convertedTime != 1) {
