@@ -78,7 +78,7 @@
       // Set up main modal elements
       var modal = document.createElement("div");
       var imageNode = document.createElement("div");
-      var specialTextNode = document.createElement("a");
+      var specialTextNode = document.createElement("p");
       var timestampTextNode = document.createElement("p");
       var productNameTextNode = document.createElement("p");
 
@@ -196,7 +196,7 @@
 
       var modalStyles = {
         width: "350px",
-        height: "80px",
+        height: "100px",
         display: "block",
         position: "fixed",
         border: "1px solid black",
@@ -217,21 +217,25 @@
         position: "absolute",
         width: "60%",
         top: "0",
-        right: "20px"
+        right: "20px",
+        font-family: "Arial"
       }
 
       var productNameTextStyles = {
         position: "absolute",
         width: "60%",
         top: "20px",
-        right: "20px"
+        right: "20px",
+        font-family: "Arial",
+        font-size: "20px"
       }
 
       var timestampTextStyles = {
         position: "absolute",
         width: "60%",
         top: "40px",
-        right: "20px"
+        right: "20px",
+        font-family: "Arial"
       }
 
       var closeStyles = {
