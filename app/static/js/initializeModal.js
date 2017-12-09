@@ -248,10 +248,10 @@
       var closeStyles = {
         position: "absolute",
         top: "0",
-        right: "0",
+        right: "5px",
         cursor: "pointer",
         fontFamily: "Tahoma",
-        fontSize: "12px"
+        fontSize: "16px"
       }
 
       for (var key in modalStyles) {
