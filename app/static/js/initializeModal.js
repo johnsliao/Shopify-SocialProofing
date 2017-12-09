@@ -210,7 +210,6 @@
       }
 
       var imageStyles = {
-        width: "25%",
         height: "95%",
         position: "relative",
         margin: "5px 5px 20px 5px"
