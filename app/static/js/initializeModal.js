@@ -99,8 +99,8 @@
       var textNode = document.getElementById("modal-text");
       var imageNode = document.getElementById("product-image");
 
-      //var processedAtDateTime = new Date(data.processed_at);
-      var processedAtDateTime = new Date("2017-12-08T03:46:13Z");
+      var processedAtDateTime = new Date(data.processed_at);
+      //var processedAtDateTime = new Date("2017-12-08T03:46:13Z");
       var nowDateTime = new Date();
 
       var differenceDateTime = (nowDateTime-processedAtDateTime)/1000/60/60/24;
