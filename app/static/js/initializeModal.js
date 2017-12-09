@@ -143,7 +143,7 @@
       console.log(differenceUnits);
 
       if (differenceDateTime == 1) {
-        differenceUnits.replace("s", "");
+        differenceUnits = differenceUnits.replace("s", "");
       }
 
       timestampText = differenceDateTime + " " + differenceUnits + " ago"
