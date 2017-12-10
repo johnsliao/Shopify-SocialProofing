@@ -266,7 +266,7 @@
         position: "absolute",
         width: "75%",
         left: "75%",
-        top: "53px",
+        top: "50px",
         right: "10px",
         fontFamily: "Tahoma",
         fontSize: "12px",
