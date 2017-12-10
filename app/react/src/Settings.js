@@ -22,7 +22,8 @@ class Settings extends Component {
       socialSetting: '',
       socialTime: '',
       socialScope: '',
-      location: ''
+      location: '',
+      settingSaved: false
     };
     this.appUrl = context.appUrl;
     this.shop = context.shop;
@@ -31,6 +32,7 @@ class Settings extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleSocialScope = this.handleSocialScope.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
+    this.showSaveStatus = this.showSaveStatus.bind(this);
   }
 
   componentWillMount () {
@@ -40,16 +42,18 @@ class Settings extends Component {
     }).then((data) => {
         console.log(data);
         var f_time = this.convertSocialTimeFromHours(data.look_back);
-        this.setState({socialTime: [f_time]});
-
-        this.setState({location: [data.location]});
-        this.setState({socialSetting: [data.social_setting]});
-        this.setState({socialScope: [data.social_scope]});
-
+        this.setState({socialTime: [f_time], location: [data.location], socialSetting: [data.social_setting], socialScope: [data.social_scope]});
         return data;
     }).catch((e) => {
         console.log('error' + e);
     });
+  }
+  
+  showSaveStatus () {
+    this.setState({settingSaved: true});
+    setTimeout(function(){
+         this.setState({settingSaved:false});
+    }.bind(this), 4000);  // wait 4 seconds, then reset to false
   }
 
   handleSocialSetting (socialSetting) {
@@ -70,7 +74,6 @@ class Settings extends Component {
 
   convertSocialTimeFromHours(time) {
     // Receive hours and convert to corresponding choice list value, e.g. 24 -> '1d'
-
     let f_time;
     switch (time) {
           case 1:
@@ -93,7 +96,6 @@ class Settings extends Component {
 
    convertSocialTimeToHours(time) {
     // Receive choice list value and convert to hours, e.g. '1d' -> 24
-
     let f_time;
     switch (time[0]) {
           case "1h":
@@ -115,7 +117,6 @@ class Settings extends Component {
   }
 
   handleClick () {
-
     let postBodyStr = '';
     postBodyStr += 'look_back=';
     postBodyStr += this.convertSocialTimeToHours(this.state.socialTime);
@@ -141,8 +142,10 @@ class Settings extends Component {
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: postBodyStr
+        }).then((resp) => {
+          this.showSaveStatus()
         })
-  }
+   }
 
   render() {
     const colorBoxStyle = {
@@ -160,6 +163,7 @@ class Settings extends Component {
             title="Style"
             description="Customize the appearance and location of the modal"
           >
+          {this.state.showSaveStatus <div>Thank you! Your settings have been updated.</div>}
             <SettingToggle>
               <ChoiceList
                 title="Location"

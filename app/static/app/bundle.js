@@ -41803,7 +41803,8 @@ var Settings = function (_Component) {
       socialSetting: '',
       socialTime: '',
       socialScope: '',
-      location: ''
+      location: '',
+      settingSaved: false
     };
     _this.appUrl = context.appUrl;
     _this.shop = context.shop;
@@ -41812,6 +41813,7 @@ var Settings = function (_Component) {
     _this.handleClick = _this.handleClick.bind(_this);
     _this.handleSocialScope = _this.handleSocialScope.bind(_this);
     _this.handleLocation = _this.handleLocation.bind(_this);
+    _this.showSaveStatus = _this.showSaveStatus.bind(_this);
     return _this;
   }
 
@@ -41825,16 +41827,19 @@ var Settings = function (_Component) {
       }).then(function (data) {
         console.log(data);
         var f_time = _this2.convertSocialTimeFromHours(data.look_back);
-        _this2.setState({ socialTime: [f_time] });
-
-        _this2.setState({ location: [data.location] });
-        _this2.setState({ socialSetting: [data.social_setting] });
-        _this2.setState({ socialScope: [data.social_scope] });
-
+        _this2.setState({ socialTime: [f_time], location: [data.location], socialSetting: [data.social_setting], socialScope: [data.social_scope] });
         return data;
       }).catch(function (e) {
         console.log('error' + e);
       });
+    }
+  }, {
+    key: 'showSaveStatus',
+    value: function showSaveStatus() {
+      this.setState({ settingSaved: true });
+      setTimeout(function () {
+        this.setState({ settingSaved: false });
+      }.bind(this), 4000); // wait 4 seconds, then reset to false
     }
   }, {
     key: 'handleSocialSetting',
@@ -41860,7 +41865,6 @@ var Settings = function (_Component) {
     key: 'convertSocialTimeFromHours',
     value: function convertSocialTimeFromHours(time) {
       // Receive hours and convert to corresponding choice list value, e.g. 24 -> '1d'
-
       var f_time = void 0;
       switch (time) {
         case 1:
@@ -41884,7 +41888,6 @@ var Settings = function (_Component) {
     key: 'convertSocialTimeToHours',
     value: function convertSocialTimeToHours(time) {
       // Receive choice list value and convert to hours, e.g. '1d' -> 24
-
       var f_time = void 0;
       switch (time[0]) {
         case "1h":
@@ -41907,6 +41910,7 @@ var Settings = function (_Component) {
   }, {
     key: 'handleClick',
     value: function handleClick() {
+      var _this3 = this;
 
       var postBodyStr = '';
       postBodyStr += 'look_back=';
@@ -41933,6 +41937,8 @@ var Settings = function (_Component) {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: postBodyStr
+      }).then(function (resp) {
+        _this3.showSaveStatus();
       });
     }
   }, {
