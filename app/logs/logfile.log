@@ -107,4 +107,3 @@ ERROR 2017-11-13 22:27:29,076 utils 95430 140736254014400 Invalid HMAC: Possibly
 ERROR 2017-11-13 22:27:29,077 views 95430 140736254014400 Failed to authenticate request
 ERROR 2017-11-13 22:29:39,673 utils 97606 140736254014400 Invalid HMAC: Possibly malicious login
 ERROR 2017-11-13 22:29:39,673 views 97606 140736254014400 Failed to authenticate request
-ERROR 2017-12-10 03:20:33,879 views 82372 123145371713536 no such table: django_session
