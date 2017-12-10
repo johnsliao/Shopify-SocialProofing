@@ -204,7 +204,8 @@
     },
     addStyles: function () {
       var modal = document.getElementById("modal");
-      var image = document.getElementById("product-image");
+      var imageContainer = document.getElementById("product-image");
+      var image = document.getElementById("image");
       var specialText = document.getElementById("modal-special-text");
       var productNameText = document.getElementById("product-name-text");
       var timestampText = document.getElementById("timestamp-text");
@@ -222,10 +223,16 @@
         opacity: "0"
       }
 
-      var imageStyles = {
+      var imageContainerStyles = {
         width: "25%",
         position: "relative",
         margin: "5px 5px 20px 5px"
+      }
+      
+      var imageStyles = {
+        width: "auto",
+        border: "0",
+        max-height: "70px"
       }
 
       var specialTextStyles = {
@@ -272,6 +279,9 @@
 
       for (var key in modalStyles) {
         modal.style[key] = modalStyles[key];
+      }
+      for (var key in imageContainerStyles) {
+        imageContainer.style[key] = imageContainerStyles[key]
       }
       for (var key in imageStyles) {
         image.style[key] = imageStyles[key]
