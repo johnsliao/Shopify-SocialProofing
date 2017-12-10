@@ -218,7 +218,7 @@
 
       var modalStyles = {
         width: "350px",
-        height: "73px",
+        height: "70px",
         display: "block",
         position: "fixed",
         bottom: "2%",
@@ -229,7 +229,7 @@
       }
 
       var imageContainerStyles = {
-        width: "25%",
+        width: "35%",
         position: "relative",
         margin: "0 5px 0 0"
       }
