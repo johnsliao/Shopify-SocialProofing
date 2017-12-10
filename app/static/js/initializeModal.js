@@ -232,7 +232,7 @@
       var imageStyles = {
         width: "auto",
         border: "0",
-        max-height: "70px"
+        maxHeight: "70px"
       }
 
       var specialTextStyles = {
