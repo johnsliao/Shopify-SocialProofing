@@ -163,7 +163,7 @@ class Settings extends Component {
             title="Style"
             description="Customize the appearance and location of the modal"
           >
-          {this.state.showSaveStatus <div>Thank you! Your settings have been updated.</div>}
+          {this.state.showSaveStatus && <div>Thank you! Your settings have been updated.</div>}
             <SettingToggle>
               <ChoiceList
                 title="Location"
