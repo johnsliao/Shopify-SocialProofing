@@ -99,7 +99,7 @@
       api.renderClose(); // Make the x close button
       api.addStyles(); // Add styles
       //specific style for diff location
-      if (settings.location === "lower-right") modal.style.left = "75%";
+      if (settings.location === "lower-right") modal.style.left = "73%";
       api.modalAnimation();
     },
     renderImage: function(imageUrl) {
@@ -231,7 +231,7 @@
       var imageContainerStyles = {
         width: "25%",
         position: "relative",
-        margin: "5px 5px 20px 5px"
+        margin: "0 5px 0 0"
       }
       
       var imageStyles = {
