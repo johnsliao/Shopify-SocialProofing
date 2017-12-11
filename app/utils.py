@@ -20,6 +20,7 @@ def authenticate(request):
         params = parse_params(request)
         session = shopify.Session(params['shop'])
         if settings.DEVELOPMENT_MODE == 'PRODUCTION':
+            print('AUTHENTICATING NOW')
             if not session.validate_params(params=params):
                 raise Exception('Invalid HMAC: Possibly malicious login')
 
@@ -36,8 +37,6 @@ def parse_params(request):
     try:
         if request.method == 'GET':
             params = {}
-            params['app_url'] = settings.APP_URL
-            params['api_key'] = settings.API_KEY
 
             if 'code' in request.GET:
                 params['code'] = request.GET['code']
@@ -51,6 +50,8 @@ def parse_params(request):
                 params['shop'] = request.GET['shop']
             if 'timestamp' in request.GET:
                 params['timestamp'] = request.GET['timestamp']
+
+        print(params)
 
         # For development only. Set up a dummy shop parameter if it doesn't exist in URL
         if settings.DEVELOPMENT_MODE == 'TEST' and 'shop' not in request.GET:
