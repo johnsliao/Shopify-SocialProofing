@@ -99,7 +99,7 @@
       api.renderClose(); // Make the x close button
       api.addStyles(); // Add styles
       api.modalAnimation();
-      api.clickMetrics(settings);  // adding click handler to track metrics of how many people clicked.
+      api.clickMetrics(settings);  // adding click handler to track metrics of how many people clicked. 
     },
     renderImage: function(imageUrl) {
       var img = $('<img id="image">');
@@ -198,6 +198,7 @@
                   data: { store_name: shop, product_id_to: productTo, product_id_from: productFrom}
                 });
               });
+        })
     },
     renderClose: function () {
       var close = document.createElement("span");
