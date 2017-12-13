@@ -99,7 +99,7 @@
       api.renderClose(); // Make the x close button
       api.addStyles(); // Add styles
       api.modalAnimation();
-      api.clickMetrics(settings);  // adding click handler to track metrics of how many people clicked. 
+      api.clickMetrics(settings.product_id);  // adding click handler to track metrics of how many people clicked. 
     },
     renderImage: function(imageUrl) {
       var img = $('<img id="image">');
@@ -195,7 +195,10 @@
           e.preventDefault();
           $.ajax({type: "POST",
                   url: "protected-reef-37693.herokuapp.com/api/modal_metrics/",
-                  data: { store_name: shop, product_id_to: productTo, product_id_from: productFrom}
+                  data: { store_name: shop, product_id_to: productTo, product_id_from: productFrom},
+                  success:function(){
+                    console.log("Post was successful ", shop, productTo, productFrom);
+                  }
                 });
               });
         })
