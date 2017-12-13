@@ -309,6 +309,7 @@ def modal_metrics_api(request):
     """
 
     if request.method == 'POST':
+        print('a')
         try:
             post_params = dict(request.POST.lists())
             snapshot_date = date.today()
@@ -342,6 +343,7 @@ def modal_metrics_api(request):
 
             return HttpResponse('Success', status=200)
         except Exception:
+            print('bad')
             return HttpResponseBadRequest('Invalid post parameters provided', status=400)
-
+    print('b')
     return HttpResponseBadRequest('Invalid request')
