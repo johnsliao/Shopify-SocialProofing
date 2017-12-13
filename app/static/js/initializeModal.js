@@ -99,7 +99,7 @@
       api.renderClose(); // Make the x close button
       api.addStyles(); // Add styles
       api.modalAnimation();
-      api.clickMetrics(settings.product_id);  // adding click handler to track metrics of how many people clicked. 
+      api.clickMetrics(settings.product_id);  // adding click handler to track metrics of how many people clicked.
     },
     renderImage: function(imageUrl) {
       var img = $('<img id="image">');
@@ -125,7 +125,7 @@
         console.log("Difference greater than 1 day. Keep days.");
       }
       convertedTime = Math.floor(convertedTime);
-      
+
       if (convertedTime == 1) {
         units = units.replace("s", "");
       }
@@ -193,7 +193,7 @@
         var productFrom = meta.product.id;
         $("#product-name-text, #image").click(function(e){
           $.ajax({type: "POST",
-                  url: "protected-reef-37693.herokuapp.com/api/modal_metrics/",
+                  url: "https://protected-reef-37693.herokuapp.com/api/modal_metrics/",
                   data: { store_name: shop, product_id_to: productTo, product_id_from: productFrom},
                   success:function(){
                     console.log("Post was successful ", shop, productTo, productFrom);
@@ -241,7 +241,7 @@
         position: "relative",
         margin: "5px 5px 20px 5px"
       }
-      
+
       var imageStyles = {
         width: "auto",
         border: "0",
