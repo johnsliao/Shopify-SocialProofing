@@ -191,7 +191,17 @@
       $(document).ready(function(){
         var shop = Shopify.shop;
         var productFrom = meta.product.id;
-        $("#modal-special-text").click(function(e){
+        $("#product-name-text").click(function(e){
+          e.preventDefault();
+          $.ajax({type: "POST",
+                  url: "protected-reef-37693.herokuapp.com/api/modal_metrics/",
+                  data: { store_name: shop, product_id_to: productTo, product_id_from: productFrom},
+                  success:function(){
+                    console.log("Post was successful ", shop, productTo, productFrom);
+                  }
+                });
+              });
+        $("#product-name-text, #image").click(function(e){
           e.preventDefault();
           $.ajax({type: "POST",
                   url: "protected-reef-37693.herokuapp.com/api/modal_metrics/",
