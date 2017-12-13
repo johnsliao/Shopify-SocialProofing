@@ -309,16 +309,12 @@ def modal_metrics_api(request):
     """
 
     if request.method == 'POST':
-        print('a')
         try:
             post_params = dict(request.POST.lists())
             snapshot_date = date.today()
             store_name = post_params['store_name'][0]
             product_id_from = post_params['product_id_from'][0]
             product_id_to = post_params['product_id_to'][0]
-
-            print(post_params)
-            print(snapshot_date, store_name, product_id_from, product_id_to)
 
             try:
                 product_id_from_obj = Product.objects.get(product_id=product_id_from, store__store_name=store_name)
@@ -335,7 +331,6 @@ def modal_metrics_api(request):
                                                            product_id_from=product_id_from_obj, store=store_obj)
                 api_metrics_obj.click_count += 1
                 api_metrics_obj.save()
-                print('successfully saved')
             except Exception as e:
                 print('creating new entry...')
                 ModalMetrics.objects.create(snapshot_date=snapshot_date, product_id_to=product_id_to_obj,
@@ -343,7 +338,6 @@ def modal_metrics_api(request):
 
             return HttpResponse('Success', status=200)
         except Exception:
-            print('bad')
             return HttpResponseBadRequest('Invalid post parameters provided', status=400)
-    print('b')
+
     return HttpResponseBadRequest('Invalid request')
