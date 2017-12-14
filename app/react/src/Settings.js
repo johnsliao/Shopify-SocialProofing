@@ -51,6 +51,7 @@ class Settings extends Component {
 
   showSaveStatus () {
     this.setState({settingSaved: true});
+    console.log("this.state ", this.state.settingSaved);
   }
 
   handleSocialSetting (socialSetting) {
@@ -140,6 +141,7 @@ class Settings extends Component {
           },
           body: postBodyStr
         }).then((resp) => {
+          console.log("Successful post")
           this.showSaveStatus()
         })
    }
