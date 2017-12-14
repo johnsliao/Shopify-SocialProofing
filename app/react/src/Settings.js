@@ -48,12 +48,9 @@ class Settings extends Component {
         console.log('error' + e);
     });
   }
-  
+
   showSaveStatus () {
     this.setState({settingSaved: true});
-    setTimeout(function(){
-         this.setState({settingSaved:false});
-    }.bind(this), 4000);  // wait 4 seconds, then reset to false
   }
 
   handleSocialSetting (socialSetting) {
@@ -163,7 +160,6 @@ class Settings extends Component {
             title="Style"
             description="Customize the appearance and location of the modal"
           >
-          {this.state.showSaveStatus && <div>Thank you! Your settings have been updated.</div>}
             <SettingToggle>
               <ChoiceList
                 title="Location"
@@ -284,7 +280,7 @@ class Settings extends Component {
           </Layout.AnnotatedSection>
 
           <Layout.Section>
-          <Button onClick={this.handleClick} primary>Submit & Save</Button>
+          <Button onClick={this.handleClick} primary>Submit & Save</Button> {this.state.settingSaved && <div>Thank you! Your settings have been updated.</div>}
           </Layout.Section>
 
           <Layout.Section>
