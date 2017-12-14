@@ -53,15 +53,16 @@ def auth_callback(request):
         session = authenticate(request)
         params = parse_params(request)
         token = session.request_token(params)
-        logger.info('Received permanent token: {} from {}'.format(token, params['shop']))
 
         request.session['shopify'] = {
-            "shop_url": params['shop']
+            "params": params,
         }
 
         # Store permanent token or update if exists in db
         store, created = Store.objects.update_or_create(store_name=params['shop'],
-                                                        defaults={'permanent_token': token, 'active': True})
+                                                        defaults={'permanent_token': token, 'active': True,
+                                                                  'shopify_api_scope': ','.join(
+                                                                      settings.SHOPIFY_API_SCOPE)})
 
         # Return the user back to their shop
         return redirect('https://' + params['shop'])
@@ -82,8 +83,11 @@ def index(request):
         session = authenticate(request)
         params = parse_params(request)
 
+        params['app_url'] = settings.APP_URL
+        params['api_key'] = settings.API_KEY
+
         request.session['shopify'] = {
-            "shop_url": params['shop']
+            "params": params,
         }
 
         store_name = params['shop']
@@ -116,7 +120,7 @@ def store_settings(request):
     App settings.
     """
     template = loader.get_template('app/index.html')
-    params = parse_params(request)
+    params = request.session['shopify']['params']
     return HttpResponse(template.render(params, request))
 
 
@@ -245,6 +249,7 @@ def modal_api(request, store_name, product_id):
             response_dict = dict()
             response_dict['store_name'] = store_name
             response_dict['product_id'] = product_id_social
+            response_dict['look_back'] = look_back
 
             response_dict['main_image_url'] = product_obj.main_image_url if hasattr(product_obj,
                                                                                     'main_image_url') and product_obj.main_image_url != '' else None
@@ -331,6 +336,7 @@ def modal_metrics_api(request):
                 api_metrics_obj.click_count += 1
                 api_metrics_obj.save()
             except Exception as e:
+                print('creating new entry...')
                 ModalMetrics.objects.create(snapshot_date=snapshot_date, product_id_to=product_id_to_obj,
                                             product_id_from=product_id_from_obj, store=store_obj, click_count=1)
 
