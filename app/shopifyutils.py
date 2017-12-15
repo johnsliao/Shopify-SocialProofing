@@ -4,6 +4,7 @@ import sys
 import os
 import datetime
 import django
+import logging
 
 sys.path.append("..")  # here store is root folder(means parent).
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
@@ -11,9 +12,16 @@ django.setup()
 
 from app.models import Store, Product, Orders, Collection
 from dateutil.parser import parse
+from django.conf import settings
+from slacker_log_handler import SlackerLogHandler
 
 # Overrides the default function for context creation with the function to create an unverified context.
 ssl._create_default_https_context = ssl._create_unverified_context
+
+slack_handler = SlackerLogHandler(settings.SLACK_API_KEY, 'production-logs', stack_trace=True)
+
+logger = logging.getLogger(__name__)
+logger.addHandler(slack_handler)
 
 
 def get_stores():
@@ -116,7 +124,9 @@ if __name__ == '__main__':
     stores_objs = get_stores()
     for stores_obj in stores_objs:
         if stores_obj.active:
-            ingest_products(stores_obj)
-            ingest_orders(stores_obj)
-
+            try:
+                ingest_products(stores_obj)
+                ingest_orders(stores_obj)
+            except Exception as e:
+                logger.error('Exception caught for {}. {}'.format(stores_obj.store_name, e))
     print('Success.')
