@@ -41837,9 +41837,7 @@ var Settings = function (_Component) {
     key: 'showSaveStatus',
     value: function showSaveStatus() {
       this.setState({ settingSaved: true });
-      setTimeout(function () {
-        this.setState({ settingSaved: false });
-      }.bind(this), 4000); // wait 4 seconds, then reset to false
+      console.log("this.state ", this.state.settingSaved);
     }
   }, {
     key: 'handleSocialSetting',
@@ -41938,16 +41936,19 @@ var Settings = function (_Component) {
         },
         body: postBodyStr
       }).then(function (resp) {
+        console.log("Successful post");
         _this3.showSaveStatus();
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var colorBoxStyle = {
-        margin: '5px',
-        float: 'right',
-        border: '1px solid'
+      var modalPreviewStyle = {
+        width: "350px",
+        height: "70px",
+        display: "block",
+        backgroundColor: "white",
+        boxShadow: "0 0 5px #888"
       };
 
       return _react2.default.createElement(
@@ -41958,6 +41959,23 @@ var Settings = function (_Component) {
         _react2.default.createElement(
           _polaris.Layout,
           null,
+          _react2.default.createElement(
+            _polaris.Layout.AnnotatedSection,
+            {
+              title: 'Modal Preview',
+              description: 'This is how your modal will display.'
+            },
+            _react2.default.createElement(
+              _polaris.Card,
+              { sectioned: true },
+              'Preview of how your modal will look.',
+              _react2.default.createElement(
+                'div',
+                { style: modalPreviewStyle },
+                'This is the preview box.'
+              )
+            )
+          ),
           _react2.default.createElement(
             _polaris.Layout.AnnotatedSection,
             {
@@ -41979,23 +41997,6 @@ var Settings = function (_Component) {
                 selected: this.state.location,
                 onChange: this.handleLocation
               })
-            )
-          ),
-          _react2.default.createElement(
-            _polaris.Layout.AnnotatedSection,
-            {
-              title: 'Modal Preview',
-              description: 'This is how your modal will display.'
-            },
-            _react2.default.createElement(
-              _polaris.Card,
-              { sectioned: true },
-              'Preview of how your modal will look.',
-              _react2.default.createElement(
-                'div',
-                { style: colorBoxStyle },
-                'This is the preview box.'
-              )
             )
           ),
           _react2.default.createElement(
@@ -42036,9 +42037,6 @@ var Settings = function (_Component) {
                     }, {
                       label: 'Last day',
                       value: '1d'
-                    }, {
-                      label: '7 days (Recently)',
-                      value: '7d'
                     }],
                     selected: this.state.socialTime,
                     onChange: this.handleTime
@@ -42090,6 +42088,12 @@ var Settings = function (_Component) {
               _polaris.Button,
               { onClick: this.handleClick, primary: true },
               'Submit & Save'
+            ),
+            ' ',
+            this.state.settingSaved && _react2.default.createElement(
+              'div',
+              null,
+              'Thank you! Your settings have been updated.'
             )
           ),
           _react2.default.createElement(
@@ -42098,13 +42102,7 @@ var Settings = function (_Component) {
             _react2.default.createElement(
               _polaris.FooterHelp,
               null,
-              'For help visit ',
-              _react2.default.createElement(
-                _polaris.Link,
-                { url: 'https://www.google.com/search?ei=jLUIWvK0JojimAHg-KY4&q=help&oq=help&gs_l=psy-ab.3..0i67k1l2j0j0i67k1j0j0i67k1j0l4.1185.1507.0.1749.4.4.0.0.0.0.194.194.0j1.1.0....0...1.1.64.psy-ab..3.1.194....0.HDVDjU-AKiQ' },
-                'styleguide'
-              ),
-              '.'
+              'Suggestions or Feedback? Email us at Michael.John.Devs@gmail.com'
             )
           )
         )

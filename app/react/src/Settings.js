@@ -161,6 +161,17 @@ class Settings extends Component {
       >
         <Layout>
           <Layout.AnnotatedSection
+            title="Modal Preview"
+            description="This is how your modal will display."
+          >
+            <Card sectioned>
+              Preview of how your modal will look.
+              <div style={modalPreviewStyle}>
+                This is the preview box.
+              </div>
+            </Card>
+          </Layout.AnnotatedSection>
+          <Layout.AnnotatedSection
             title="Style"
             description="Customize the appearance and location of the modal"
           >
@@ -181,17 +192,6 @@ class Settings extends Component {
                 onChange={this.handleLocation}
               />
             </SettingToggle>
-          </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection
-            title="Modal Preview"
-            description="This is how your modal will display."
-          >
-          <Card sectioned>
-          Preview of how your modal will look.
-          <div style={modalPreviewStyle}>
-            This is the preview box.
-          </div>
-          </Card>
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Social Proof Settings"
@@ -230,11 +230,7 @@ class Settings extends Component {
                     {
                       label: 'Last day',
                       value: '1d'
-                    },
-                    {
-                      label: '7 days (Recently)',
-                      value: '7d'
-                    },
+                    }
                   ]}
                   selected={this.state.socialTime}
                   onChange={this.handleTime}
@@ -288,7 +284,7 @@ class Settings extends Component {
           </Layout.Section>
 
           <Layout.Section>
-            <FooterHelp>For help visit <Link url="https://www.google.com/search?ei=jLUIWvK0JojimAHg-KY4&q=help&oq=help&gs_l=psy-ab.3..0i67k1l2j0j0i67k1j0j0i67k1j0l4.1185.1507.0.1749.4.4.0.0.0.0.194.194.0j1.1.0....0...1.1.64.psy-ab..3.1.194....0.HDVDjU-AKiQ">styleguide</Link>.</FooterHelp>
+            <FooterHelp>Suggestions or Feedback? Email us at Michael.John.Devs@gmail.com</FooterHelp>
           </Layout.Section>
         </Layout>
       </Page>
