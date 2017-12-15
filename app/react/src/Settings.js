@@ -147,10 +147,12 @@ class Settings extends Component {
    }
 
   render() {
-    const colorBoxStyle = {
-      margin: '5px',
-      float: 'right',
-      border: '1px solid',
+    const modalPreviewStyle = {
+      width: "350px",
+      height: "70px",
+      display: "block",
+      backgroundColor: "white",
+      boxShadow: "0 0 5px #888"
     }
 
     return (
@@ -186,7 +188,7 @@ class Settings extends Component {
           >
           <Card sectioned>
           Preview of how your modal will look.
-          <div style={colorBoxStyle}>
+          <div style={modalPreviewStyle}>
             This is the preview box.
           </div>
           </Card>
