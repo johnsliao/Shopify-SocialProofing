@@ -3,9 +3,12 @@ import logging
 
 from django.conf import settings
 from .models import StoreSettings, Store, Modal, Product, Collection
+from slacker_log_handler import SlackerLogHandler
+
+slack_handler = SlackerLogHandler(settings.SLACK_API_KEY, 'production-logs', stack_trace=True)
 
 logger = logging.getLogger(__name__)
-
+logger.addHandler(slack_handler)
 
 def authenticate(request):
     """
@@ -54,20 +57,6 @@ def parse_params(request):
     except Exception as e:
         logger.error(e)
         raise Exception('Failed to parse URI parameters')
-
-
-def populate_default_settings(store_name):
-    """
-    Populate db with default settings
-    """
-
-    try:
-        store = Store.objects.get(store_name=store_name)
-    except Store.DoesNotExist:
-        store = store.objects.create(store_name=store_name)
-
-    StoreSettings.objects.create(store=store)
-    Modal.objects.create(store=store)
 
 
 def find_products_from_social_scope(store_name, product_id):
