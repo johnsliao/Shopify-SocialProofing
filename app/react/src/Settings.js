@@ -33,6 +33,7 @@ class Settings extends Component {
     this.handleSocialScope = this.handleSocialScope.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
     this.showSaveStatus = this.showSaveStatus.bind(this);
+    this.convertDaysToTimestampText = this.convertDaysToTimestampText.bind(this);
   }
 
   componentWillMount () {
@@ -113,6 +114,32 @@ class Settings extends Component {
      }
      return f_time
   }
+  
+  convertDaysToTimestampText(days) {
+    // Returns days to timestamp text and floors it and units
+    var units = "";
+    var convertedTime = "";
+    if (days * 24 < 1) {
+      convertedTime = days*24*60;
+      units = "minutes";
+    } else if (days < 1) {
+      convertedTime = days*24;
+      units = "hours";
+    } else {
+      convertedTime = days;
+      units = "days";
+    }
+    convertedTime = Math.floor(convertedTime);
+
+    if (convertedTime == 1) {
+      units = units.replace("s", "");
+    }
+
+    return {
+      convertedTime: convertedTime,
+      units: units
+    };
+  }
 
   handleClick () {
     let postBodyStr = '';
@@ -145,6 +172,29 @@ class Settings extends Component {
           this.showSaveStatus()
         })
    }
+   
+   handlePreviewText () {
+     const { socialSetting, socialTime, socialScope } = this.state;
+     //socialSetting --       label: 'Display latest customer to purchase product', value: 'latest'
+                          //  label: 'Display number of customers who have purchased product', value: 'purchase'
+     
+     let textObj = {
+       socialSettingText: "",
+       productName: "",
+       socialTime: ""
+     }
+     
+     if (socialSetting === 'latest') {
+       textObj.socialSettingText = "Victoria Y. purchased a"
+       textObj.productName = "Trendy Nautica Dress"
+     } else if (socialSetting === 'purchase') {
+       testObj.socialSettingText = "23 people purchased"
+       textObj.productName = "Trendy Nautica Dress"
+     }
+     const time = this.convertSocialTimeToHours(socialTime)
+     textObj.socialTime = `${time} `
+     
+   }
 
   render() {
     const modalPreviewStyle = {
@@ -153,6 +203,16 @@ class Settings extends Component {
       display: "block",
       backgroundColor: "white",
       boxShadow: "0 0 5px #888"
+    }
+    const imageContainer = {
+      width: "35%",
+      position: "relative",
+      margin: "0 5px 0 0"
+    }
+    const imageStyle = {
+      width: "auto",
+      border: "0",
+      maxHeight: "70px"
     }
 
     return (
@@ -168,6 +228,9 @@ class Settings extends Component {
               Preview of how your modal will look.
               <div style={modalPreviewStyle}>
                 This is the preview box.
+                <div style={imageContainer}>
+                  <img style={imageStyle} src="http://via.placeholder.com/350x150"/>
+                </div>
               </div>
             </Card>
           </Layout.AnnotatedSection>
@@ -230,13 +293,16 @@ class Settings extends Component {
                     {
                       label: 'Last day',
                       value: '1d'
+                    },
+                    {
+                      label: '7 days (Recently)',
+                      value: '7d'
                     }
                   ]}
                   selected={this.state.socialTime}
                   onChange={this.handleTime}
                 />
               </FormLayout.Group>
-
             </FormLayout>
           </Card>
           <Card sectioned>
