@@ -41814,6 +41814,7 @@ var Settings = function (_Component) {
     _this.handleSocialScope = _this.handleSocialScope.bind(_this);
     _this.handleLocation = _this.handleLocation.bind(_this);
     _this.showSaveStatus = _this.showSaveStatus.bind(_this);
+    _this.convertDaysToTimestampText = _this.convertDaysToTimestampText.bind(_this);
     return _this;
   }
 
@@ -41906,6 +41907,33 @@ var Settings = function (_Component) {
       return f_time;
     }
   }, {
+    key: 'convertDaysToTimestampText',
+    value: function convertDaysToTimestampText(days) {
+      // Returns days to timestamp text and floors it and units
+      var units = "";
+      var convertedTime = "";
+      if (days * 24 < 1) {
+        convertedTime = days * 24 * 60;
+        units = "minutes";
+      } else if (days < 1) {
+        convertedTime = days * 24;
+        units = "hours";
+      } else {
+        convertedTime = days;
+        units = "days";
+      }
+      convertedTime = Math.floor(convertedTime);
+
+      if (convertedTime == 1) {
+        units = units.replace("s", "");
+      }
+
+      return {
+        convertedTime: convertedTime,
+        units: units
+      };
+    }
+  }, {
     key: 'handleClick',
     value: function handleClick() {
       var _this3 = this;
@@ -41941,6 +41969,32 @@ var Settings = function (_Component) {
       });
     }
   }, {
+    key: 'handlePreviewText',
+    value: function handlePreviewText() {
+      var _state = this.state,
+          socialSetting = _state.socialSetting,
+          socialTime = _state.socialTime,
+          socialScope = _state.socialScope;
+      //socialSetting --       label: 'Display latest customer to purchase product', value: 'latest'
+      //  label: 'Display number of customers who have purchased product', value: 'purchase'
+
+      var textObj = {
+        socialSettingText: "",
+        productName: "",
+        socialTime: ""
+      };
+
+      if (socialSetting === 'latest') {
+        textObj.socialSettingText = "Victoria Y. purchased a";
+        textObj.productName = "Trendy Nautica Dress";
+      } else if (socialSetting === 'purchase') {
+        testObj.socialSettingText = "23 people purchased";
+        textObj.productName = "Trendy Nautica Dress";
+      }
+      var time = this.convertSocialTimeToHours(socialTime);
+      textObj.socialTime = time + ' ';
+    }
+  }, {
     key: 'render',
     value: function render() {
       var modalPreviewStyle = {
@@ -41949,6 +42003,16 @@ var Settings = function (_Component) {
         display: "block",
         backgroundColor: "white",
         boxShadow: "0 0 5px #888"
+      };
+      var imageContainer = {
+        width: "35%",
+        position: "relative",
+        margin: "0 5px 0 0"
+      };
+      var imageStyle = {
+        width: "auto",
+        border: "0",
+        maxHeight: "70px"
       };
 
       return _react2.default.createElement(
@@ -41972,7 +42036,12 @@ var Settings = function (_Component) {
               _react2.default.createElement(
                 'div',
                 { style: modalPreviewStyle },
-                'This is the preview box.'
+                'This is the preview box.',
+                _react2.default.createElement(
+                  'div',
+                  { style: imageContainer },
+                  _react2.default.createElement('img', { style: imageStyle, src: 'http://via.placeholder.com/350x150' })
+                )
               )
             )
           ),
@@ -42037,6 +42106,9 @@ var Settings = function (_Component) {
                     }, {
                       label: 'Last day',
                       value: '1d'
+                    }, {
+                      label: '7 days (Recently)',
+                      value: '7d'
                     }],
                     selected: this.state.socialTime,
                     onChange: this.handleTime
