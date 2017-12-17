@@ -42043,7 +42043,7 @@ var Settings = function (_Component) {
         position: "absolute",
         left: "85%",
         top: "50px",
-        width: "40px",
+        width: "50px",
         fontFamily: "Tahoma",
         fontSize: "12px",
         color: "#1A6BCA"
