@@ -41989,7 +41989,7 @@ var Settings = function (_Component) {
         textObj.socialSettingText = "Victoria Y. purchased a";
         textObj.productName = "Trendy Nautica Dress";
       } else if (socialSetting[0] === 'purchase') {
-        text.socialSettingText = "23 people purchased";
+        textObj.socialSettingText = "23 people purchased";
         textObj.productName = "Trendy Nautica Dress";
       }
       var time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime));
@@ -42056,29 +42056,6 @@ var Settings = function (_Component) {
         _react2.default.createElement(
           _polaris.Layout,
           null,
-          _react2.default.createElement(
-            _polaris.Layout.AnnotatedSection,
-            {
-              title: 'Style',
-              description: 'Customize the appearance and location of the modal'
-            },
-            _react2.default.createElement(
-              _polaris.SettingToggle,
-              null,
-              _react2.default.createElement(_polaris.ChoiceList, {
-                title: 'Location',
-                choices: [{
-                  label: 'Lower left',
-                  value: 'lower-left'
-                }, {
-                  label: 'Lower right',
-                  value: 'lower-right'
-                }],
-                selected: this.state.location,
-                onChange: this.handleLocation
-              })
-            )
-          ),
           _react2.default.createElement(
             _polaris.Layout.AnnotatedSection,
             {
@@ -42162,6 +42139,29 @@ var Settings = function (_Component) {
                   })
                 )
               )
+            )
+          ),
+          _react2.default.createElement(
+            _polaris.Layout.AnnotatedSection,
+            {
+              title: 'Style',
+              description: 'Customize the appearance and location of the modal'
+            },
+            _react2.default.createElement(
+              _polaris.SettingToggle,
+              null,
+              _react2.default.createElement(_polaris.ChoiceList, {
+                title: 'Location',
+                choices: [{
+                  label: 'Lower left',
+                  value: 'lower-left'
+                }, {
+                  label: 'Lower right',
+                  value: 'lower-right'
+                }],
+                selected: this.state.location,
+                onChange: this.handleLocation
+              })
             )
           ),
           _react2.default.createElement(

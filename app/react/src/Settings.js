@@ -189,7 +189,7 @@ class Settings extends Component {
        textObj.socialSettingText = "Victoria Y. purchased a"
        textObj.productName = "Trendy Nautica Dress"
      } else if (socialSetting[0] === 'purchase') {
-       text.socialSettingText = "23 people purchased"
+       textObj.socialSettingText = "23 people purchased"
        textObj.productName = "Trendy Nautica Dress"
      }
      const time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime))
@@ -252,28 +252,6 @@ class Settings extends Component {
         title="Setup"
       >
         <Layout>
-          <Layout.AnnotatedSection
-            title="Style"
-            description="Customize the appearance and location of the modal"
-          >
-            <SettingToggle>
-              <ChoiceList
-                title="Location"
-                choices={[
-                  {
-                    label: 'Lower left',
-                    value: 'lower-left'
-                  },
-                  {
-                    label: 'Lower right',
-                    value: 'lower-right'
-                  }
-                ]}
-                selected={this.state.location}
-                onChange={this.handleLocation}
-              />
-            </SettingToggle>
-          </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Social Proof Settings"
             description="Display data as number of customers who have added this product, viewed the product,
@@ -361,6 +339,28 @@ class Settings extends Component {
 
             </FormLayout>
           </Card>
+          </Layout.AnnotatedSection>
+          <Layout.AnnotatedSection
+            title="Style"
+            description="Customize the appearance and location of the modal"
+          >
+            <SettingToggle>
+              <ChoiceList
+                title="Location"
+                choices={[
+                  {
+                    label: 'Lower left',
+                    value: 'lower-left'
+                  },
+                  {
+                    label: 'Lower right',
+                    value: 'lower-right'
+                  }
+                ]}
+                selected={this.state.location}
+                onChange={this.handleLocation}
+              />
+            </SettingToggle>
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Modal Preview"
