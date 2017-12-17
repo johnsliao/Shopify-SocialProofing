@@ -189,7 +189,7 @@ class Settings extends Component {
        textObj.socialSettingText = "Victoria Y. purchased a"
        textObj.productName = "Trendy Nautica Dress"
      } else if (socialSetting[0] === 'purchase') {
-       testObj.socialSettingText = "23 people purchased"
+       text.socialSettingText = "23 people purchased"
        textObj.productName = "Trendy Nautica Dress"
      }
      const time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime))
@@ -215,6 +215,36 @@ class Settings extends Component {
       width: "auto",
       border: "0",
       maxHeight: "70px"
+    }
+    var specialTextStyles = {
+      position: "absolute",
+      width: "75%",
+      top: "0",
+      left: "30%",
+      right: "20px",
+      fontFamily: "Tahoma",
+      fontSize: "14px",
+      color: "#1A6BCA"
+    }
+    var productNameTextStyles = {
+      position: "absolute",
+      width: "75%",
+      top: "20px",
+      left: "30%",
+      right: "20px",
+      fontFamily: "Tahoma",
+      fontWeight: "bold",
+      fontSize: "15px"
+    }
+    var timestampTextStyles = {
+      position: "absolute",
+      width: "75%",
+      left: "75%",
+      top: "50px",
+      right: "10px",
+      fontFamily: "Tahoma",
+      fontSize: "12px",
+      color: "#1A6BCA"
     }
     const textObj = this.handlePreviewText();
     return (
@@ -341,9 +371,9 @@ class Settings extends Component {
               <div style={modalPreviewStyle}>
                 <div style={imageContainer}>
                   <img style={imageStyle} src="http://via.placeholder.com/70x70"/>
-                    <span>{textObj.socialSettingText}</span>
-                    <span>{textObj.productName}</span>
-                    <span>{textObj.socialTime}</span>
+                    <span style={specialTextStyles}>{textObj.socialSettingText}</span>
+                    <span style={productNameTextStyles}>{textObj.productName}</span>
+                    <span style={timestampTextStyles}>{textObj.socialTime}</span>
                 </div>
               </div>
             </Card>
