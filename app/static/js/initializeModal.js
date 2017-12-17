@@ -16,6 +16,7 @@
       api.fetchSettingsFromAPI(shop, product)
     },
     fetchSettingsFromAPI: function (shop, product) {
+      console.log(window.location.href);
       var url = 'https://protected-reef-37693.herokuapp.com/api/modal/' + shop + '/' + product
       fetch(url)
       .then(function(response) {
