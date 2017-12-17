@@ -72,6 +72,7 @@ class Settings extends Component {
 
   handleLocation (location) {
     this.setState({location: location})
+    console.log("this.state.location ", this.state.location)
   }
 
   convertSocialTimeFromHours(time) {
@@ -206,7 +207,7 @@ class Settings extends Component {
       backgroundColor: "white",
       boxShadow: "0 0 5px #888",
       marginTop: "40px",
-      marginLeft: this.state.location === "lower-right" ? "250px" : "0px"
+      marginLeft: this.state.location[0] === "lower-right" ? "250px" : "0px"
     }
     const imageContainer = {
       width: "35%",
