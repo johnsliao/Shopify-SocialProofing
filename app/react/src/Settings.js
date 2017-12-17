@@ -185,14 +185,14 @@ class Settings extends Component {
      }
      console.log("socialSetting ", socialSetting)
      
-     if (socialSetting === 'latest') {
+     if (socialSetting[0] === 'latest') {
        textObj.socialSettingText = "Victoria Y. purchased a"
        textObj.productName = "Trendy Nautica Dress"
-     } else if (socialSetting === 'purchase') {
+     } else if (socialSetting[0] === 'purchase') {
        testObj.socialSettingText = "23 people purchased"
        textObj.productName = "Trendy Nautica Dress"
      }
-     const time = this.convertSocialTimeToHours(socialTime)
+     const time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime))
      textObj.socialTime = `${time} `
      return textObj
    }
@@ -203,7 +203,8 @@ class Settings extends Component {
       height: "70px",
       display: "block",
       backgroundColor: "white",
-      boxShadow: "0 0 5px #888"
+      boxShadow: "0 0 5px #888",
+      margin: "40px 0 0 0"
     }
     const imageContainer = {
       width: "35%",
@@ -221,22 +222,6 @@ class Settings extends Component {
         title="Setup"
       >
         <Layout>
-          <Layout.AnnotatedSection
-            title="Modal Preview"
-            description="This is how your modal will display."
-          >
-            <Card sectioned>
-              <div>Preview of how your modal will look.</div>
-              <div style={modalPreviewStyle}>
-                <div style={imageContainer}>
-                  <img style={imageStyle} src="http://via.placeholder.com/70x70"/>
-                    <span>{textObj.socialSettingText}</span>
-                    <span>{textObj.productName}</span>
-                    <span>{textObj.socialTime}</span>
-                </div>
-              </div>
-            </Card>
-          </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Style"
             description="Customize the appearance and location of the modal"
@@ -347,11 +332,25 @@ class Settings extends Component {
             </FormLayout>
           </Card>
           </Layout.AnnotatedSection>
-
+          <Layout.AnnotatedSection
+            title="Modal Preview"
+            description="This is how your modal will display."
+          >
+            <Card sectioned>
+              <div>Preview of how your modal will look.</div>
+              <div style={modalPreviewStyle}>
+                <div style={imageContainer}>
+                  <img style={imageStyle} src="http://via.placeholder.com/70x70"/>
+                    <span>{textObj.socialSettingText}</span>
+                    <span>{textObj.productName}</span>
+                    <span>{textObj.socialTime}</span>
+                </div>
+              </div>
+            </Card>
+          </Layout.AnnotatedSection>
           <Layout.Section>
-          <Button onClick={this.handleClick} primary>Submit & Save</Button> {this.state.settingSaved && <div>Thank you! Your settings have been updated.</div>}
+          <Button onClick={this.handleClick} primary>Submit & Save</Button> {this.state.settingSaved && <span>Thank you! Your settings have been updated.</span>}
           </Layout.Section>
-
           <Layout.Section>
             <FooterHelp>Suggestions or Feedback? Email us at Michael.John.Devs@gmail.com</FooterHelp>
           </Layout.Section>

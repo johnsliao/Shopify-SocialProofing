@@ -41985,14 +41985,14 @@ var Settings = function (_Component) {
       };
       console.log("socialSetting ", socialSetting);
 
-      if (socialSetting === 'latest') {
+      if (socialSetting[0] === 'latest') {
         textObj.socialSettingText = "Victoria Y. purchased a";
         textObj.productName = "Trendy Nautica Dress";
-      } else if (socialSetting === 'purchase') {
+      } else if (socialSetting[0] === 'purchase') {
         testObj.socialSettingText = "23 people purchased";
         textObj.productName = "Trendy Nautica Dress";
       }
-      var time = this.convertSocialTimeToHours(socialTime);
+      var time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime));
       textObj.socialTime = time + ' ';
       return textObj;
     }
@@ -42004,7 +42004,8 @@ var Settings = function (_Component) {
         height: "70px",
         display: "block",
         backgroundColor: "white",
-        boxShadow: "0 0 5px #888"
+        boxShadow: "0 0 5px #888",
+        margin: "40px 0 0 0"
       };
       var imageContainer = {
         width: "35%",
@@ -42025,46 +42026,6 @@ var Settings = function (_Component) {
         _react2.default.createElement(
           _polaris.Layout,
           null,
-          _react2.default.createElement(
-            _polaris.Layout.AnnotatedSection,
-            {
-              title: 'Modal Preview',
-              description: 'This is how your modal will display.'
-            },
-            _react2.default.createElement(
-              _polaris.Card,
-              { sectioned: true },
-              _react2.default.createElement(
-                'div',
-                null,
-                'Preview of how your modal will look.'
-              ),
-              _react2.default.createElement(
-                'div',
-                { style: modalPreviewStyle },
-                _react2.default.createElement(
-                  'div',
-                  { style: imageContainer },
-                  _react2.default.createElement('img', { style: imageStyle, src: 'http://via.placeholder.com/70x70' }),
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    textObj.socialSettingText
-                  ),
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    textObj.productName
-                  ),
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    textObj.socialTime
-                  )
-                )
-              )
-            )
-          ),
           _react2.default.createElement(
             _polaris.Layout.AnnotatedSection,
             {
@@ -42174,6 +42135,46 @@ var Settings = function (_Component) {
             )
           ),
           _react2.default.createElement(
+            _polaris.Layout.AnnotatedSection,
+            {
+              title: 'Modal Preview',
+              description: 'This is how your modal will display.'
+            },
+            _react2.default.createElement(
+              _polaris.Card,
+              { sectioned: true },
+              _react2.default.createElement(
+                'div',
+                null,
+                'Preview of how your modal will look.'
+              ),
+              _react2.default.createElement(
+                'div',
+                { style: modalPreviewStyle },
+                _react2.default.createElement(
+                  'div',
+                  { style: imageContainer },
+                  _react2.default.createElement('img', { style: imageStyle, src: 'http://via.placeholder.com/70x70' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    textObj.socialSettingText
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    textObj.productName
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    textObj.socialTime
+                  )
+                )
+              )
+            )
+          ),
+          _react2.default.createElement(
             _polaris.Layout.Section,
             null,
             _react2.default.createElement(
@@ -42183,7 +42184,7 @@ var Settings = function (_Component) {
             ),
             ' ',
             this.state.settingSaved && _react2.default.createElement(
-              'div',
+              'span',
               null,
               'Thank you! Your settings have been updated.'
             )
