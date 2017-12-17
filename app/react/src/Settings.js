@@ -183,6 +183,7 @@ class Settings extends Component {
        productName: "",
        socialTime: ""
      }
+     console.log("socialSetting ", socialSetting)
      
      if (socialSetting === 'latest') {
        textObj.socialSettingText = "Victoria Y. purchased a"
@@ -225,9 +226,8 @@ class Settings extends Component {
             description="This is how your modal will display."
           >
             <Card sectioned>
-              Preview of how your modal will look.
+              <div>Preview of how your modal will look.</div>
               <div style={modalPreviewStyle}>
-                This is the preview box.
                 <div style={imageContainer}>
                   <img style={imageStyle} src="http://via.placeholder.com/70x70"/>
                     <span>{textObj.socialSettingText}</span>
