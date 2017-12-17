@@ -238,8 +238,9 @@ class Settings extends Component {
     }
     var timestampTextStyles = {
       position: "absolute",
-      left: "90%",  
+      left: "85%",  
       top: "50px",
+      width: "40px",
       fontFamily: "Tahoma",
       fontSize: "12px",
       color: "#1A6BCA"
@@ -252,14 +253,12 @@ class Settings extends Component {
         <Layout>
           <Layout.AnnotatedSection
             title="Social Proof Settings"
-            description="Display data as number of customers who have added this product, viewed the product,
-            or display the last customer who purchased it."
           >
           <Card sectioned>
             <FormLayout>
               <FormLayout.Group>
                 <ChoiceList
-                  title="Display Name or Display Number of Customers"
+                  title="Display Name or Number of Customers"
                   choices={[
                     {
                       label: 'Display latest customer to purchase product',
