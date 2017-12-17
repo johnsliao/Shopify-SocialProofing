@@ -41983,6 +41983,7 @@ var Settings = function (_Component) {
         productName: "",
         socialTime: ""
       };
+      console.log("socialSetting ", socialSetting);
 
       if (socialSetting === 'latest') {
         textObj.socialSettingText = "Victoria Y. purchased a";
@@ -42033,11 +42034,14 @@ var Settings = function (_Component) {
             _react2.default.createElement(
               _polaris.Card,
               { sectioned: true },
-              'Preview of how your modal will look.',
+              _react2.default.createElement(
+                'div',
+                null,
+                'Preview of how your modal will look.'
+              ),
               _react2.default.createElement(
                 'div',
                 { style: modalPreviewStyle },
-                'This is the preview box.',
                 _react2.default.createElement(
                   'div',
                   { style: imageContainer },
