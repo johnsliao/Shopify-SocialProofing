@@ -42006,7 +42006,8 @@ var Settings = function (_Component) {
         position: "relative",
         backgroundColor: "white",
         boxShadow: "0 0 5px #888",
-        margin: "40px 0 0 0"
+        marginTop: "40px",
+        marginLeft: this.state.location === "lower-right" ? "250px" : "0px"
       };
       var imageContainer = {
         width: "35%",
@@ -42046,6 +42047,7 @@ var Settings = function (_Component) {
         fontSize: "12px",
         color: "#1A6BCA"
       };
+
       var textObj = this.handlePreviewText();
       return _react2.default.createElement(
         _polaris.Page,

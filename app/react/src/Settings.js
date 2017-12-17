@@ -205,7 +205,8 @@ class Settings extends Component {
       position: "relative",
       backgroundColor: "white",
       boxShadow: "0 0 5px #888",
-      margin: "40px 0 0 0"
+      marginTop: "40px",
+      marginLeft: this.state.location === "lower-right" ? "250px" : "0px"
     }
     const imageContainer = {
       width: "35%",
@@ -245,6 +246,8 @@ class Settings extends Component {
       fontSize: "12px",
       color: "#1A6BCA"
     }
+    
+    
     const textObj = this.handlePreviewText();
     return (
       <Page
