@@ -41973,10 +41973,8 @@ var Settings = function (_Component) {
     value: function handlePreviewText() {
       var _state = this.state,
           socialSetting = _state.socialSetting,
-          socialTime = _state.socialTime,
-          socialScope = _state.socialScope;
-      //socialSetting --       label: 'Display latest customer to purchase product', value: 'latest'
-      //  label: 'Display number of customers who have purchased product', value: 'purchase'
+          socialTime = _state.socialTime;
+
 
       var textObj = {
         socialSettingText: "",
@@ -41993,7 +41991,7 @@ var Settings = function (_Component) {
         textObj.productName = "Trendy Nautica Dress";
       }
       var time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime));
-      textObj.socialTime = time + ' ';
+      textObj.socialTime = textObj.socialTime == '7d' ? 'recently' : time + ' ago';
       return textObj;
     }
   }, {
@@ -42002,14 +42000,13 @@ var Settings = function (_Component) {
       var modalPreviewStyle = {
         width: "350px",
         height: "70px",
-        display: "block",
+        position: "relative",
         backgroundColor: "white",
         boxShadow: "0 0 5px #888",
         margin: "40px 0 0 0"
       };
       var imageContainer = {
         width: "35%",
-        position: "relative",
         margin: "0 5px 0 0"
       };
       var imageStyle = {
@@ -42029,20 +42026,17 @@ var Settings = function (_Component) {
       };
       var productNameTextStyles = {
         position: "absolute",
-        width: "75%",
         top: "20px",
-        left: "30%",
-        right: "20px",
+        width: "75%",
+        left: "75%",
         fontFamily: "Tahoma",
         fontWeight: "bold",
         fontSize: "15px"
       };
       var timestampTextStyles = {
         position: "absolute",
-        width: "75%",
-        left: "75%",
+        left: "90%",
         top: "50px",
-        right: "10px",
         fontFamily: "Tahoma",
         fontSize: "12px",
         color: "#1A6BCA"
@@ -42072,7 +42066,7 @@ var Settings = function (_Component) {
                   _polaris.FormLayout.Group,
                   null,
                   _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Social Proof Setting',
+                    title: 'Display Name or Display Number of Customers',
                     choices: [{
                       label: 'Display latest customer to purchase product',
                       value: 'latest'
@@ -42084,7 +42078,7 @@ var Settings = function (_Component) {
                     onChange: this.handleSocialSetting
                   }),
                   _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Look Back Setting',
+                    title: 'Order History Time',
                     choices: [{
                       label: 'Last hour',
                       value: '1h'

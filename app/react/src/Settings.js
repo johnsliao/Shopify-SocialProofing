@@ -174,9 +174,7 @@ class Settings extends Component {
    }
    
    handlePreviewText () {
-     const { socialSetting, socialTime, socialScope } = this.state;
-     //socialSetting --       label: 'Display latest customer to purchase product', value: 'latest'
-                          //  label: 'Display number of customers who have purchased product', value: 'purchase'
+     const { socialSetting, socialTime } = this.state;
      
      let textObj = {
        socialSettingText: "",
@@ -193,7 +191,7 @@ class Settings extends Component {
        textObj.productName = "Trendy Nautica Dress"
      }
      const time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime))
-     textObj.socialTime = `${time} `
+     textObj.socialTime = textObj.socialTime == '7d' ? 'recently' : `${time} ago`
      return textObj
    }
 
@@ -201,14 +199,13 @@ class Settings extends Component {
     const modalPreviewStyle = {
       width: "350px",
       height: "70px",
-      display: "block",
+      position: "relative",
       backgroundColor: "white",
       boxShadow: "0 0 5px #888",
       margin: "40px 0 0 0"
     }
     const imageContainer = {
       width: "35%",
-      position: "relative",
       margin: "0 5px 0 0"
     }
     const imageStyle = {
@@ -228,20 +225,17 @@ class Settings extends Component {
     }
     var productNameTextStyles = {
       position: "absolute",
-      width: "75%",
       top: "20px",
-      left: "30%",
-      right: "20px",
+      width: "75%",
+      left: "75%",
       fontFamily: "Tahoma",
       fontWeight: "bold",
       fontSize: "15px"
     }
     var timestampTextStyles = {
       position: "absolute",
-      width: "75%",
-      left: "75%",
+      left: "90%",  
       top: "50px",
-      right: "10px",
       fontFamily: "Tahoma",
       fontSize: "12px",
       color: "#1A6BCA"
@@ -261,7 +255,7 @@ class Settings extends Component {
             <FormLayout>
               <FormLayout.Group>
                 <ChoiceList
-                  title="Social Proof Setting"
+                  title="Display Name or Display Number of Customers"
                   choices={[
                     {
                       label: 'Display latest customer to purchase product',
@@ -276,7 +270,7 @@ class Settings extends Component {
                   onChange={this.handleSocialSetting}
                 />
                 <ChoiceList
-                  title="Look Back Setting"
+                  title="Order History Time"
                   choices={[
                     {
                       label: 'Last hour',
