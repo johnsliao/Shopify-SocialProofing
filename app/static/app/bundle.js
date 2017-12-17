@@ -41838,6 +41838,9 @@ var Settings = function (_Component) {
     key: 'showSaveStatus',
     value: function showSaveStatus() {
       this.setState({ settingSaved: true });
+      setTimeout(function () {
+        this.setState({ settingSaved: false });
+      }.bind(this), 5000);
       console.log("this.state ", this.state.settingSaved);
     }
   }, {
@@ -42026,9 +42029,10 @@ var Settings = function (_Component) {
       };
       var productNameTextStyles = {
         position: "absolute",
-        top: "20px",
         width: "75%",
-        left: "75%",
+        top: "20px",
+        left: "30%",
+        right: "20px",
         fontFamily: "Tahoma",
         fontWeight: "bold",
         fontSize: "15px"
@@ -42108,24 +42112,24 @@ var Settings = function (_Component) {
                   _polaris.FormLayout.Group,
                   null,
                   _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Scope Setting',
+                    title: 'Promoted Product',
                     choices: [{
-                      label: 'Same Product',
+                      label: 'Current Product that customer is viewng',
                       value: 'product'
                     }, {
-                      label: 'Vendor',
+                      label: 'Products from the same vendor',
                       value: 'vendor'
                     }, {
-                      label: 'Tags',
+                      label: 'Products with the same tags',
                       value: 'tags'
                     }, {
-                      label: 'Collections',
+                      label: 'Other Products from the same collection',
                       value: 'collections'
                     }, {
-                      label: 'Product Type',
+                      label: 'Other Products with the same type',
                       value: 'product_type'
                     }, {
-                      label: 'Any (randomly selected)',
+                      label: 'All products from your store',
                       value: 'any'
                     }],
                     selected: this.state.socialScope,
