@@ -193,7 +193,7 @@ class Settings extends Component {
      }
      const time = this.convertSocialTimeToHours(socialTime)
      textObj.socialTime = `${time} `
-     
+     return textObj
    }
 
   render() {
@@ -214,7 +214,7 @@ class Settings extends Component {
       border: "0",
       maxHeight: "70px"
     }
-
+    const textObj = this.handlePreviewText();
     return (
       <Page
         title="Setup"
@@ -229,7 +229,10 @@ class Settings extends Component {
               <div style={modalPreviewStyle}>
                 This is the preview box.
                 <div style={imageContainer}>
-                  <img style={imageStyle} src="http://via.placeholder.com/350x150"/>
+                  <img style={imageStyle} src="http://via.placeholder.com/70x70"/>
+                    <span>{textObj.socialSettingText}</span>
+                    <span>{textObj.productName}</span>
+                    <span>{textObj.socialTime}</span>
                 </div>
               </div>
             </Card>

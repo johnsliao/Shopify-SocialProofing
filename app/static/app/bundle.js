@@ -41993,6 +41993,7 @@ var Settings = function (_Component) {
       }
       var time = this.convertSocialTimeToHours(socialTime);
       textObj.socialTime = time + ' ';
+      return textObj;
     }
   }, {
     key: 'render',
@@ -42014,7 +42015,7 @@ var Settings = function (_Component) {
         border: "0",
         maxHeight: "70px"
       };
-
+      var textObj = this.handlePreviewText();
       return _react2.default.createElement(
         _polaris.Page,
         {
@@ -42040,7 +42041,22 @@ var Settings = function (_Component) {
                 _react2.default.createElement(
                   'div',
                   { style: imageContainer },
-                  _react2.default.createElement('img', { style: imageStyle, src: 'http://via.placeholder.com/350x150' })
+                  _react2.default.createElement('img', { style: imageStyle, src: 'http://via.placeholder.com/70x70' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    textObj.socialSettingText
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    textObj.productName
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    textObj.socialTime
+                  )
                 )
               )
             )
