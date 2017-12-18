@@ -41840,7 +41840,7 @@ var Settings = function (_Component) {
       this.setState({ settingSaved: true });
       setTimeout(function () {
         this.setState({ settingSaved: false });
-      }.bind(this), 5000);
+      }.bind(this), 4000);
       console.log("this.state ", this.state.settingSaved);
     }
   }, {
@@ -42096,7 +42096,7 @@ var Settings = function (_Component) {
                       label: 'Last day',
                       value: '1d'
                     }, {
-                      label: '7 days (Recently)',
+                      label: '7 days',
                       value: '7d'
                     }],
                     selected: this.state.socialTime,
@@ -42117,7 +42117,7 @@ var Settings = function (_Component) {
                   _react2.default.createElement(_polaris.ChoiceList, {
                     title: 'Promoted Product',
                     choices: [{
-                      label: 'Current Product that customer is viewng',
+                      label: 'Product that customer is currently viewing',
                       value: 'product'
                     }, {
                       label: 'Products from the same vendor',

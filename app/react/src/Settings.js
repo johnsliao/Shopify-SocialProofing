@@ -54,7 +54,7 @@ class Settings extends Component {
     this.setState({settingSaved: true});
    setTimeout(function(){
         this.setState({settingSaved: false});
-   }.bind(this), 5000); 
+   }.bind(this), 4000);
     console.log("this.state ", this.state.settingSaved);
   }
 
@@ -118,7 +118,7 @@ class Settings extends Component {
      }
      return f_time
   }
-  
+
   convertDaysToTimestampText(days) {
     // Returns days to timestamp text and floors it and units
     var units = "";
@@ -176,17 +176,17 @@ class Settings extends Component {
           this.showSaveStatus()
         })
    }
-   
+
    handlePreviewText () {
      const { socialSetting, socialTime } = this.state;
-     
+
      let textObj = {
        socialSettingText: "",
        productName: "",
        socialTime: ""
      }
      console.log("socialSetting ", socialSetting)
-     
+
      if (socialSetting[0] === 'latest') {
        textObj.socialSettingText = "Victoria Y. purchased a"
        textObj.productName = "Trendy Nautica Dress"
@@ -240,15 +240,15 @@ class Settings extends Component {
     }
     var timestampTextStyles = {
       position: "absolute",
-      left: "85%",  
+      left: "85%",
       top: "50px",
       width: "50px",
       fontFamily: "Tahoma",
       fontSize: "12px",
       color: "#1A6BCA"
     }
-    
-    
+
+
     const textObj = this.handlePreviewText();
     return (
       <Page
@@ -292,7 +292,7 @@ class Settings extends Component {
                       value: '1d'
                     },
                     {
-                      label: '7 days (Recently)',
+                      label: '7 days',
                       value: '7d'
                     }
                   ]}
@@ -309,7 +309,7 @@ class Settings extends Component {
                   title="Promoted Product"
                   choices={[
                     {
-                      label: 'Current Product that customer is viewng',
+                      label: 'Product that customer is currently viewing',
                       value: 'product'
                     },
                     {
