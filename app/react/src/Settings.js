@@ -33,6 +33,7 @@ class Settings extends Component {
     this.handleSocialScope = this.handleSocialScope.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
     this.showSaveStatus = this.showSaveStatus.bind(this);
+    this.convertDaysToTimestampText = this.convertDaysToTimestampText.bind(this);
   }
 
   componentWillMount () {
@@ -51,6 +52,9 @@ class Settings extends Component {
 
   showSaveStatus () {
     this.setState({settingSaved: true});
+   setTimeout(function(){
+        this.setState({settingSaved: false});
+   }.bind(this), 5000); 
     console.log("this.state ", this.state.settingSaved);
   }
 
@@ -68,6 +72,7 @@ class Settings extends Component {
 
   handleLocation (location) {
     this.setState({location: location})
+    console.log("this.state.location ", this.state.location)
   }
 
   convertSocialTimeFromHours(time) {
@@ -113,6 +118,32 @@ class Settings extends Component {
      }
      return f_time
   }
+  
+  convertDaysToTimestampText(days) {
+    // Returns days to timestamp text and floors it and units
+    var units = "";
+    var convertedTime = "";
+    if (days * 24 < 1) {
+      convertedTime = days*24*60;
+      units = "minutes";
+    } else if (days < 1) {
+      convertedTime = days*24;
+      units = "hours";
+    } else {
+      convertedTime = days;
+      units = "days";
+    }
+    convertedTime = Math.floor(convertedTime);
+
+    if (convertedTime == 1) {
+      units = units.replace("s", "");
+    }
+
+    return {
+      convertedTime: convertedTime,
+      units: units
+    };
+  }
 
   handleClick () {
     let postBodyStr = '';
@@ -145,19 +176,171 @@ class Settings extends Component {
           this.showSaveStatus()
         })
    }
+   
+   handlePreviewText () {
+     const { socialSetting, socialTime } = this.state;
+     
+     let textObj = {
+       socialSettingText: "",
+       productName: "",
+       socialTime: ""
+     }
+     console.log("socialSetting ", socialSetting)
+     
+     if (socialSetting[0] === 'latest') {
+       textObj.socialSettingText = "Victoria Y. purchased a"
+       textObj.productName = "Trendy Nautica Dress"
+     } else if (socialSetting[0] === 'purchase') {
+       textObj.socialSettingText = "23 people purchased"
+       textObj.productName = "Trendy Nautica Dress"
+     }
+     const time = this.convertSocialTimeFromHours(this.convertSocialTimeToHours(socialTime))
+     textObj.socialTime = textObj.socialTime == '7d' ? 'recently' : `${time} ago`
+     return textObj
+   }
 
   render() {
-    const colorBoxStyle = {
-      margin: '5px',
-      float: 'right',
-      border: '1px solid',
+    const modalPreviewStyle = {
+      width: "350px",
+      height: "70px",
+      position: "relative",
+      backgroundColor: "white",
+      boxShadow: "0 0 5px #888",
+      marginTop: "40px",
+      marginLeft: this.state.location[0] === "lower-right" ? "250px" : "0px"
     }
-
+    const imageContainer = {
+      width: "35%",
+      margin: "0 5px 0 0"
+    }
+    const imageStyle = {
+      width: "auto",
+      border: "0",
+      maxHeight: "70px"
+    }
+    var specialTextStyles = {
+      position: "absolute",
+      width: "75%",
+      top: "0",
+      left: "30%",
+      right: "20px",
+      fontFamily: "Tahoma",
+      fontSize: "14px",
+      color: "#1A6BCA"
+    }
+    var productNameTextStyles = {
+      position: "absolute",
+      width: "75%",
+      top: "20px",
+      left: "30%",
+      right: "20px",
+      fontFamily: "Tahoma",
+      fontWeight: "bold",
+      fontSize: "15px"
+    }
+    var timestampTextStyles = {
+      position: "absolute",
+      left: "85%",  
+      top: "50px",
+      width: "50px",
+      fontFamily: "Tahoma",
+      fontSize: "12px",
+      color: "#1A6BCA"
+    }
+    
+    
+    const textObj = this.handlePreviewText();
     return (
       <Page
         title="Setup"
       >
         <Layout>
+          <Layout.AnnotatedSection
+            title="Social Proof Settings"
+          >
+          <Card sectioned>
+            <FormLayout>
+              <FormLayout.Group>
+                <ChoiceList
+                  title="Display Name or Number of Customers"
+                  choices={[
+                    {
+                      label: 'Display latest customer to purchase product',
+                      value: 'latest'
+                    },
+                    {
+                      label: 'Display number of customers who have purchased product',
+                      value: 'purchase'
+                    }
+                  ]}
+                  selected={this.state.socialSetting}
+                  onChange={this.handleSocialSetting}
+                />
+                <ChoiceList
+                  title="Order History Time"
+                  choices={[
+                    {
+                      label: 'Last hour',
+                      value: '1h'
+                    },
+                    {
+                      label: 'Last 12 hours',
+                      value: '12h'
+                    },
+                    {
+                      label: 'Last day',
+                      value: '1d'
+                    },
+                    {
+                      label: '7 days (Recently)',
+                      value: '7d'
+                    }
+                  ]}
+                  selected={this.state.socialTime}
+                  onChange={this.handleTime}
+                />
+              </FormLayout.Group>
+            </FormLayout>
+          </Card>
+          <Card sectioned>
+            <FormLayout>
+              <FormLayout.Group>
+                <ChoiceList
+                  title="Promoted Product"
+                  choices={[
+                    {
+                      label: 'Current Product that customer is viewng',
+                      value: 'product'
+                    },
+                    {
+                      label: 'Products from the same vendor',
+                      value: 'vendor'
+                    },
+                    {
+                      label: 'Products with the same tags',
+                      value: 'tags'
+                    },
+                    {
+                      label: 'Other Products from the same collection',
+                      value: 'collections'
+                    },
+                    {
+                      label: 'Other Products with the same type',
+                      value: 'product_type'
+                    },
+                    {
+                      label: 'All products from your store',
+                      value: 'any'
+                    },
+                  ]}
+                  selected={this.state.socialScope}
+                  onChange={this.handleSocialScope}
+                />
+              </FormLayout.Group>
+
+            </FormLayout>
+          </Card>
+          </Layout.AnnotatedSection>
           <Layout.AnnotatedSection
             title="Style"
             description="Customize the appearance and location of the modal"
@@ -184,109 +367,23 @@ class Settings extends Component {
             title="Modal Preview"
             description="This is how your modal will display."
           >
-          <Card sectioned>
-          Preview of how your modal will look.
-          <div style={colorBoxStyle}>
-            This is the preview box.
-          </div>
-          </Card>
+            <Card sectioned>
+              <div>Preview of how your modal will look.</div>
+              <div style={modalPreviewStyle}>
+                <div style={imageContainer}>
+                  <img style={imageStyle} src="http://via.placeholder.com/70x70"/>
+                    <span style={specialTextStyles}>{textObj.socialSettingText}</span>
+                    <span style={productNameTextStyles}>{textObj.productName}</span>
+                    <span style={timestampTextStyles}>{textObj.socialTime}</span>
+                </div>
+              </div>
+            </Card>
           </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection
-            title="Social Proof Settings"
-            description="Display data as number of customers who have added this product, viewed the product,
-            or display the last customer who purchased it."
-          >
-          <Card sectioned>
-            <FormLayout>
-              <FormLayout.Group>
-                <ChoiceList
-                  title="Social Proof Setting"
-                  choices={[
-                    {
-                      label: 'Display latest customer to purchase product',
-                      value: 'latest'
-                    },
-                    {
-                      label: 'Display number of customers who have purchased product',
-                      value: 'purchase'
-                    }
-                  ]}
-                  selected={this.state.socialSetting}
-                  onChange={this.handleSocialSetting}
-                />
-                <ChoiceList
-                  title="Look Back Setting"
-                  choices={[
-                    {
-                      label: 'Last hour',
-                      value: '1h'
-                    },
-                    {
-                      label: 'Last 12 hours',
-                      value: '12h'
-                    },
-                    {
-                      label: 'Last day',
-                      value: '1d'
-                    },
-                    {
-                      label: '7 days (Recently)',
-                      value: '7d'
-                    },
-                  ]}
-                  selected={this.state.socialTime}
-                  onChange={this.handleTime}
-                />
-              </FormLayout.Group>
-
-            </FormLayout>
-          </Card>
-          <Card sectioned>
-            <FormLayout>
-              <FormLayout.Group>
-                <ChoiceList
-                  title="Scope Setting"
-                  choices={[
-                    {
-                      label: 'Same Product',
-                      value: 'product'
-                    },
-                    {
-                      label: 'Vendor',
-                      value: 'vendor'
-                    },
-                    {
-                      label: 'Tags',
-                      value: 'tags'
-                    },
-                    {
-                      label: 'Collections',
-                      value: 'collections'
-                    },
-                    {
-                      label: 'Product Type',
-                      value: 'product_type'
-                    },
-                    {
-                      label: 'Any (randomly selected)',
-                      value: 'any'
-                    },
-                  ]}
-                  selected={this.state.socialScope}
-                  onChange={this.handleSocialScope}
-                />
-              </FormLayout.Group>
-
-            </FormLayout>
-          </Card>
-          </Layout.AnnotatedSection>
-
           <Layout.Section>
-          <Button onClick={this.handleClick} primary>Submit & Save</Button> {this.state.settingSaved && <div>Thank you! Your settings have been updated.</div>}
+          <Button onClick={this.handleClick} primary>Submit & Save</Button> {this.state.settingSaved && <span>Thank you! Your settings have been updated.</span>}
           </Layout.Section>
-
           <Layout.Section>
-            <FooterHelp>For help visit <Link url="https://www.google.com/search?ei=jLUIWvK0JojimAHg-KY4&q=help&oq=help&gs_l=psy-ab.3..0i67k1l2j0j0i67k1j0j0i67k1j0l4.1185.1507.0.1749.4.4.0.0.0.0.194.194.0j1.1.0....0...1.1.64.psy-ab..3.1.194....0.HDVDjU-AKiQ">styleguide</Link>.</FooterHelp>
+            <FooterHelp>Suggestions or Feedback? Email us at Michael.John.Devs@gmail.com</FooterHelp>
           </Layout.Section>
         </Layout>
       </Page>
