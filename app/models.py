@@ -25,7 +25,7 @@ class Webhooks(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
 
     topic = models.TextField(default='')
-    webhook_id = models.IntegerField()
+    webhook_id = models.TextField(default='')
 
     class Meta:
         unique_together = (('store', 'topic'),)
