@@ -21,6 +21,14 @@ class StoreSettings(models.Model):
     # Look back in hours. 24 hours by default. Max 31 Days
     look_back = models.PositiveIntegerField(default=24, validators=[MaxValueValidator(744), ])
 
+class Webhooks(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+
+    topic = models.TextField(default='')
+    webhook_id = models.IntegerField()
+
+    class Meta:
+        unique_together = (('store', 'topic'),)
 
 class Product(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)

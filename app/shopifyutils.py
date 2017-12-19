@@ -10,7 +10,7 @@ sys.path.append("..")  # here store is root folder(means parent).
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 django.setup()
 
-from app.models import Store, Product, Orders, Collection
+from app.models import Store, Product, Orders, Collection, Webhooks
 from dateutil.parser import parse
 from django.conf import settings
 from slacker_log_handler import SlackerLogHandler
@@ -128,10 +128,40 @@ def ingest_products(stores_obj):
         logger.error('Exception caught for {}. {}'.format(stores_obj.store_name, e))
 
 
+def create_webhook(stores_obj):
+    """
+    Create a shop webhook and add to store.
+    """
+    try:
+        session = shopify.Session(stores_obj.store_name, stores_obj.permanent_token)
+        shopify.ShopifyResource.activate_session(session)
+        topic = 'app/uninstalled'
+
+        new_webhook = shopify.Webhook()
+        new_webhook.address = settings.APP_URL + '/webhooks/'
+        new_webhook.topic = topic
+
+        #[shopify.Webhook.delete(x.id) for x in shopify.Webhook.find()]
+
+        if new_webhook.save():
+            store = Store.objects.get(store_name=stores_obj.store_name)
+            Webhooks.objects.update_or_create(store__store_name=stores_obj.store_name,
+                                              webhook_id=new_webhook.attributes['id'],
+                                              defaults={'webhook_id': new_webhook.attributes['id'],
+                                                        'store': store,
+                                                        'topic': topic})
+        else:
+            logger.error('Warning for {}. Webhook {} not saved properly!'.format(stores_obj.store_name, topic))
+
+    except Exception as e:
+        logger.error('Exception caught for {}. {}'.format(stores_obj.store_name, e))
+
+
 if __name__ == '__main__':
     stores_objs = get_stores()
     for stores_obj in stores_objs:
         if stores_obj.active:
             ingest_products(stores_obj)
             ingest_orders(stores_obj)
+            create_webhook(stores_obj)
     print('Success.')

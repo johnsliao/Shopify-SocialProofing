@@ -13,13 +13,13 @@ from django.db.models import Sum
 
 from .utils import authenticate, parse_params, find_products_from_social_scope
 from .decorators import shop_login_required, api_authentication, track_statistics
-from .models import Store, StoreSettings, Modal, Orders, Product, Collection, ModalMetrics
+from .models import Store, StoreSettings, Modal, Orders, Product, Collection, ModalMetrics, Webhooks
 from django.core import serializers
 from datetime import date
 from django.utils import timezone
 from datetime import timedelta
 from random import choice
-from .shopifyutils import ingest_products, ingest_orders
+from .shopifyutils import ingest_products, ingest_orders, create_webhook
 from .scripts.add_scripttag import add_script
 from django.conf import settings
 from slacker_log_handler import SlackerLogHandler
@@ -120,8 +120,10 @@ def index(request):
             stores_obj = Store.objects.get(store_name=store_name)
             StoreSettings.objects.create(store=stores_obj)
             Modal.objects.create(store=stores_obj)
+
             ingest_products(stores_obj)
             ingest_orders(stores_obj)
+            create_webhook(stores_obj)
             add_script(stores_obj, 'initializeModal.js')
 
         return HttpResponseRedirect(reverse('store_settings'))
@@ -362,5 +364,22 @@ def modal_metrics_api(request):
             return HttpResponse('Success', status=200)
         except Exception:
             return HttpResponseBadRequest('Invalid post parameters provided', status=400)
+
+    return HttpResponseBadRequest('Invalid request')
+
+@track_statistics
+def webhooks(request):
+    if request.method == 'POST':
+        post_params = dict(request.POST.lists())
+        print(post_params)
+
+        webhook_id = post_params['id'][0]
+
+        store_obj = Store.objects.get(webhooks__webhook_id=webhook_id)
+        print("Set to false")
+        store_obj.active = False
+        store_obj.save()
+
+        return HttpResponse('Success', status=200)
 
     return HttpResponseBadRequest('Invalid request')
