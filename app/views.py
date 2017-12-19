@@ -369,13 +369,16 @@ def modal_metrics_api(request):
 
 @track_statistics
 def webhooks(request):
+    """
+    Webhook for uninstalling app.
+    """
     if request.method == 'POST':
-        post_params = dict(request.POST.lists())
-        print(post_params)
+        print(request.META)
 
-        webhook_id = post_params['id'][0]
+        topic = request.META.get('X-Shopify-Topic')
+        store_name = request.META.get('X-Shopify-Shop-Domain')
 
-        store_obj = Store.objects.get(webhooks__webhook_id=webhook_id)
+        store_obj = Store.objects.get(webhooks__topic=topic, store_name=store_name)
         print("Set to false")
         store_obj.active = False
         store_obj.save()
