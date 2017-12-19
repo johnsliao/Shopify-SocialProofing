@@ -140,12 +140,12 @@ def create_webhook(stores_obj):
         new_webhook.address = settings.APP_URL + '/webhooks/'
         new_webhook.topic = topic
 
-        #[shopify.Webhook.delete(x.id) for x in shopify.Webhook.find()]
+        # [shopify.Webhook.delete(x.id) for x in shopify.Webhook.find()]
 
         if new_webhook.save():
             print('success!!!')
             Webhooks.objects.update_or_create(store__store_name=stores_obj.store_name,
-                                              webhook_id=new_webhook.attributes['id'],
+                                              topic=topic,
                                               defaults={'webhook_id': new_webhook.attributes['id'],
                                                         'store': stores_obj,
                                                         'topic': topic})
