@@ -40,7 +40,6 @@ def ingest_orders(stores_obj):
     try:
         session = shopify.Session(stores_obj.store_name, stores_obj.permanent_token)
         shopify.ShopifyResource.activate_session(session)
-        store = Store.objects.get(store_name=stores_obj.store_name)
         created_at_min = datetime.datetime.now() - datetime.timedelta(days=10)
         orders = shopify.Order.find(financial_status='paid', status='shipped', created_at_min=created_at_min)
 
@@ -75,7 +74,7 @@ def ingest_orders(stores_obj):
                 Orders.objects.update_or_create(order_id=order_id, store__store_name=stores_obj.store_name,
                                                 product=product,
                                                 defaults={'product': product,
-                                                          'store': store,
+                                                          'store': stores_obj,
                                                           'qty': qty,
                                                           'processed_at': processed_at,
                                                           'first_name': first_name,
@@ -93,7 +92,6 @@ def ingest_products(stores_obj):
     try:
         session = shopify.Session(stores_obj.store_name, stores_obj.permanent_token)
         shopify.ShopifyResource.activate_session(session)
-        store = Store.objects.get(store_name=stores_obj.store_name)
         product_listings = shopify.Product.find()
         collection_listings = shopify.Collect.find()
 
@@ -109,7 +107,7 @@ def ingest_products(stores_obj):
             main_image_url = product_image.attributes['src'] if product_image else ''
 
             Product.objects.update_or_create(product_id=product_id, store__store_name=stores_obj.store_name,
-                                             defaults={'product_name': product_name, 'store': store,
+                                             defaults={'product_name': product_name, 'store': stores_obj,
                                                        'main_image_url': main_image_url,
                                                        'handle': handle,
                                                        'vendor': vendor,
@@ -144,11 +142,11 @@ def create_webhook(stores_obj):
         #[shopify.Webhook.delete(x.id) for x in shopify.Webhook.find()]
 
         if new_webhook.save():
-            store = Store.objects.get(store_name=stores_obj.store_name)
+            print('success!!!')
             Webhooks.objects.update_or_create(store__store_name=stores_obj.store_name,
                                               webhook_id=new_webhook.attributes['id'],
                                               defaults={'webhook_id': new_webhook.attributes['id'],
-                                                        'store': store,
+                                                        'store': stores_obj,
                                                         'topic': topic})
         else:
             logger.error('Warning for {}. Webhook {} not saved properly!'.format(stores_obj.store_name, topic))
