@@ -367,17 +367,19 @@ def modal_metrics_api(request):
 
     return HttpResponseBadRequest('Invalid request')
 
+
 @track_statistics
 def webhooks(request):
     """
     Webhook for uninstalling app.
     """
     if request.method == 'POST':
-        print(request.META)
-
-        store_name = request.META.get('HTTP_X_SHOPIFY_SHOP_DOMAIN')
-        Store.objects.filter(store_name=store_name).delete()
-        print('successfully deleted {}'.format(store_name))
-        return HttpResponse('Success', status=200)
+        try:
+            store_name = request.META.get('HTTP_X_SHOPIFY_SHOP_DOMAIN')
+            Store.objects.filter(store_name=store_name).delete()
+            return HttpResponse('Success', status=200)
+        except Exception as e:
+            logger.error('Something bad happened with uninstall {}'.format(e))
+            return HttpResponseBadRequest('Something bad happened with uninstall {}'.format(e))
 
     return HttpResponseBadRequest('Invalid request')
