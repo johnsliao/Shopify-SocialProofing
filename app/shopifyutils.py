@@ -131,6 +131,7 @@ def create_webhook(stores_obj):
     Create a shop webhook and add to store.
     """
     try:
+        print('creating webhook...')
         session = shopify.Session(stores_obj.store_name, stores_obj.permanent_token)
         shopify.ShopifyResource.activate_session(session)
         topic = 'app/uninstalled'
@@ -149,6 +150,7 @@ def create_webhook(stores_obj):
                                                         'store': stores_obj,
                                                         'topic': topic})
         else:
+            print('failure!')
             logger.error('Warning for {}. Webhook {} not saved properly!'.format(stores_obj.store_name, topic))
 
     except Exception as e:
