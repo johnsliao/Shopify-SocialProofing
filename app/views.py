@@ -375,14 +375,9 @@ def webhooks(request):
     if request.method == 'POST':
         print(request.META)
 
-        topic = request.META.get('X-Shopify-Topic')
-        store_name = request.META.get('X-Shopify-Shop-Domain')
-
-        store_obj = Store.objects.get(webhooks__topic=topic, store_name=store_name)
-        print("Set to false")
-        store_obj.active = False
-        store_obj.save()
-
+        store_name = request.META.get('HTTP_X_SHOPIFY_SHOP_DOMAIN')
+        Store.objects.filter(store_name=store_name).delete()
+        print('successfully deleted {}'.format(store_name))
         return HttpResponse('Success', status=200)
 
     return HttpResponseBadRequest('Invalid request')
