@@ -281,7 +281,7 @@
 
       var specialTextStyles = {
         position: "absolute",
-        width: "75%",
+        width: "70%",
         top: "0",
         left: "30%",
         right: "20px",
@@ -292,7 +292,7 @@
 
       var productNameTextStyles = {
         position: "absolute",
-        width: "75%",
+        width: "70%",
         top: "20px",
         left: "30%",
         right: "20px",
