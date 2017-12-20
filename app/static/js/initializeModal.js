@@ -209,14 +209,17 @@
         console.log(url);
 
         $("#product-name-text, #image").click(function(e){
-          $.ajax({type: "POST",
-                  url: url,
-                  data: { store_name: shop, product_id_to: productTo, product_id_from: productFrom},
-                  success:function(){
-                    console.log("Post was successful ", shop, productTo, productFrom);
-                  }
-                });
-              });
+          if (productFrom != productTo) {
+            // Only track click if not the same product id
+            $.ajax({type: "POST",
+                    url: url,
+                    data: { store_name: shop, product_id_to: productTo, product_id_from: productFrom},
+                    success:function(){
+                      console.log("Post was successful ", shop, productTo, productFrom);
+                    }
+                  });
+            });
+          }
         })
     },
     renderClose: function () {
