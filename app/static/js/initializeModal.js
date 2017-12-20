@@ -246,8 +246,6 @@
       var timestampText = document.getElementById("timestamp-text");
       var close = document.getElementById("close");
 
-      $("#image").css({"object-fit": "cover"});
-
       var modalStyles = {
         width: "370px",
         height: "80px",
