@@ -42115,7 +42115,7 @@ var Settings = function (_Component) {
                   _polaris.FormLayout.Group,
                   null,
                   _react2.default.createElement(_polaris.ChoiceList, {
-                    title: 'Promoted Product',
+                    title: 'Which Product(s) To Promote',
                     choices: [{
                       label: 'Product that customer is currently viewing',
                       value: 'product'

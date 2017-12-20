@@ -306,7 +306,7 @@ class Settings extends Component {
             <FormLayout>
               <FormLayout.Group>
                 <ChoiceList
-                  title="Promoted Product"
+                  title="Which Product(s) To Promote"
                   choices={[
                     {
                       label: 'Product that customer is currently viewing',
