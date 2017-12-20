@@ -197,13 +197,14 @@
     clickMetrics: function (productTo) {
       $(document).ready(function(){
         var shop = Shopify.shop;
-        var productFrom = meta.product.id;
+        var productFrom = meta.product.id
+        var url = '';
         if (window.location.href.includes('michael-john-devs') || window.location.href.includes('ellie-designer-clothing') || window.location.href.includes('new-store-qa')) {
           // Test app url
-          url = 'https://protected-reef-37693.herokuapp.com/api/modal/' + shop + '/' + productFrom
+          url = 'https://protected-reef-37693.herokuapp.com/api/modal_metrics/';
         } else {
           // Production app url
-          url = 'https://socialproof-samurai.herokuapp.com/api/modal/' + shop + '/' + productFrom
+          url = 'https://socialproof-samurai.herokuapp.com/api/modal_metrics/';
         }
         console.log(url);
 
