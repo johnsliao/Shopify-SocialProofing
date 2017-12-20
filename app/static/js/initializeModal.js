@@ -53,7 +53,7 @@
           console.log('no one bought the item within the lookback look_back_period');
           return false;
         }
-        if (!data.first_name && !data.last_name {
+        if (!data.first_name && !data.last_name) {
           console.log('first and last name not provided for order with latest as social setting');
           return false;
         }
