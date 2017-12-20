@@ -42008,7 +42008,7 @@ var Settings = function (_Component) {
         backgroundColor: "white",
         boxShadow: "0 0 5px #888",
         marginTop: "40px",
-        marginLeft: this.state.location[0] === "lower-right" ? "250px" : "0px"
+        marginLeft: this.state.location[0] === "lower-right" ? "230px" : "0px"
       };
       var imageContainer = {
         width: "35%",
