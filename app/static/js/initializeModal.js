@@ -267,7 +267,8 @@
       var imageStyles = {
         width: "auto",
         border: "0",
-        maxHeight: "80px"
+        maxHeight: "80px",
+        objectFit: "fill"
       }
 
       var specialTextStyles = {
@@ -296,7 +297,7 @@
         position: "absolute",
         width: "75%",
         left: "75%",
-        top: "50px",
+        top: "60px",
         right: "10px",
         fontFamily: "Tahoma",
         fontSize: "12px",
