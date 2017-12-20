@@ -265,9 +265,12 @@
       }
 
       var imageStyles = {
-        width: "auto",
         border: "0",
-        maxHeight: "80px"
+        maxHeight: "80px",
+        minHeight: "80px",
+        minWidth: "100px",
+        maxWidth: "100px",
+        objectFit: "cover"
       }
 
       var specialTextStyles = {
