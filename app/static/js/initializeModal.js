@@ -109,8 +109,9 @@
       api.clickMetrics(settings.product_id);  // adding click handler to track metrics of how many people clicked.
     },
     renderImage: function(imageUrl) {
-      var img = $('<img id="image" style="object-fit:cover;">');
+      var img = $('<img id="image">');
       img.attr('src', imageUrl);
+      $("#image").css({"object-fit": "cover"});
       img.appendTo('#product-image');
     },
     convertDaysToTimestampText: function(days) {
