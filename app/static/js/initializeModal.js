@@ -247,8 +247,8 @@
       var close = document.getElementById("close");
 
       var modalStyles = {
-        width: "350px",
-        height: "70px",
+        width: "370px",
+        height: "80px",
         display: "block",
         position: "fixed",
         bottom: "2%",
@@ -267,7 +267,7 @@
       var imageStyles = {
         width: "auto",
         border: "0",
-        maxHeight: "70px"
+        maxHeight: "80px"
       }
 
       var specialTextStyles = {
