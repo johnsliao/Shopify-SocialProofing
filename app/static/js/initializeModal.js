@@ -147,6 +147,12 @@
       var timestampText = "";
       var productNameText = data.product_name;
 
+      if (productNameText.length >= 63) {
+        // Slice product name if it overflows modal
+        productNameText = productNameText.slice(0, 60);
+        productNameText += "...";
+      }
+
       var specialTextNode = document.getElementById("modal-special-text");
       var timestampTextNode = document.getElementById("timestamp-text");
       var imageNode = document.getElementById("product-image");
