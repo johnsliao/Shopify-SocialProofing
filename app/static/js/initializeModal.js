@@ -111,7 +111,6 @@
     renderImage: function(imageUrl) {
       var img = $('<img id="image">');
       img.attr('src', imageUrl);
-      $("#image").css({"object-fit": "cover"});
       img.appendTo('#product-image');
     },
     convertDaysToTimestampText: function(days) {
@@ -246,6 +245,8 @@
       var productNameText = document.getElementById("product-name-text");
       var timestampText = document.getElementById("timestamp-text");
       var close = document.getElementById("close");
+
+      $("#image").css({"object-fit": "cover"});
 
       var modalStyles = {
         width: "370px",
