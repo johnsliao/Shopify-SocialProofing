@@ -201,8 +201,8 @@ class Settings extends Component {
 
   render() {
     const modalPreviewStyle = {
-      width: "350px",
-      height: "70px",
+      width: "370px",
+      height: "80px",
       position: "relative",
       backgroundColor: "white",
       boxShadow: "0 0 5px #888",
@@ -216,7 +216,7 @@ class Settings extends Component {
     const imageStyle = {
       width: "auto",
       border: "0",
-      maxHeight: "70px"
+      maxHeight: "80px"
     }
     var specialTextStyles = {
       position: "absolute",
@@ -241,7 +241,7 @@ class Settings extends Component {
     var timestampTextStyles = {
       position: "absolute",
       left: "85%",
-      top: "50px",
+      top: "60px",
       width: "50px",
       fontFamily: "Tahoma",
       fontSize: "12px",
