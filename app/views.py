@@ -91,7 +91,6 @@ def auth_callback(request):
             charge.test = True
 
         if charge.save():
-            print('URL is!!! ', charge.confirmation_url)
             return redirect(charge.confirmation_url)
         else:
             return HttpResponseBadRequest('Something went wrong with the processing of your order.')
