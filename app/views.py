@@ -89,7 +89,7 @@ def auth_callback(request):
 
         if settings.DEVELOPMENT_MODE == 'TEST':
             recurring_application_charge.test = True
-
+        print('URL is!!! ', recurring_application_charge.confirmation_url)
         if recurring_application_charge.save():
             return redirect(recurring_application_charge.confirmation_url)
         else:
