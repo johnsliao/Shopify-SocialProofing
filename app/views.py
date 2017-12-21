@@ -89,8 +89,8 @@ def auth_callback(request):
 
         if settings.DEVELOPMENT_MODE == 'TEST':
             charge.test = True
-        print("ACTIVATE")
-        f = charge.activate()
+        print("SAVE")
+        f = charge.save()
         print(f)
         print(charge.confirmation_url)
         print('noo?')
