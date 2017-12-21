@@ -78,6 +78,9 @@ def auth_callback(request):
                                                                   'shopify_api_scope': ','.join(
                                                                       settings.SHOPIFY_API_SCOPE)})
 
+        session = shopify.Session(params['shop'], token)
+        shopify.ShopifyResource.activate_session(session)
+
         recurring_application_charge = shopify.RecurringApplicationCharge()
         recurring_application_charge.name = 'Basic Plan'
         recurring_application_charge.price = 4.99
