@@ -89,8 +89,10 @@ def auth_callback(request):
 
         if settings.DEVELOPMENT_MODE == 'TEST':
             recurring_application_charge.test = True
-        print('URL is!!! ', recurring_application_charge.confirmation_url)
+
+        print('hello')
         if recurring_application_charge.save():
+            print('URL is!!! ', recurring_application_charge.confirmation_url)
             return redirect(recurring_application_charge.confirmation_url)
         else:
             return HttpResponseBadRequest('Something went wrong with the processing of your order.')
