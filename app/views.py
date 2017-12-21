@@ -81,18 +81,23 @@ def auth_callback(request):
         session = shopify.Session(params['shop'], token)
         shopify.ShopifyResource.activate_session(session)
 
-        recurring_application_charge = shopify.RecurringApplicationCharge()
-        recurring_application_charge.name = 'Basic Plan'
-        recurring_application_charge.price = 4.99
-        recurring_application_charge.return_url = redirect('https://' + params['shop'] + '/admin/apps')
-        recurring_application_charge.trial_days = 30
+        charge = shopify.RecurringApplicationCharge()
+        charge.name = 'Basic Plan'
+        charge.price = 4.99
+        charge.return_url = redirect('https://' + params['shop'] + '/admin/apps')
+        charge.trial_days = 30
 
         if settings.DEVELOPMENT_MODE == 'TEST':
-            recurring_application_charge.test = True
+            charge.test = True
+        print("ACTIVATE")
+        f = charge.activate()
+        print(f)
+        print(charge.confirmation_url)
+        print('noo?')
+        if charge.activate():
 
-        if recurring_application_charge.activate():
-            print('URL is!!! ', recurring_application_charge.confirmation_url)
-            return redirect(recurring_application_charge.confirmation_url)
+            print('URL is!!! ', charge.confirmation_url)
+            return redirect(charge.confirmation_url)
         else:
             return HttpResponseBadRequest('Something went wrong with the processing of your order.')
     except Exception as e:
