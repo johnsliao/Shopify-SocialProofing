@@ -84,18 +84,13 @@ def auth_callback(request):
         charge = shopify.RecurringApplicationCharge()
         charge.name = 'Basic Plan'
         charge.price = 4.99
-        charge.return_url = redirect('https://' + params['shop'] + '/admin/apps')
+        charge.return_url = 'https://' + params['shop'] + '/admin/apps'
         charge.trial_days = 30
 
         if settings.DEVELOPMENT_MODE == 'TEST':
             charge.test = True
-        print("SAVE")
-        f = charge.save()
-        print(f)
-        print(charge.confirmation_url)
-        print('noo?')
-        if charge.activate():
 
+        if charge.save():
             print('URL is!!! ', charge.confirmation_url)
             return redirect(charge.confirmation_url)
         else:
