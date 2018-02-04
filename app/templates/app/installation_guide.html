@@ -9,7 +9,16 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 </head>
+<style>
+	.container {
+		padding-bottom: 25px;
+		padding-top: 25px;
+	}
+</style>
 
 <body>
 	<p/>
@@ -19,52 +28,48 @@
 		<hr>
 		<h4>Before you start this guide:</h4>
 		<p>Make sure you have the Social Proof Samurai application installed.</p>
-		<a href="https://apps.shopify.com/social-proof-samurai">Click here to install the Social Proof Samurai app.></a>
-
+		<a href="https://apps.shopify.com/social-proof-samurai">Click here to install the Social Proof Samurai app</a>
+		<hr>
 		<p/>
 		<h4>Step 1</h4>
 		<p> Click "Online Store" under "Sales Channels" on the left hand side of your Shopify store page </p>
-		<img src="https://i.imgur.com/zoDRAiz.png" />
+		<img src="https://i.imgur.com/zoDRAiz.png" alt="step1" style="width:200px;"></a>
 		<p/>
 
 		<h4>Step 2</h4>
 		<p> Click Actions -> Edit code </p>
-		<img src="https://i.imgur.com/zmvcisq.png">
+		<img src="https://i.imgur.com/zmvcisq.png" alt="step2" style="width:1100px;"></a>
 		<p/>
 
 		<h4>Step 3</h4>
 		<p> Under Layout, click "theme.liquid" </p>
-		<img src="https://i.imgur.com/Tq57LCB.png">
+		<img src="https://i.imgur.com/Tq57LCB.png" alt="step2" style="width:1100px;"></a>
 		<p/>
 
 		<h4>Step 4</h4>
 		<p> Code will appear on the right. Scroll to the bottom and add the following between &lt;/body&gt; and &lt;/html&gt; tags: </p>
-
-		<p style="margin-left: 40px; font-family: courier">&lt;script src="https://socialproof-samurai.herokuapp.com/static/js/initializeModal.js"&gt;&lt;/script&gt;</p>
-		<img src="https://i.imgur.com/qLju9Ju.png">
+		<img src="https://i.imgur.com/qLju9Ju.png" alt="step2" style="width:1100px;"></a>
 		<p/>
 
 		<h4>Step 5</h4>
 		<p>Click Save</p>
-		<img src="https://i.imgur.com/nz9gLyl.png">
+		<img src="https://i.imgur.com/nz9gLyl.png" alt="step2" style="width:1100px;"></a>
 		<p/>
 
 		<h4>Step 6</h4>
 		<p> The pop up should appear on your product pages as shown here:</p>
-		<img src="https://i.imgur.com/pQjXe7x.png">
+		<img src="https://i.imgur.com/pQjXe7x.png" alt="step2" style="width:1100px;"></a>
 		<p/>
-
 
 		<hr>
 		<h2>Frequently Asked Questions (FAQ)</h2>
 
 		<b>What is the procedure to install this app?</b>
-		<p>Click the installation button “Get” button. After approving the permissions that app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to your best
-			interest.
+		<p>Click the installation button labelled "Get". After approving the permissions that the app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to best suit your needs.
 		</p>
 
 		<b>When will my social proof data get refreshed?</b>
-		<p>We update our databases with your store social proof data every few hours.</p>
+		<p>We scan your orders database every few hours in order to make sure the social proof data on your products is as up to date as possible.</p>
 
 		<b>No pop up is showing on my product pages</b>
 		<p>The furthest Social Proof Samurai will check orders is within the last 7 days. If a product does not have an order within that time, then no pop up will appear.</p>
@@ -81,11 +86,8 @@
 
 		<br>
 		<hr>
-		<span class="text-muted"><b>Still having trouble?</b> Email us at socialproof.samurai@gmail.com for direct support.</span>
+		<span class="text-muted"><b>Still having trouble?</b> Email us at <a href="mailto:socialproof.samurai@gmail.com?Subject=Help%20request" target="_top">socialproof.samurai@gmail.com</a> for support.</span>
 	</div>
-
-
-
 </body>
 
 </html>
