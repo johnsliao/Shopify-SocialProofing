@@ -17,33 +17,33 @@ class Install extends Component {
     		<p/>
     		<h4>Step 1</h4>
     		<p> Click "Online Store" under "Sales Channels" on the left hand side of your Shopify store page </p>
-    		    <img src="https://i.imgur.com/zoDRAiz.png" alt="step1" style="width:200px;"></a>
+    		    <img src="https://i.imgur.com/zoDRAiz.png" alt="step1" style={{width:'1100px'}}></a>
     		<p/>
 
     		<h4>Step 2</h4>
     		<p> Click Actions -> Edit code </p>
-    		    <img src="https://i.imgur.com/zmvcisq.png" alt="step2" style="width:1100px;"></a>
+    		    <img src="https://i.imgur.com/zmvcisq.png" alt="step2" style={{width:'1100px'}}></a>
     		<p/>
 
     		<h4>Step 3</h4>
     		<p> Under Layout, click "theme.liquid" </p>
-    		    <img src="https://i.imgur.com/Tq57LCB.png" alt="step2" style="width:1100px;"></a>
+    		    <img src="https://i.imgur.com/Tq57LCB.png" alt="step2" style={{width:'1100px'}}></a>
     		<p/>
 
     		<h4>Step 4</h4>
     		<p> Code will appear on the right. Scroll to the bottom and add the following between &lt;/body&gt; and &lt;/html&gt; tags: </p>
     		   <code>&lt;script src="https://socialproof-samurai.herokuapp.com/static/js/initializeModal.js"&gt;&lt;/script&gt;</code>
-    		     <img src="https://i.imgur.com/qLju9Ju.png" alt="step2" style="width:1100px;"></a>
+    		     <img src="https://i.imgur.com/qLju9Ju.png" alt="step2" style={{width:'1100px'}}></a>
     		<p/>
 
     		<h4>Step 5</h4>
     		<p>Click Save</p>
-    		    <img src="https://i.imgur.com/nz9gLyl.png" alt="step2" style="width:1100px;"></a>
+    		    <img src="https://i.imgur.com/nz9gLyl.png" alt="step2" style={{width:'1100px'}}></a>
     		<p/>
 
     		<h4>Step 6</h4>
     		<p> The pop up should appear on your product pages as shown here:</p>
-    		    <img src="https://i.imgur.com/pQjXe7x.png" alt="step2" style="width:1100px;"></a>
+    		    <img src="https://i.imgur.com/pQjXe7x.png" alt="step2" style={{width:'1100px'}}></a>
     		<p/>
 
     		<hr>
@@ -69,7 +69,7 @@ class Install extends Component {
 
     		<br>
     		<hr>
-    		<span class="text-muted"><b>Still having trouble?</b> Email us at <a href="mailto:socialproof.samurai@gmail.com?Subject=Help%20request" target="_top">socialproof.samurai@gmail.com</a> for support.</span>
+    		<span className="text-muted"><b>Still having trouble?</b> Email us at <a href="mailto:socialproof.samurai@gmail.com?Subject=Help%20request" target="_top">socialproof.samurai@gmail.com</a> for support.</span>
   	   </div>
        )
   }
