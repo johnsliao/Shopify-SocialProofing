@@ -185,7 +185,6 @@ class Settings extends Component {
        productName: "",
        socialTime: ""
      }
-     console.log("socialSetting ", socialSetting)
 
      if (socialSetting[0] === 'latest') {
        textObj.socialSettingText = "Victoria Y. purchased a"
