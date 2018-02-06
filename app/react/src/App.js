@@ -42,7 +42,7 @@ class App extends Component {
                }
            })(this.state.selectedTab)
          }
-        <Tabs/>
+        </Tabs>
       </Page>
     )
   }
