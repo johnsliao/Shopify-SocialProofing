@@ -41735,9 +41735,9 @@ var _Settings = require('./Settings.js');
 
 var _Settings2 = _interopRequireDefault(_Settings);
 
-var _Install = require('./Install.js');
+var _FAQ = require('./FAQ.js');
 
-var _Install2 = _interopRequireDefault(_Install);
+var _FAQ2 = _interopRequireDefault(_FAQ);
 
 var _polaris = require('@shopify/polaris');
 
@@ -41781,8 +41781,8 @@ var App = function (_Component) {
               id: 'Settings',
               title: 'Settings'
             }, {
-              id: 'Install-Help',
-              title: 'Install'
+              id: 'FAQ-Help',
+              title: 'FAQ'
             }]
           },
           function (selectedTab) {
@@ -41790,7 +41790,7 @@ var App = function (_Component) {
               case 0:
                 return _react2.default.createElement(_Settings2.default, null);
               case 1:
-                return _react2.default.createElement(_Install2.default, null);
+                return _react2.default.createElement(_FAQ2.default, null);
             }
           }(this.state.selectedTab)
         )
@@ -41803,11 +41803,11 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"./Install.js":595,"./Settings.js":596,"@shopify/polaris":14,"react":592}],595:[function(require,module,exports){
+},{"./FAQ.js":595,"./Settings.js":596,"@shopify/polaris":14,"react":592}],595:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+   value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -41824,128 +41824,143 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Install = function (_Component) {
-  _inherits(Install, _Component);
+var FAQ = function (_Component) {
+   _inherits(FAQ, _Component);
 
-  function Install(props) {
-    _classCallCheck(this, Install);
+   function FAQ(props) {
+      _classCallCheck(this, FAQ);
 
-    return _possibleConstructorReturn(this, (Install.__proto__ || Object.getPrototypeOf(Install)).call(this, props));
-  }
+      return _possibleConstructorReturn(this, (FAQ.__proto__ || Object.getPrototypeOf(FAQ)).call(this, props));
+   }
 
-  _createClass(Install, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        null,
-        _react2.default.createElement(
-          "h2",
-          null,
-          "Frequently Asked Questions (FAQ)"
-        ),
-        _react2.default.createElement(
-          "b",
-          null,
-          "What is the procedure to install this app",
-          "?"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "Click the installation button labelled \"Get\". After approving the permissions that the app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to best suit your needs."
-        ),
-        _react2.default.createElement(
-          "b",
-          null,
-          "When will my social proof data get refreshed",
-          "?"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "We scan your orders database every few hours in order to make sure the social proof data on your products is as up to date as possible."
-        ),
-        _react2.default.createElement(
-          "b",
-          null,
-          "No pop up is showing on my product pages"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "The furthest Social Proof Samurai will check orders is within the last 7 days. If a product does not have an order within that time, then no pop up will appear."
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "If you had an order within the last 7 days or within your specific look back period and its not showing up, then your theme files may be preventing it from popping up. Please follow the manual installation instructions ",
-          _react2.default.createElement(
-            "a",
-            { href: "https://socialproof-samurai.herokuapp.com/installation_guide" },
-            "here."
-          )
-        ),
-        _react2.default.createElement(
-          "b",
-          null,
-          "Will this affect my theme files",
-          "?"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "No. This app does not make any changes to your theme/liquid files."
-        ),
-        _react2.default.createElement(
-          "b",
-          null,
-          "How can I contact you for support",
-          "?"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "Please contact us at socialproof.samurai@gmail.com. We will get back to you within 24-48 hours."
-        ),
-        _react2.default.createElement(
-          "b",
-          null,
-          " How can I uninstall your app",
-          "?",
-          " "
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          " Please visit your store\u2019s application page to uninstall Social Proof Samurai."
-        ),
-        _react2.default.createElement("br", null),
-        _react2.default.createElement("hr", null),
-        _react2.default.createElement(
-          "span",
-          { className: "text-muted" },
-          _react2.default.createElement(
-            "b",
+   _createClass(FAQ, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+         window.scrollTo(0, 0);
+      }
+   }, {
+      key: "render",
+      value: function render() {
+         return _react2.default.createElement(
+            "div",
             null,
-            "Still having trouble",
-            "?"
-          ),
-          "Email us at ",
-          _react2.default.createElement(
-            "a",
-            { href: "mailto:socialproof.samurai@gmail.com?Subject=Help%20request", target: "_top" },
-            "socialproof.samurai@gmail.com for support."
-          )
-        )
-      );
-    }
-  }]);
+            _react2.default.createElement(
+               "h1",
+               null,
+               "Frequently Asked Questions (FAQ)"
+            ),
+            _react2.default.createElement("br", null),
+            _react2.default.createElement(
+               "ul",
+               null,
+               _react2.default.createElement(
+                  "b",
+                  null,
+                  "What is the procedure to install this app",
+                  "?"
+               ),
+               _react2.default.createElement(
+                  "p",
+                  null,
+                  "Click the installation button labelled \"Get\". After approving the permissions that the app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to best suit your needs."
+               ),
+               _react2.default.createElement("br", null),
+               _react2.default.createElement(
+                  "b",
+                  null,
+                  "When will my social proof data get refreshed",
+                  "?"
+               ),
+               _react2.default.createElement(
+                  "p",
+                  null,
+                  "We scan your orders database every few hours in order to make sure the social proof data on your products is as up to date as possible."
+               ),
+               _react2.default.createElement("br", null),
+               _react2.default.createElement(
+                  "b",
+                  null,
+                  "No pop up is showing on my product pages"
+               ),
+               _react2.default.createElement(
+                  "p",
+                  null,
+                  "The furthest Social Proof Samurai will check orders is within the last 7 days. If a product does not have an order within that time, then no pop up will appear."
+               ),
+               _react2.default.createElement(
+                  "p",
+                  null,
+                  "If you had an order within the last 7 days or within your specific look back period and its not showing up, then your theme files may be preventing it from popping up. Please follow the manual installation instructions ",
+                  _react2.default.createElement(
+                     "a",
+                     { href: "https://socialproof-samurai.herokuapp.com/installation_guide" },
+                     "here."
+                  )
+               ),
+               _react2.default.createElement("br", null),
+               _react2.default.createElement(
+                  "b",
+                  null,
+                  "Will this affect my theme files",
+                  "?"
+               ),
+               _react2.default.createElement(
+                  "p",
+                  null,
+                  "No. This app does not make any changes to your theme/liquid files."
+               ),
+               _react2.default.createElement("br", null),
+               _react2.default.createElement(
+                  "b",
+                  null,
+                  "How can I contact you for support",
+                  "?"
+               ),
+               _react2.default.createElement(
+                  "p",
+                  null,
+                  "Please contact us at socialproof.samurai@gmail.com. We will get back to you within 24-48 hours."
+               ),
+               _react2.default.createElement("br", null),
+               _react2.default.createElement(
+                  "b",
+                  null,
+                  " How can I uninstall your app",
+                  "?",
+                  " "
+               ),
+               _react2.default.createElement(
+                  "p",
+                  null,
+                  " Please visit your store\u2019s application page to uninstall Social Proof Samurai."
+               )
+            ),
+            _react2.default.createElement("br", null),
+            _react2.default.createElement("hr", null),
+            _react2.default.createElement(
+               "span",
+               { className: "text-muted" },
+               _react2.default.createElement(
+                  "b",
+                  null,
+                  "Still having trouble",
+                  "?"
+               ),
+               "Email us at ",
+               _react2.default.createElement(
+                  "a",
+                  { href: "mailto:socialproof.samurai@gmail.com?Subject=Help%20request", target: "_top" },
+                  "socialproof.samurai@gmail.com for support."
+               )
+            )
+         );
+      }
+   }]);
 
-  return Install;
+   return FAQ;
 }(_react.Component);
 
-exports.default = Install;
+exports.default = FAQ;
 
 },{"react":592}],596:[function(require,module,exports){
 'use strict';
@@ -42016,6 +42031,11 @@ var Settings = function (_Component) {
       }).catch(function (e) {
         console.log('error' + e);
       });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      window.scrollTo(0, 0);
     }
   }, {
     key: 'showSaveStatus',

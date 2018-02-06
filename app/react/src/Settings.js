@@ -49,6 +49,10 @@ class Settings extends Component {
         console.log('error' + e);
     });
   }
+  
+  componentDidMount() {
+     window.scrollTo(0,0)
+  }
 
   showSaveStatus () {
     this.setState({settingSaved: true});

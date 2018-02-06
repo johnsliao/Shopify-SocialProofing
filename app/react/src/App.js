@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Settings from './Settings.js';
-import Install from './Install.js';
+import FAQ from './FAQ.js';
 import { Tabs, Page } from '@shopify/polaris';
 
 class App extends Component {
@@ -22,8 +22,8 @@ class App extends Component {
               title: 'Settings',
             },
             {
-              id: 'Install-Help',
-              title: 'Install',
+              id: 'FAQ-Help',
+              title: 'FAQ',
             }
           ]}
           >
@@ -36,7 +36,7 @@ class App extends Component {
                  );
                case 1:
                  return(
-                   <Install></Install>
+                   <FAQ></FAQ>
                  );
                }
            })(this.state.selectedTab)
