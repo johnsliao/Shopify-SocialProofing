@@ -1,3 +1,4 @@
+import React, {Component} from 'react';
 
 class Install extends Component {
   constructor(props) {

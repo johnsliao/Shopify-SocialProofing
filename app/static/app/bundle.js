@@ -41813,6 +41813,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -41831,202 +41837,202 @@ var Install = function (_Component) {
   _createClass(Install, [{
     key: "render",
     value: function render() {
-      return React.createElement(
+      return _react2.default.createElement(
         "div",
         null,
-        React.createElement(
+        _react2.default.createElement(
           "h1",
           null,
           "Social Proof Samurai - Manual Installation Guide"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "Follow these steps to manually add the Social Proof Samurai script to your product pages."
         ),
-        React.createElement("hr", null),
-        React.createElement(
+        _react2.default.createElement("hr", null),
+        _react2.default.createElement(
           "h4",
           null,
           "Before you start this guide:"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "Make sure you have the Social Proof Samurai application installed."
         ),
-        React.createElement(
+        _react2.default.createElement(
           "a",
           { href: "https://apps.shopify.com/social-proof-samurai" },
           " Click here to install the Social Proof Samurai app. "
         ),
-        React.createElement("hr", null),
-        React.createElement(
+        _react2.default.createElement("hr", null),
+        _react2.default.createElement(
           "h4",
           null,
           "Step 1"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           " Click \"Online Store\" under \"Sales Channels\" on the left hand side of your Shopify store page "
         ),
-        React.createElement("img", { src: "https://i.imgur.com/zoDRAiz.png", alt: "step1", style: { width: '1100px' } }),
-        React.createElement(
+        _react2.default.createElement("img", { src: "https://i.imgur.com/zoDRAiz.png", alt: "step1", style: { width: '1100px' } }),
+        _react2.default.createElement(
           "h4",
           null,
           "Step 2"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           " Click Actions -> Edit code "
         ),
-        React.createElement("img", { src: "https://i.imgur.com/zmvcisq.png", alt: "step2", style: { width: '1100px' } }),
-        React.createElement(
+        _react2.default.createElement("img", { src: "https://i.imgur.com/zmvcisq.png", alt: "step2", style: { width: '1100px' } }),
+        _react2.default.createElement(
           "h4",
           null,
           "Step 3"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           " Under Layout, click \"theme.liquid\" "
         ),
-        React.createElement("img", { src: "https://i.imgur.com/Tq57LCB.png", alt: "step2", style: { width: '1100px' } }),
-        React.createElement(
+        _react2.default.createElement("img", { src: "https://i.imgur.com/Tq57LCB.png", alt: "step2", style: { width: '1100px' } }),
+        _react2.default.createElement(
           "h4",
           null,
           "Step 4"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           " Code will appear on the right. Scroll to the bottom and add the following between </body> and </html> tags: "
         ),
-        React.createElement(
+        _react2.default.createElement(
           "code",
           null,
           "<script src=\"https://socialproof-samurai.herokuapp.com/static/js/initializeModal.js\"></script>"
         ),
-        React.createElement("img", { src: "https://i.imgur.com/qLju9Ju.png", alt: "step2", style: { width: '1100px' } }),
-        React.createElement(
+        _react2.default.createElement("img", { src: "https://i.imgur.com/qLju9Ju.png", alt: "step2", style: { width: '1100px' } }),
+        _react2.default.createElement(
           "h4",
           null,
           "Step 5"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "Click Save"
         ),
-        React.createElement("img", { src: "https://i.imgur.com/nz9gLyl.png", alt: "step2", style: { width: '1100px' } }),
-        React.createElement(
+        _react2.default.createElement("img", { src: "https://i.imgur.com/nz9gLyl.png", alt: "step2", style: { width: '1100px' } }),
+        _react2.default.createElement(
           "h4",
           null,
           "Step 6"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           " The pop up should appear on your product pages as shown here:"
         ),
-        React.createElement("img", { src: "https://i.imgur.com/pQjXe7x.png", alt: "step2", style: { width: '1100px' } }),
-        React.createElement("hr", null),
-        React.createElement(
+        _react2.default.createElement("img", { src: "https://i.imgur.com/pQjXe7x.png", alt: "step2", style: { width: '1100px' } }),
+        _react2.default.createElement("hr", null),
+        _react2.default.createElement(
           "h2",
           null,
           "Frequently Asked Questions (FAQ)"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "b",
           null,
           "What is the procedure to install this app",
           "?"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "Click the installation button labelled \"Get\". After approving the permissions that the app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to best suit your needs."
         ),
-        React.createElement(
+        _react2.default.createElement(
           "b",
           null,
           "When will my social proof data get refreshed",
           "?"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "We scan your orders database every few hours in order to make sure the social proof data on your products is as up to date as possible."
         ),
-        React.createElement(
+        _react2.default.createElement(
           "b",
           null,
           "No pop up is showing on my product pages"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "The furthest Social Proof Samurai will check orders is within the last 7 days. If a product does not have an order within that time, then no pop up will appear."
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "If you had an order within the last 7 days or within your specific look back period and its not showing up, then your theme files may be preventing it from popping up. Please follow the manual installation instructions ",
-          React.createElement(
+          _react2.default.createElement(
             "a",
             { href: "https://socialproof-samurai.herokuapp.com/installation_guide" },
             "here."
           )
         ),
-        React.createElement(
+        _react2.default.createElement(
           "b",
           null,
           "Will this affect my theme files",
           "?"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "No. This app does not make any changes to your theme/liquid files."
         ),
-        React.createElement(
+        _react2.default.createElement(
           "b",
           null,
           "How can I contact you for support",
           "?"
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           "Please contact us at socialproof.samurai@gmail.com. We will get back to you within 24-48 hours."
         ),
-        React.createElement(
+        _react2.default.createElement(
           "b",
           null,
           " How can I uninstall your app",
           "?",
           " "
         ),
-        React.createElement(
+        _react2.default.createElement(
           "p",
           null,
           " Please visit your store\u2019s application page to uninstall Social Proof Samurai."
         ),
-        React.createElement("br", null),
-        React.createElement("hr", null),
-        React.createElement(
+        _react2.default.createElement("br", null),
+        _react2.default.createElement("hr", null),
+        _react2.default.createElement(
           "span",
           { className: "text-muted" },
-          React.createElement(
+          _react2.default.createElement(
             "b",
             null,
             "Still having trouble",
             "?"
           ),
           "Email us at ",
-          React.createElement(
+          _react2.default.createElement(
             "a",
             { href: "mailto:socialproof.samurai@gmail.com?Subject=Help%20request", target: "_top" },
             "socialproof.samurai@gmail.com for support."
@@ -42037,11 +42043,11 @@ var Install = function (_Component) {
   }]);
 
   return Install;
-}(Component);
+}(_react.Component);
 
 exports.default = Install;
 
-},{}],596:[function(require,module,exports){
+},{"react":592}],596:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
