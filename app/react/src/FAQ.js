@@ -10,7 +10,7 @@ class FAQ extends Component {
   render () {  
     return (
 	     <div>
-          <h1>Frequently Asked Questions (FAQ)</h1>
+          <h1 style={{fontSize: "24px"}}>Frequently Asked Questions (FAQ)</h1>
           <br/>
        		<ul>
             <b>What is the procedure to install this app{`?`}</b>
@@ -35,6 +35,7 @@ class FAQ extends Component {
           <br/>
        		<hr/>
        		<span className="text-muted"><b>Still having trouble{`?`}</b> 
+            <br/>
              Email us at <a href="mailto:socialproof.samurai@gmail.com?Subject=Help%20request" target="_top">socialproof.samurai@gmail.com for support.</a>
            </span>
   	   </div>

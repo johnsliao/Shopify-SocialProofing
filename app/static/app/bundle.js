@@ -41846,7 +41846,7 @@ var FAQ = function (_Component) {
             null,
             _react2.default.createElement(
                "h1",
-               null,
+               { style: { fontSize: "24px" } },
                "Frequently Asked Questions (FAQ)"
             ),
             _react2.default.createElement("br", null),
@@ -41946,6 +41946,7 @@ var FAQ = function (_Component) {
                   "Still having trouble",
                   "?"
                ),
+               _react2.default.createElement("br", null),
                "Email us at ",
                _react2.default.createElement(
                   "a",
