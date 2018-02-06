@@ -41735,6 +41735,12 @@ var _Settings = require('./Settings.js');
 
 var _Settings2 = _interopRequireDefault(_Settings);
 
+var _Install = require('./Install.js');
+
+var _Install2 = _interopRequireDefault(_Install);
+
+var _polaris = require('@shopify/polaris');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41746,16 +41752,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var App = function (_Component) {
   _inherits(App, _Component);
 
-  function App() {
+  function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = { selectedTab: 0 };
+    return _this;
   }
 
   _createClass(App, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Settings2.default, null);
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        _polaris.Page,
+        null,
+        _react2.default.createElement(
+          Tabs,
+          {
+            fitted: true,
+            selected: this.state.selectedTab,
+            onSelect: function onSelect(tabIndex) {
+              _this2.setState({ selectedTab: tabIndex });
+            },
+            tabs: [{
+              id: 'Settings',
+              content: 'Settings',
+              accessibilityLabel: 'Settings Page'
+            }, {
+              id: 'Install-Help',
+              content: 'Install help'
+            }]
+          },
+          function (selectedTab) {
+            switch (selectedTab) {
+              case 0:
+                return _react2.default.createElement(_Settings2.default, null);
+              case 1:
+                return _react2.default.createElement(_Install2.default, null);
+            }
+          }(this.state.selectedTab)
+        )
+      );
     }
   }]);
 
@@ -41764,7 +41804,244 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"./Settings.js":595,"react":592}],595:[function(require,module,exports){
+},{"./Install.js":595,"./Settings.js":596,"@shopify/polaris":14,"react":592}],595:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Install = function (_Component) {
+  _inherits(Install, _Component);
+
+  function Install(props) {
+    _classCallCheck(this, Install);
+
+    return _possibleConstructorReturn(this, (Install.__proto__ || Object.getPrototypeOf(Install)).call(this, props));
+  }
+
+  _createClass(Install, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          null,
+          "Social Proof Samurai - Manual Installation Guide"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "Follow these steps to manually add the Social Proof Samurai script to your product pages."
+        ),
+        React.createElement("hr", null),
+        React.createElement(
+          "h4",
+          null,
+          "Before you start this guide:"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "Make sure you have the Social Proof Samurai application installed."
+        ),
+        React.createElement(
+          "a",
+          { href: "https://apps.shopify.com/social-proof-samurai" },
+          " Click here to install the Social Proof Samurai app. "
+        ),
+        React.createElement("hr", null),
+        React.createElement(
+          "h4",
+          null,
+          "Step 1"
+        ),
+        React.createElement(
+          "p",
+          null,
+          " Click \"Online Store\" under \"Sales Channels\" on the left hand side of your Shopify store page "
+        ),
+        React.createElement("img", { src: "https://i.imgur.com/zoDRAiz.png", alt: "step1", style: { width: '1100px' } }),
+        React.createElement(
+          "h4",
+          null,
+          "Step 2"
+        ),
+        React.createElement(
+          "p",
+          null,
+          " Click Actions -> Edit code "
+        ),
+        React.createElement("img", { src: "https://i.imgur.com/zmvcisq.png", alt: "step2", style: { width: '1100px' } }),
+        React.createElement(
+          "h4",
+          null,
+          "Step 3"
+        ),
+        React.createElement(
+          "p",
+          null,
+          " Under Layout, click \"theme.liquid\" "
+        ),
+        React.createElement("img", { src: "https://i.imgur.com/Tq57LCB.png", alt: "step2", style: { width: '1100px' } }),
+        React.createElement(
+          "h4",
+          null,
+          "Step 4"
+        ),
+        React.createElement(
+          "p",
+          null,
+          " Code will appear on the right. Scroll to the bottom and add the following between </body> and </html> tags: "
+        ),
+        React.createElement(
+          "code",
+          null,
+          "<script src=\"https://socialproof-samurai.herokuapp.com/static/js/initializeModal.js\"></script>"
+        ),
+        React.createElement("img", { src: "https://i.imgur.com/qLju9Ju.png", alt: "step2", style: { width: '1100px' } }),
+        React.createElement(
+          "h4",
+          null,
+          "Step 5"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "Click Save"
+        ),
+        React.createElement("img", { src: "https://i.imgur.com/nz9gLyl.png", alt: "step2", style: { width: '1100px' } }),
+        React.createElement(
+          "h4",
+          null,
+          "Step 6"
+        ),
+        React.createElement(
+          "p",
+          null,
+          " The pop up should appear on your product pages as shown here:"
+        ),
+        React.createElement("img", { src: "https://i.imgur.com/pQjXe7x.png", alt: "step2", style: { width: '1100px' } }),
+        React.createElement("hr", null),
+        React.createElement(
+          "h2",
+          null,
+          "Frequently Asked Questions (FAQ)"
+        ),
+        React.createElement(
+          "b",
+          null,
+          "What is the procedure to install this app",
+          "?"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "Click the installation button labelled \"Get\". After approving the permissions that the app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to best suit your needs."
+        ),
+        React.createElement(
+          "b",
+          null,
+          "When will my social proof data get refreshed",
+          "?"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "We scan your orders database every few hours in order to make sure the social proof data on your products is as up to date as possible."
+        ),
+        React.createElement(
+          "b",
+          null,
+          "No pop up is showing on my product pages"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "The furthest Social Proof Samurai will check orders is within the last 7 days. If a product does not have an order within that time, then no pop up will appear."
+        ),
+        React.createElement(
+          "p",
+          null,
+          "If you had an order within the last 7 days or within your specific look back period and its not showing up, then your theme files may be preventing it from popping up. Please follow the manual installation instructions ",
+          React.createElement(
+            "a",
+            { href: "https://socialproof-samurai.herokuapp.com/installation_guide" },
+            "here."
+          )
+        ),
+        React.createElement(
+          "b",
+          null,
+          "Will this affect my theme files",
+          "?"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "No. This app does not make any changes to your theme/liquid files."
+        ),
+        React.createElement(
+          "b",
+          null,
+          "How can I contact you for support",
+          "?"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "Please contact us at socialproof.samurai@gmail.com. We will get back to you within 24-48 hours."
+        ),
+        React.createElement(
+          "b",
+          null,
+          " How can I uninstall your app",
+          "?",
+          " "
+        ),
+        React.createElement(
+          "p",
+          null,
+          " Please visit your store\u2019s application page to uninstall Social Proof Samurai."
+        ),
+        React.createElement("br", null),
+        React.createElement("hr", null),
+        React.createElement(
+          "span",
+          { className: "text-muted" },
+          React.createElement(
+            "b",
+            null,
+            "Still having trouble",
+            "?"
+          ),
+          "Email us at ",
+          React.createElement(
+            "a",
+            { href: "mailto:socialproof.samurai@gmail.com?Subject=Help%20request", target: "_top" },
+            "socialproof.samurai@gmail.com for support."
+          )
+        )
+      );
+    }
+  }]);
+
+  return Install;
+}(Component);
+
+exports.default = Install;
+
+},{}],596:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41985,7 +42262,6 @@ var Settings = function (_Component) {
         productName: "",
         socialTime: ""
       };
-      console.log("socialSetting ", socialSetting);
 
       if (socialSetting[0] === 'latest') {
         textObj.socialSettingText = "Victoria Y. purchased a";
@@ -42239,7 +42515,7 @@ var Settings = function (_Component) {
 
 exports.default = Settings;
 
-},{"@shopify/polaris":14,"color-convert":33,"react":592}],596:[function(require,module,exports){
+},{"@shopify/polaris":14,"color-convert":33,"react":592}],597:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -42258,4 +42534,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('root'));
 
-},{"./App":594,"react":592,"react-dom":434}]},{},[596]);
+},{"./App":594,"react":592,"react-dom":434}]},{},[597]);
