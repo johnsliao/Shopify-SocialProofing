@@ -41779,11 +41779,10 @@ var App = function (_Component) {
             },
             tabs: [{
               id: 'Settings',
-              content: 'Settings',
-              accessibilityLabel: 'Settings Page'
+              title: 'Settings'
             }, {
               id: 'Install-Help',
-              content: 'Install help'
+              title: 'Install'
             }]
           },
           function (selectedTab) {
@@ -41840,105 +41839,6 @@ var Install = function (_Component) {
       return _react2.default.createElement(
         "div",
         null,
-        _react2.default.createElement(
-          "h1",
-          null,
-          "Social Proof Samurai - Manual Installation Guide"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "Follow these steps to manually add the Social Proof Samurai script to your product pages."
-        ),
-        _react2.default.createElement("hr", null),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Before you start this guide:"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "Make sure you have the Social Proof Samurai application installed."
-        ),
-        _react2.default.createElement(
-          "a",
-          { href: "https://apps.shopify.com/social-proof-samurai" },
-          " Click here to install the Social Proof Samurai app. "
-        ),
-        _react2.default.createElement("hr", null),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Step 1"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          " Click \"Online Store\" under \"Sales Channels\" on the left hand side of your Shopify store page "
-        ),
-        _react2.default.createElement("img", { src: "https://i.imgur.com/zoDRAiz.png", alt: "step1", style: { width: '1100px' } }),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Step 2"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          " Click Actions -> Edit code "
-        ),
-        _react2.default.createElement("img", { src: "https://i.imgur.com/zmvcisq.png", alt: "step2", style: { width: '1100px' } }),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Step 3"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          " Under Layout, click \"theme.liquid\" "
-        ),
-        _react2.default.createElement("img", { src: "https://i.imgur.com/Tq57LCB.png", alt: "step2", style: { width: '1100px' } }),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Step 4"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          " Code will appear on the right. Scroll to the bottom and add the following between </body> and </html> tags: "
-        ),
-        _react2.default.createElement(
-          "code",
-          null,
-          "<script src=\"https://socialproof-samurai.herokuapp.com/static/js/initializeModal.js\"></script>"
-        ),
-        _react2.default.createElement("img", { src: "https://i.imgur.com/qLju9Ju.png", alt: "step2", style: { width: '1100px' } }),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Step 5"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          "Click Save"
-        ),
-        _react2.default.createElement("img", { src: "https://i.imgur.com/nz9gLyl.png", alt: "step2", style: { width: '1100px' } }),
-        _react2.default.createElement(
-          "h4",
-          null,
-          "Step 6"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          " The pop up should appear on your product pages as shown here:"
-        ),
-        _react2.default.createElement("img", { src: "https://i.imgur.com/pQjXe7x.png", alt: "step2", style: { width: '1100px' } }),
-        _react2.default.createElement("hr", null),
         _react2.default.createElement(
           "h2",
           null,

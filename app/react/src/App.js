@@ -19,12 +19,11 @@ class App extends Component {
           tabs={[
             {
               id: 'Settings',
-              content: 'Settings',
-              accessibilityLabel: 'Settings Page',
+              title: 'Settings',
             },
             {
               id: 'Install-Help',
-              content: 'Install help',
+              title: 'Install',
             }
           ]}
           >
