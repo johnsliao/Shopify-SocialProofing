@@ -41846,7 +41846,7 @@ var FAQ = function (_Component) {
             null,
             _react2.default.createElement(
                "h1",
-               { style: { fontSize: "24px" } },
+               { style: { fontSize: "24px", paddingTop: "25px" } },
                "Frequently Asked Questions (FAQ)"
             ),
             _react2.default.createElement("br", null),
@@ -41862,7 +41862,13 @@ var FAQ = function (_Component) {
                _react2.default.createElement(
                   "p",
                   null,
-                  "Click the installation button labelled \"Get\". After approving the permissions that the app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to best suit your needs."
+                  "Go to the Social Proof Samurai ",
+                  _react2.default.createElement(
+                     "a",
+                     { href: "https://apps.shopify.com/social-proof-samurai" },
+                     "app listing page"
+                  ),
+                  ". Click the installation button labelled \"Get\". After approving the permissions that the app requires, you will be redirected to the Social Proof Samurai settings page. We set the default social proof settings for you, but feel free to edit them to best suit your needs."
                ),
                _react2.default.createElement("br", null),
                _react2.default.createElement(
@@ -41887,6 +41893,7 @@ var FAQ = function (_Component) {
                   null,
                   "The furthest Social Proof Samurai will check orders is within the last 7 days. If a product does not have an order within that time, then no pop up will appear."
                ),
+               _react2.default.createElement("br", null),
                _react2.default.createElement(
                   "p",
                   null,
@@ -41901,7 +41908,7 @@ var FAQ = function (_Component) {
                _react2.default.createElement(
                   "b",
                   null,
-                  "Will this affect my theme files",
+                  "Does the Social Proof Samurai app affect my theme files",
                   "?"
                ),
                _react2.default.createElement(
@@ -41951,8 +41958,9 @@ var FAQ = function (_Component) {
                _react2.default.createElement(
                   "a",
                   { href: "mailto:socialproof.samurai@gmail.com?Subject=Help%20request", target: "_top" },
-                  "socialproof.samurai@gmail.com for support."
-               )
+                  "socialproof.samurai@gmail.com"
+               ),
+               " for support."
             )
          );
       }
