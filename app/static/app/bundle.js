@@ -41770,7 +41770,7 @@ var App = function (_Component) {
         _polaris.Page,
         null,
         _react2.default.createElement(
-          Tabs,
+          _polaris.Tabs,
           {
             fitted: true,
             selected: this.state.selectedTab,

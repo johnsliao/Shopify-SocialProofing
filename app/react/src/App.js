@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Settings from './Settings.js';
 import Install from './Install.js';
-import { Tab, Page } from '@shopify/polaris';
+import { Tabs, Page } from '@shopify/polaris';
 
 class App extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class App extends Component {
             {
               id: 'Install-Help',
               content: 'Install help',
-            },
+            }
           ]}
           >
           {
