@@ -1,7 +1,7 @@
 certifi==2017.11.5
 chardet==3.0.4
 dj-database-url==0.4.1
-Django==1.11.1
+Django==1.11.29
 django-cors-headers==2.1.0
 django-tracking2==0.4.0
 djangorestframework==3.7.3
