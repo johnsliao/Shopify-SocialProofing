@@ -4,7 +4,7 @@ dj-database-url==0.4.1
 Django==1.11.1
 django-cors-headers==2.1.0
 django-tracking2==0.4.0
-djangorestframework==3.7.3
+djangorestframework==3.11.2
 gunicorn==19.6.0
 idna==2.6
 psycopg2==2.7.3.1
