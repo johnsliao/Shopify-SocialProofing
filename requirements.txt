@@ -17,5 +17,5 @@ ShopifyAPI==2.5.1
 six==1.10.0
 slacker==0.9.42
 slacker-log-handler==1.6.1
-urllib3==1.22
+urllib3==1.26.5
 whitenoise==3.2
